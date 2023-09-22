@@ -77,6 +77,11 @@ public class PlayerManager : MonoBehaviour
 
     }
 
+    public Color GetPlayerColor(int playerId)
+    {
+        return _colorSelection._possibleColors[playerId];
+    }
+
     public List<PlayerConfiguration> GetPlayerConfigs()
     {
         return _playerConfigs;
@@ -106,11 +111,13 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    // TODO: Colors get inverted for some reason, actually its more of a the plaeyer on the left is on the right and vice versa
+    // Ptentially intended behaviour (spawn points are inverted lmao)
     private void SpawnPlayers()
     {
         for (int i = 0; i < _playerConfigs.Count; i++)
         {
-            _playerConfigs[i].ChangeInput(_inputManager.JoinPlayer(playerIndex: i, pairWithDevices: _playerConfigs[i].Input.devices.ToArray()));
+            _playerConfigs[i].ChangeInput(_inputManager.JoinPlayer(playerIndex: _playerConfigs[i].PlayerIndex, pairWithDevices: _playerConfigs[i].Input.devices.ToArray()));
         }
     }
 

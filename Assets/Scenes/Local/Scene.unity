@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PositionMode: 0
-  m_RotationMode: 0
+  m_RotationMode: 1
   m_UpdateMethod: 2
   m_Targets: []
 --- !u!4 &86649834
@@ -789,7 +789,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.0955, y: -1.47, z: 0}
-  m_LocalScale: {x: 30.021175, y: 1, z: 1}
+  m_LocalScale: {x: 213.34, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1151,6 +1151,7 @@ MonoBehaviour:
   _playerConfigs: []
   _maxPlayers: 2
   ScenePlayerSpawnInfos: {fileID: 0}
+  _colorSelection: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

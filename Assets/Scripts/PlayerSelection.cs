@@ -27,23 +27,26 @@ public class PlayerSelection : MonoBehaviour
     {
         _image.color = _colorSelectionSo._possibleColors[0];
     }
-
+    
+    /* TODO: Clicking on a button that is assigned triggers it but not visually for some reason
+     Possible solution: Manually assign callbacks after player is spawned 
+    */ 
     public void Next(InputAction.CallbackContext context)
     {
         if(!context.performed || _isReady) return;
         _selectionIndex = (_selectionIndex + 1) % _colorSelectionSo._possibleColors.Count;
-        _image.color = _colorSelectionSo._possibleColors[_selectionIndex];
 
         PlayerManager.Instance.GetPlayerConfigs()[_playerId].SelectionIndex = _selectionIndex;
+        _image.color = PlayerManager.Instance.GetPlayerColor(_selectionIndex);
     }
 
     public void Previous(InputAction.CallbackContext context)
     {
         if(!context.performed || _isReady) return;
         _selectionIndex = _selectionIndex == 0 ? _colorSelectionSo._possibleColors.Count - 1 : _selectionIndex - 1;
-        _image.color = _colorSelectionSo._possibleColors[_selectionIndex];
         
         PlayerManager.Instance.GetPlayerConfigs()[_playerId].SelectionIndex = _selectionIndex;
+        _image.color = PlayerManager.Instance.GetPlayerColor(_selectionIndex);
     }
 
     public void Confirm(InputAction.CallbackContext context)
