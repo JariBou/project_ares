@@ -5,7 +5,7 @@ using FishNet.Object;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputHandler : NetworkBehaviour
+public class PlayerInputHandler : MonoBehaviour
 {
     [SerializeField] private float _speed;
     private Rigidbody2D _rb;
@@ -15,7 +15,6 @@ public class PlayerInputHandler : NetworkBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
     
-    [Client(RequireOwnership = true)]
     public void Move(InputAction.CallbackContext context)
     {
         _rb.velocity = context.ReadValue<Vector2>().normalized * _speed;
