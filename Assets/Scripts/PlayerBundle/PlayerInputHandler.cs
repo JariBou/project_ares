@@ -9,7 +9,9 @@ public class PlayerInputHandler : MonoBehaviour
 {
     [SerializeField] private float _speed;
     private Rigidbody2D _rb;
-    
+
+    public Vector2 MoveVector { get; private set; }
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -17,6 +19,22 @@ public class PlayerInputHandler : MonoBehaviour
     
     public void Move(InputAction.CallbackContext context)
     {
-        _rb.velocity = context.ReadValue<Vector2>().normalized * _speed;
+        MoveVector = context.ReadValue<Vector2>().normalized * _speed;
+    }
+
+    private void OnEnable()
+    {
+        TickManager.FrameUpdate += OnFrameUpdate;
+    }
+
+    private void OnFrameUpdate()
+    {
+        Debug.Log($"MoveVector: x={MoveVector.x}, y={MoveVector.y}");
+        _rb.velocity = MoveVector;
+    }
+
+    private void OnDisable()
+    {
+        TickManager.FrameUpdate -= OnFrameUpdate;
     }
 }
