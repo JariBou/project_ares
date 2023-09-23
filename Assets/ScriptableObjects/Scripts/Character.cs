@@ -7,16 +7,18 @@ namespace ScriptableObjects.Scripts
     [CreateAssetMenu(menuName = "ScriptableObjects/Character")]
     public class Character : ScriptableObject
     {
-        public string _name = "Character presetOf(Regular)";
-        public CharacterType _characterType = CharacterType.Regular;
+        public string _name = "New Blank Character";
+        public CharacterType _characterType = CharacterType.None;
 
-        public int _weight = 5;
-        public int _speed = 10;
-        public int _jumpForce = 20; // Theoretically should'nt change, only weight should change
+        public int _weight; // Weight is going to be used to calculate Knockback
+        public int _speed;
+        public int _jumpForce; // Theoretically shouldn't change, only weight should change, nvm only changing weight isn't enough
+        // should make some math to find an easy way to setup, maybe with some curves
         
         
         
-        public void ApplyPreset(CharacterManager.CharacterPreset preset)
+        
+        public void ApplyPreset(Character preset)
         {
             _name = preset._name;
             _weight = preset._weight;
@@ -31,6 +33,7 @@ namespace ScriptableObjects.Scripts
 
 public enum CharacterType
 {
+    None =3,
     Light = 0,
     Regular = 1,
     Heavy = 2,

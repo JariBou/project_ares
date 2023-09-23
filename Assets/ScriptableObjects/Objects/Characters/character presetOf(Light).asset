@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: character presetOf(Light)
   _characterType: 0
-  _weight: 3
+  _weight: 6
   _speed: 15
-  _jumpForce: 20
+  _jumpForce: 21

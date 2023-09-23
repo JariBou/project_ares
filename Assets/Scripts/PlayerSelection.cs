@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ScriptableObjects.Scripts;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -13,7 +14,10 @@ public class PlayerSelection : MonoBehaviour
     public void SetPlayerId(int configuration) => _playerId = configuration;
 
     [SerializeField] private ColorSelection _colorSelectionSo;
-    private Image _image;
+    [SerializeField] private TMP_Text _nameText;
+    [SerializeField] private TMP_Text _typeText;
+    [SerializeField] private TMP_Text _playerNameText;
+    
     private int _selectionIndex;
 
     private bool _isReady;
@@ -21,12 +25,12 @@ public class PlayerSelection : MonoBehaviour
 
     private void Awake()
     {
-        _image = GetComponent<Image>();
+        _playerNameText.text = $"Player {_playerId}";
     }
 
     private void Start()
     {
-        _image.color = _colorSelectionSo._possibleColors[0];
+        UpdateDisplay();
     }
     
     private void OnEnable()
@@ -37,6 +41,13 @@ public class PlayerSelection : MonoBehaviour
     private void OnDisable()
     {
         TickManager.FrameUpdate -= OnFrameUpdate;
+    }
+
+    private void UpdateDisplay()
+    {
+        Character currChar = PlayerManager.Instance.CharacterManager[_selectionIndex];
+        _nameText.text = $"Name: {currChar._name}";
+        _typeText.text = $"Type: {Enum.GetName(typeof(CharacterType), currChar._characterType)}";
     }
     
     // This makes it so that Inputs are only processed after the player appears on screen
@@ -52,19 +63,19 @@ public class PlayerSelection : MonoBehaviour
     public void Next(InputAction.CallbackContext context)
     {
         if(!context.performed || _isReady || !_isActive) return;
-        _selectionIndex = (_selectionIndex + 1) % _colorSelectionSo._possibleColors.Count;
+        _selectionIndex = (_selectionIndex + 1) % PlayerManager.Instance.CharacterManager.Count;
 
-        PlayerManager.Instance.GetPlayerConfigs()[_playerId].SelectionIndex = _selectionIndex;
-        _image.color = PlayerManager.Instance.GetPlayerColor(_selectionIndex);
+        PlayerManager.Instance.PlayerConfigs[_playerId].SelectionIndex = _selectionIndex;
+        UpdateDisplay();
     }
 
     public void Previous(InputAction.CallbackContext context)
     {
         if(!context.performed || _isReady || !_isActive) return;
-        _selectionIndex = _selectionIndex == 0 ? _colorSelectionSo._possibleColors.Count - 1 : _selectionIndex - 1;
+        _selectionIndex = _selectionIndex == 0 ? PlayerManager.Instance.CharacterManager.Count - 1 : _selectionIndex - 1;
         
-        PlayerManager.Instance.GetPlayerConfigs()[_playerId].SelectionIndex = _selectionIndex;
-        _image.color = PlayerManager.Instance.GetPlayerColor(_selectionIndex);
+        PlayerManager.Instance.PlayerConfigs[_playerId].SelectionIndex = _selectionIndex;
+        UpdateDisplay();
     }
 
     public void Confirm(InputAction.CallbackContext context)

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: character presetOf(Heavy)
   _characterType: 2
-  _weight: 7
+  _weight: 18
   _speed: 8
-  _jumpForce: 20
+  _jumpForce: 17

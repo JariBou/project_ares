@@ -13,9 +13,12 @@ namespace ScriptableObjects.Scripts
         
         [Space, Header("Character Creation")]
 
-        public CharacterPreset _newCharacter;
+        [Expandable]
+        public Character _newCharacter;
 
-        [Button("Create New Character from Character Creation")]
+        public int Count => _charactersList.Count;
+
+        [Button("Create Character Asset from New Character")]
         public void CreateNewCharacter()
         {
             Character asset = CreateInstance<Character>();
@@ -30,35 +33,42 @@ namespace ScriptableObjects.Scripts
             Selection.activeObject = asset;
         }
         
+        [Button("Start with Blank Character")]
+        public void StartNewCharacter()
+        {
+            _newCharacter = CreateInstance<Character>();
+        }
 
         #region Presets
 
-        [Foldout("Presets"), SerializeField]
-        private CharacterPreset _lightPreset ;
+        [SerializeField]
+        private Character _lightPreset ;
         
-        [Foldout("Presets"), SerializeField]
-        private CharacterPreset _regularPreset;
+        [SerializeField]
+        private Character _regularPreset;
         
-        [Foldout("Presets"), SerializeField]
-        private CharacterPreset _heavyPreset;
+        [SerializeField]
+        private Character _heavyPreset;
         
-        [Button("Light Preset")]
+        [Button("Start with Light Preset")]
         public void LightPreset()
         {
             _newCharacter = _lightPreset;
         }
 
-        [Button("Regular Preset")]
+        [Button("Start with Regular Preset")]
         public void RegularPreset()
         {
             _newCharacter = _regularPreset;
         }
 
-        [Button("Heavy Preset")]
+        [Button("Start with Heavy Preset")]
         public void HeavyPreset()
         {
             _newCharacter = _heavyPreset;
         }
+        
+        
         
         
         [Serializable]

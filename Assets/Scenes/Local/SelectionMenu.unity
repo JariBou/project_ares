@@ -521,7 +521,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -830,7 +830,7 @@ PrefabInstance:
     - target: {fileID: 9109448765624818239, guid: 2287188deb21521409344cf37c806381, type: 3}
       propertyPath: _playerPrefab
       value: 
-      objectReference: {fileID: 4280763448167329915, guid: c68c9442d21786c4a95ee7521d9d33ba, type: 3}
+      objectReference: {fileID: 3301580111843369130, guid: 5e903f52c82bf0047a4951cbde6d4518, type: 3}
     - target: {fileID: 9109448765624818239, guid: 2287188deb21521409344cf37c806381, type: 3}
       propertyPath: _playerSpawnPoints.Array.size
       value: 1

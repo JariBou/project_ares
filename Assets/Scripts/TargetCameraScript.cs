@@ -18,7 +18,7 @@ public class TargetCameraScript : MonoBehaviour
 
     private void Start()
     {
-        foreach (PlayerConfiguration playerConfig in PlayerManager.Instance.GetPlayerConfigs())
+        foreach (PlayerConfiguration playerConfig in PlayerManager.Instance.PlayerConfigs)
         {
             _cinemachineTargetGroup.AddMember(playerConfig.Input.transform, _weight, _radius);
         }

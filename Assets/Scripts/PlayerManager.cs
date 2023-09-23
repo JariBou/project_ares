@@ -23,6 +23,9 @@ public class PlayerManager : MonoBehaviour
 
     public static PlayerManager Instance { get; private set; }
 
+    public List<PlayerConfiguration> PlayerConfigs => _playerConfigs;
+    public CharacterManager CharacterManager => _characterManager;
+
     private PlayerInputManager _inputManager;
 
     [SerializeField] private ColorSelection _colorSelection;
@@ -56,16 +59,17 @@ public class PlayerManager : MonoBehaviour
 
     public void HandlePlayerJoin(PlayerInput pi)
     {
-        Debug.Log("player joined " + pi.playerIndex);
+        int playerIndex = pi.playerIndex;
+        Debug.Log("player joined " + playerIndex);
 
-        if(_playerConfigs.All(p => p.PlayerIndex != pi.playerIndex))
+        if(PlayerConfigs.All(p => p.PlayerIndex != playerIndex))
         {
-            pi.GetComponent<PlayerSelection>().SetPlayerId(pi.playerIndex);
-            _playerConfigs.Add(new PlayerConfiguration(pi));
+            pi.GetComponent<PlayerSelection>().SetPlayerId(playerIndex);
+            PlayerConfigs.Add(new PlayerConfiguration(pi));
         }
 
         Transform parent = ScenePlayerSpawnInfos._playerSpawnPoints.Count > 1
-            ? ScenePlayerSpawnInfos._playerSpawnPoints[pi.playerIndex % ScenePlayerSpawnInfos._playerSpawnPoints.Count]
+            ? ScenePlayerSpawnInfos._playerSpawnPoints[playerIndex % ScenePlayerSpawnInfos._playerSpawnPoints.Count]
             : ScenePlayerSpawnInfos._playerSpawnPoints[0];
 
         pi.transform.SetParent(parent);
@@ -77,29 +81,21 @@ public class PlayerManager : MonoBehaviour
         switch (ScenePlayerSpawnInfos._sceneBuildIndex)
         {
             case SceneBuildIndex.Scene:
-                pi.GetComponent<SpriteRenderer>().color = _colorSelection._possibleColors[_playerConfigs[pi.playerIndex].SelectionIndex];
-                pi.GetComponent<PlayerCharacterInfo>()._character = _characterManager[_playerConfigs[pi.playerIndex].SelectionIndex];
+                pi.GetComponent<SpriteRenderer>().color = _colorSelection._possibleColors[PlayerConfigs[playerIndex].SelectionIndex];
+                pi.GetComponent<PlayerCharacterInfo>()._character = _characterManager[PlayerConfigs[playerIndex].SelectionIndex];
                 break;
             case SceneBuildIndex.SelectionMenu:
                 //pi.GetComponent<PlayerSelection>().SetActive();
                 break;
         }
-    }
 
-    public Color GetPlayerColor(int playerId)
-    {
-        return _colorSelection._possibleColors[playerId];
-    }
-
-    public List<PlayerConfiguration> GetPlayerConfigs()
-    {
-        return _playerConfigs;
+        PlayerConfigs[playerIndex].InputDevices = pi.devices.ToArray();
     }
 
     public void ReadyPlayer(int index)
     {
-        _playerConfigs[index].IsReady = true;
-        if (_playerConfigs.All(p => p.IsReady))
+        PlayerConfigs[index].IsReady = true;
+        if (PlayerConfigs.All(p => p.IsReady))
         {
             SceneManager.LoadScene(1);
         }
@@ -121,9 +117,9 @@ public class PlayerManager : MonoBehaviour
     // Ptentially intended behaviour (spawn points are inverted lmao)
     private void SpawnPlayers()
     {
-        for (int i = 0; i < _playerConfigs.Count; i++)
+        for (int i = 0; i < PlayerConfigs.Count; i++)
         {
-            _playerConfigs[i].ChangeInput(_inputManager.JoinPlayer(playerIndex: _playerConfigs[i].PlayerIndex, pairWithDevices: _playerConfigs[i].Input.devices.ToArray()));
+            PlayerConfigs[i].ChangeInput(_inputManager.JoinPlayer(playerIndex: PlayerConfigs[i].PlayerIndex, pairWithDevices: PlayerConfigs[i].InputDevices));
         }
     }
 
@@ -163,6 +159,7 @@ public class PlayerConfiguration
     public int PlayerIndex { get; private set; }
     public bool IsReady { get; set; }
     public int SelectionIndex { get; set; }
+    public InputDevice[] InputDevices { get; set; }
     
     // Maybe get a reference to the SO of the character here when pressing confirm idk, or just have another static class with all SOs
 

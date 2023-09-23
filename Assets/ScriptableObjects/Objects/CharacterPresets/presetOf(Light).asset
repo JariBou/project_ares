@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 790fc9653f7461c4c959002ff8295a25, type: 3}
-  m_Name: character presetOf(Regular)
+  m_Name: presetOf(Light)
   m_EditorClassIdentifier: 
-  _name: character presetOf(Regular)
-  _characterType: 1
-  _weight: 12
-  _speed: 10
-  _jumpForce: 19
+  _name: character presetOf(Light)
+  _characterType: 0
+  _weight: 6
+  _speed: 15
+  _jumpForce: 25
