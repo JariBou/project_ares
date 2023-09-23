@@ -16,4 +16,4 @@ MonoBehaviour:
   _characterType: 0
   _weight: 6
   _speed: 15
-  _jumpForce: 25
+  _jumpForce: 21
