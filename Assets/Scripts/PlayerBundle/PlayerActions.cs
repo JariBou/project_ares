@@ -44,6 +44,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""X"",
+                    ""type"": ""Button"",
+                    ""id"": ""fa731606-aff7-4423-87ff-a7092d524443"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fef23d43-4e68-47cf-aade-7b4357477feb"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""X"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -159,6 +179,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""name"": ""Confirm"",
                     ""type"": ""Button"",
                     ""id"": ""ad35d579-a39f-4c9b-ba36-a0128eeb16ed"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TEST"",
+                    ""type"": ""Button"",
+                    ""id"": ""f4404c32-0127-456f-86d5-d5e4219b4c0f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -220,6 +249,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""Confirm"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ac7d8f8a-3947-402e-b4a8-e00c84faee3d"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TEST"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -242,6 +282,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_PlayerMap = asset.FindActionMap("PlayerMap", throwIfNotFound: true);
         m_PlayerMap_Move = m_PlayerMap.FindAction("Move", throwIfNotFound: true);
         m_PlayerMap_Jump = m_PlayerMap.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerMap_X = m_PlayerMap.FindAction("X", throwIfNotFound: true);
         // MenuNavigation
         m_MenuNavigation = asset.FindActionMap("MenuNavigation", throwIfNotFound: true);
         m_MenuNavigation_Next = m_MenuNavigation.FindAction("Next", throwIfNotFound: true);
@@ -249,6 +290,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_MenuNavigation_Up = m_MenuNavigation.FindAction("Up", throwIfNotFound: true);
         m_MenuNavigation_Down = m_MenuNavigation.FindAction("Down", throwIfNotFound: true);
         m_MenuNavigation_Confirm = m_MenuNavigation.FindAction("Confirm", throwIfNotFound: true);
+        m_MenuNavigation_TEST = m_MenuNavigation.FindAction("TEST", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -312,12 +354,14 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private List<IPlayerMapActions> m_PlayerMapActionsCallbackInterfaces = new List<IPlayerMapActions>();
     private readonly InputAction m_PlayerMap_Move;
     private readonly InputAction m_PlayerMap_Jump;
+    private readonly InputAction m_PlayerMap_X;
     public struct PlayerMapActions
     {
         private @PlayerActions m_Wrapper;
         public PlayerMapActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_PlayerMap_Move;
         public InputAction @Jump => m_Wrapper.m_PlayerMap_Jump;
+        public InputAction @X => m_Wrapper.m_PlayerMap_X;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -333,6 +377,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @X.started += instance.OnX;
+            @X.performed += instance.OnX;
+            @X.canceled += instance.OnX;
         }
 
         private void UnregisterCallbacks(IPlayerMapActions instance)
@@ -343,6 +390,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @X.started -= instance.OnX;
+            @X.performed -= instance.OnX;
+            @X.canceled -= instance.OnX;
         }
 
         public void RemoveCallbacks(IPlayerMapActions instance)
@@ -369,6 +419,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_MenuNavigation_Up;
     private readonly InputAction m_MenuNavigation_Down;
     private readonly InputAction m_MenuNavigation_Confirm;
+    private readonly InputAction m_MenuNavigation_TEST;
     public struct MenuNavigationActions
     {
         private @PlayerActions m_Wrapper;
@@ -378,6 +429,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Up => m_Wrapper.m_MenuNavigation_Up;
         public InputAction @Down => m_Wrapper.m_MenuNavigation_Down;
         public InputAction @Confirm => m_Wrapper.m_MenuNavigation_Confirm;
+        public InputAction @TEST => m_Wrapper.m_MenuNavigation_TEST;
         public InputActionMap Get() { return m_Wrapper.m_MenuNavigation; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -402,6 +454,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Confirm.started += instance.OnConfirm;
             @Confirm.performed += instance.OnConfirm;
             @Confirm.canceled += instance.OnConfirm;
+            @TEST.started += instance.OnTEST;
+            @TEST.performed += instance.OnTEST;
+            @TEST.canceled += instance.OnTEST;
         }
 
         private void UnregisterCallbacks(IMenuNavigationActions instance)
@@ -421,6 +476,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Confirm.started -= instance.OnConfirm;
             @Confirm.performed -= instance.OnConfirm;
             @Confirm.canceled -= instance.OnConfirm;
+            @TEST.started -= instance.OnTEST;
+            @TEST.performed -= instance.OnTEST;
+            @TEST.canceled -= instance.OnTEST;
         }
 
         public void RemoveCallbacks(IMenuNavigationActions instance)
@@ -451,6 +509,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnX(InputAction.CallbackContext context);
     }
     public interface IMenuNavigationActions
     {
@@ -459,5 +518,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnUp(InputAction.CallbackContext context);
         void OnDown(InputAction.CallbackContext context);
         void OnConfirm(InputAction.CallbackContext context);
+        void OnTEST(InputAction.CallbackContext context);
     }
 }

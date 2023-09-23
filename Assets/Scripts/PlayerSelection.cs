@@ -77,6 +77,12 @@ public class PlayerSelection : MonoBehaviour
         UpdateDisplay();
     }
 
+    public void Test(InputAction.CallbackContext context)
+    {
+        if (!context.performed) {return;}
+        EffectsManager.StartShockwave(Vector2.zero, 1f);
+    }
+
     public void Confirm(InputAction.CallbackContext context)
     {
         if(!context.performed || !_isActive) return;

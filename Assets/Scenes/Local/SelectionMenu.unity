@@ -399,7 +399,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 000000003f334f6e
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -634,6 +634,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1090359732}
   - component: {fileID: 1090359733}
+  - component: {fileID: 1090359734}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -669,6 +670,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   framerate: 60
+--- !u!114 &1090359734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090359730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d05c7ae90290154897645a84568070d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shockwavePrefab: {fileID: 6958490177487719965, guid: eb41ecaa91416aa449ac12cff56ab2d7, type: 3}
+  _hitParticlesPrefab: {fileID: 126345371955430279, guid: 753bc8277dfda4d4f978488f317deb6a, type: 3}
 --- !u!1 &1839170724
 GameObject:
   m_ObjectHideFlags: 0

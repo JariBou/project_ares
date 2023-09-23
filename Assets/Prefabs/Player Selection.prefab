@@ -247,6 +247,26 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ad35d579-a39f-4c9b-ba36-a0128eeb16ed
     m_ActionName: MenuNavigation/Confirm[/XInputControllerWindows/buttonSouth,/DualShock4GamepadHID/buttonSouth,/DualShock4GamepadHID1/buttonSouth,/XInputControllerWindows1/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fa731606-aff7-4423-87ff-a7092d524443
+    m_ActionName: PlayerMap/X[/XInputControllerWindows/buttonSouth,/DualShock4GamepadHID/buttonSouth,/DualShock4GamepadHID1/buttonSouth,/XInputControllerWindows1/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2769131206905548088}
+        m_TargetAssemblyTypeName: PlayerSelection, Assembly-CSharp
+        m_MethodName: Test
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f4404c32-0127-456f-86d5-d5e4219b4c0f
+    m_ActionName: MenuNavigation/TEST[/XInputControllerWindows/buttonEast,/DualShock4GamepadHID/buttonEast,/DualShock4GamepadHID1/buttonEast,/XInputControllerWindows1/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: MenuNavigation

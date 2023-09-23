@@ -22,6 +22,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "X",
+                    "type": "Button",
+                    "id": "fa731606-aff7-4423-87ff-a7092d524443",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -90,6 +99,17 @@
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fef23d43-4e68-47cf-aade-7b4357477feb",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "X",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -137,6 +157,15 @@
                     "name": "Confirm",
                     "type": "Button",
                     "id": "ad35d579-a39f-4c9b-ba36-a0128eeb16ed",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TEST",
+                    "type": "Button",
+                    "id": "f4404c32-0127-456f-86d5-d5e4219b4c0f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -196,6 +225,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ac7d8f8a-3947-402e-b4a8-e00c84faee3d",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TEST",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

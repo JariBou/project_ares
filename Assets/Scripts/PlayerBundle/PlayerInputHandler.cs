@@ -30,6 +30,22 @@ public class PlayerInputHandler : MonoBehaviour
         _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
     }
 
+    public void ButtonSouth(InputAction.CallbackContext context)
+    {
+        if (!context.performed) {return;}
+        EffectsManager.StartShockwave(transform.position, 1f);
+    }
+
+    // TODO: Implement ActionStack to define actions made in each frame
+    
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            EffectsManager.SpawnHitParticles(other.GetContact(0).point);
+        }
+    }
+
     private void OnEnable()
     {
         TickManager.FrameUpdate += OnFrameUpdate;

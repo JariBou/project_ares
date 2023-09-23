@@ -15,6 +15,7 @@ public class TickManager : MonoBehaviour
     {
         Application.targetFrameRate = framerate;
         Physics2D.simulationMode = SimulationMode2D.Update;
+        DontDestroyOnLoad(gameObject);
     }
 
     private static void OnPreUpdate()
