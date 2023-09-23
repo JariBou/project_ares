@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4abba7c72abbb04479c0b44968c5f8fb, type: 3}
+  m_Name: CharacterManager
+  m_EditorClassIdentifier: 
+  _charactersList:
+  - {fileID: 11400000, guid: 68749dc34bb524d498c384bf621e9cc6, type: 2}
+  - {fileID: 11400000, guid: c280065898ed8b94db4dbaafda3bb272, type: 2}
+  - {fileID: 11400000, guid: 752ec410453042a4da86009a532b03a8, type: 2}
+  _newCharacter:
+    _name: character presetOf(Heavy)
+    _characterType: 2
+    _weight: 7
+    _speed: 8
+    _jumpForce: 20
+  _lightPreset:
+    _name: character presetOf(Light)
+    _characterType: 0
+    _weight: 3
+    _speed: 15
+    _jumpForce: 20
+  _regularPreset:
+    _name: character presetOf(Regular)
+    _characterType: 1
+    _weight: 5
+    _speed: 10
+    _jumpForce: 20
+  _heavyPreset:
+    _name: character presetOf(Heavy)
+    _characterType: 2
+    _weight: 7
+    _speed: 8
+    _jumpForce: 20

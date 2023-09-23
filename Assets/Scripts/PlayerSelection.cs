@@ -17,6 +17,7 @@ public class PlayerSelection : MonoBehaviour
     private int _selectionIndex;
 
     private bool _isReady;
+    private bool _isActive;
 
     private void Awake()
     {
@@ -28,12 +29,29 @@ public class PlayerSelection : MonoBehaviour
         _image.color = _colorSelectionSo._possibleColors[0];
     }
     
+    private void OnEnable()
+    {
+        TickManager.FrameUpdate += OnFrameUpdate;
+    }
+    
+    private void OnDisable()
+    {
+        TickManager.FrameUpdate -= OnFrameUpdate;
+    }
+    
+    // This makes it so that Inputs are only processed after the player appears on screen
+    // Because HandlePlayerJoin is called before Awake and Before Start
+    private void OnFrameUpdate()
+    {
+        if (!_isActive) _isActive = true;
+    }
+
     /* TODO: Clicking on a button that is assigned triggers it but not visually for some reason
      Possible solution: Manually assign callbacks after player is spawned 
     */ 
     public void Next(InputAction.CallbackContext context)
     {
-        if(!context.performed || _isReady) return;
+        if(!context.performed || _isReady || !_isActive) return;
         _selectionIndex = (_selectionIndex + 1) % _colorSelectionSo._possibleColors.Count;
 
         PlayerManager.Instance.GetPlayerConfigs()[_playerId].SelectionIndex = _selectionIndex;
@@ -42,7 +60,7 @@ public class PlayerSelection : MonoBehaviour
 
     public void Previous(InputAction.CallbackContext context)
     {
-        if(!context.performed || _isReady) return;
+        if(!context.performed || _isReady || !_isActive) return;
         _selectionIndex = _selectionIndex == 0 ? _colorSelectionSo._possibleColors.Count - 1 : _selectionIndex - 1;
         
         PlayerManager.Instance.GetPlayerConfigs()[_playerId].SelectionIndex = _selectionIndex;
@@ -51,7 +69,7 @@ public class PlayerSelection : MonoBehaviour
 
     public void Confirm(InputAction.CallbackContext context)
     {
-        if(!context.performed) return;
+        if(!context.performed || !_isActive) return;
         Debug.Log($"Readying Player {_playerId}");
         PlayerManager.Instance.ReadyPlayer(_playerId);
         _isReady = true;

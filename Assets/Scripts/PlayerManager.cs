@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using PlayerBundle;
 using ScriptableObjects.Scripts;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -25,21 +26,21 @@ public class PlayerManager : MonoBehaviour
     private PlayerInputManager _inputManager;
 
     [SerializeField] private ColorSelection _colorSelection;
+    [SerializeField] private CharacterManager _characterManager;
 
     private void Awake()
     {
         if(Instance != null)
         {
-            Debug.Log("[Singleton] Trying to instantiate a seccond instance of a singleton class.");
+            Debug.Log("[Singleton] Trying to instantiate a second instance of a singleton class.");
         }
         else
         {
             Instance = this;
             DontDestroyOnLoad(Instance);
             _playerConfigs = new List<PlayerConfiguration>();
+            _inputManager = GetComponent<PlayerInputManager>();
         }
-
-        _inputManager = GetComponent<PlayerInputManager>();
     }
 
     private void Start()
@@ -73,8 +74,16 @@ public class PlayerManager : MonoBehaviour
             pi.transform.position = parent.position;
         }
 
-        pi.GetComponent<SpriteRenderer>().color = _colorSelection._possibleColors[_playerConfigs[pi.playerIndex].SelectionIndex];
-
+        switch (ScenePlayerSpawnInfos._sceneBuildIndex)
+        {
+            case SceneBuildIndex.Scene:
+                pi.GetComponent<SpriteRenderer>().color = _colorSelection._possibleColors[_playerConfigs[pi.playerIndex].SelectionIndex];
+                pi.GetComponent<PlayerCharacterInfo>()._character = _characterManager[_playerConfigs[pi.playerIndex].SelectionIndex];
+                break;
+            case SceneBuildIndex.SelectionMenu:
+                //pi.GetComponent<PlayerSelection>().SetActive();
+                break;
+        }
     }
 
     public Color GetPlayerColor(int playerId)
@@ -92,12 +101,9 @@ public class PlayerManager : MonoBehaviour
         _playerConfigs[index].IsReady = true;
         if (_playerConfigs.All(p => p.IsReady))
         {
-            Debug.Log("Yeah");
             SceneManager.LoadScene(1);
         }
     }
-
-   
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
@@ -157,6 +163,8 @@ public class PlayerConfiguration
     public int PlayerIndex { get; private set; }
     public bool IsReady { get; set; }
     public int SelectionIndex { get; set; }
+    
+    // Maybe get a reference to the SO of the character here when pressing confirm idk, or just have another static class with all SOs
 
 }
 

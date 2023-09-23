@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using FishNet.Object;
+using ScriptableObjects.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -42,5 +43,11 @@ public class PlayerInputHandler : MonoBehaviour
     private void OnDisable()
     {
         TickManager.FrameUpdate -= OnFrameUpdate;
+    }
+
+    public void SetCharacterStats(Character character)
+    {
+        _speed = character._speed;
+        _jumpForce = character._jumpForce;
     }
 }
