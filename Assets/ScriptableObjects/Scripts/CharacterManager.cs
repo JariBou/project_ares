@@ -18,6 +18,7 @@ namespace ScriptableObjects.Scripts
 
         public int Count => _charactersList.Count;
 
+        #if UNITY_EDITOR
         [Button("Create Character Asset from New Character")]
         public void CreateNewCharacter()
         {
@@ -69,31 +70,8 @@ namespace ScriptableObjects.Scripts
         {
             _newCharacter = _heavyPreset;
         }
-        
-        
-        
-        
-        [Serializable]
-        public class CharacterPreset
-        {
-            public string _name = "character presetOf(Regular)";
-            public CharacterType _characterType = CharacterType.Regular;
-            public int _weight = 5;
-            public int _speed = 10;
-            public int _jumpForce = 20;
-
-            public CharacterPreset(){}
-            
-            public CharacterPreset(string name, CharacterType characterType, int weight, int speed, int jumpForce)
-            {
-                _name = name;
-                _characterType = characterType;
-                _weight = weight;
-                _speed = speed;
-                _jumpForce = jumpForce;
-            }
-        }
         #endregion
+        #endif
 
         public Character this[int selectionIndex] => _charactersList[selectionIndex];
     }

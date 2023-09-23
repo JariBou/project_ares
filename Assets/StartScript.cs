@@ -5,7 +5,8 @@ public class StartScript : MonoBehaviour
 {
     private void Start()
     {
-        Screen.SetResolution(720, 480, FullScreenMode.Windowed, 60);
-        SceneManager.LoadScene(1);
+        Screen.SetResolution(1920, 1080, FullScreenMode.Windowed, 60);
+        
+        SceneManager.LoadScene((int)SceneBuildIndex.SelectionMenu);
     }
 }

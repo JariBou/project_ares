@@ -1158,7 +1158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9109448765624818239, guid: 2287188deb21521409344cf37c806381, type: 3}
       propertyPath: _sceneBuildIndex
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9109448765624818239, guid: 2287188deb21521409344cf37c806381, type: 3}
       propertyPath: _playerSpawnPoints.Array.size
@@ -1280,8 +1280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerConfigs: []
   _maxPlayers: 2
-  ScenePlayerSpawnInfos: {fileID: 0}
-  _colorSelection: {fileID: 0}
+  _scenePlayerSpawnInfos: {fileID: 0}
   _characterManager: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

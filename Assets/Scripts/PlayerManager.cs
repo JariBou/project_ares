@@ -95,7 +95,7 @@ public class PlayerManager : MonoBehaviour
         PlayerConfigs[index].IsReady = true;
         if (PlayerConfigs.All(p => p.IsReady))
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene((int) SceneBuildIndex.Scene);
         }
     }
 
@@ -165,6 +165,7 @@ public class PlayerConfiguration
 
 public enum SceneBuildIndex
 {
-    SelectionMenu =0,
-    Scene = 1,
+    StartScene = 0,
+    SelectionMenu = 1,
+    Scene = 2,
 }
