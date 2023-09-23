@@ -21,6 +21,8 @@ namespace ScriptableObjects.Scripts
         [Button("Create Character Asset from New Character")]
         public void CreateNewCharacter()
         {
+            if (_newCharacter == null) {Debug.LogWarning("Trying to create a new Character from void"); return;}
+            
             Character asset = CreateInstance<Character>();
             asset.ApplyPreset(_newCharacter);
             _charactersList.Add(asset);
