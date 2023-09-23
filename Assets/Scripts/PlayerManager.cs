@@ -19,7 +19,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private int _maxPlayers = 2;
 
-    [SerializeField] private ScenePlayerSpawnInfo ScenePlayerSpawnInfos;
+    [SerializeField] private ScenePlayerSpawnInfo _scenePlayerSpawnInfos;
 
     public static PlayerManager Instance { get; private set; }
 
@@ -28,7 +28,6 @@ public class PlayerManager : MonoBehaviour
 
     private PlayerInputManager _inputManager;
 
-    [SerializeField] private ColorSelection _colorSelection;
     [SerializeField] private CharacterManager _characterManager;
 
     private void Awake()
@@ -48,13 +47,13 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        if (ScenePlayerSpawnInfos == null)
+        if (_scenePlayerSpawnInfos == null)
         {
-            ScenePlayerSpawnInfos = GameObject.FindWithTag("SceneInfoProvider").GetComponent<ScenePlayerSpawnInfo>();
+            _scenePlayerSpawnInfos = GameObject.FindWithTag("SceneInfoProvider").GetComponent<ScenePlayerSpawnInfo>();
         }
 
-        _inputManager.joinBehavior = ScenePlayerSpawnInfos._joinBehavior;
-        _inputManager.playerPrefab = ScenePlayerSpawnInfos._playerPrefab;
+        _inputManager.joinBehavior = _scenePlayerSpawnInfos._joinBehavior;
+        _inputManager.playerPrefab = _scenePlayerSpawnInfos._playerPrefab;
     }
 
     public void HandlePlayerJoin(PlayerInput pi)
@@ -68,20 +67,19 @@ public class PlayerManager : MonoBehaviour
             PlayerConfigs.Add(new PlayerConfiguration(pi));
         }
 
-        Transform parent = ScenePlayerSpawnInfos._playerSpawnPoints.Count > 1
-            ? ScenePlayerSpawnInfos._playerSpawnPoints[playerIndex % ScenePlayerSpawnInfos._playerSpawnPoints.Count]
-            : ScenePlayerSpawnInfos._playerSpawnPoints[0];
+        Transform parent = _scenePlayerSpawnInfos._playerSpawnPoints.Count > 1
+            ? _scenePlayerSpawnInfos._playerSpawnPoints[playerIndex % _scenePlayerSpawnInfos._playerSpawnPoints.Count]
+            : _scenePlayerSpawnInfos._playerSpawnPoints[0];
 
         pi.transform.SetParent(parent);
-        if (ScenePlayerSpawnInfos._alsoSetPosition)
+        if (_scenePlayerSpawnInfos._alsoSetPosition)
         {
             pi.transform.position = parent.position;
         }
 
-        switch (ScenePlayerSpawnInfos._sceneBuildIndex)
+        switch (_scenePlayerSpawnInfos._sceneBuildIndex)
         {
             case SceneBuildIndex.Scene:
-                pi.GetComponent<SpriteRenderer>().color = _colorSelection._possibleColors[PlayerConfigs[playerIndex].SelectionIndex];
                 pi.GetComponent<PlayerCharacterInfo>()._character = _characterManager[PlayerConfigs[playerIndex].SelectionIndex];
                 break;
             case SceneBuildIndex.SelectionMenu:
@@ -103,11 +101,11 @@ public class PlayerManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        ScenePlayerSpawnInfos = GameObject.FindWithTag("SceneInfoProvider").GetComponent<ScenePlayerSpawnInfo>();
-        _inputManager.joinBehavior = ScenePlayerSpawnInfos._joinBehavior;
-        _inputManager.playerPrefab = ScenePlayerSpawnInfos._playerPrefab;
+        _scenePlayerSpawnInfos = GameObject.FindWithTag("SceneInfoProvider").GetComponent<ScenePlayerSpawnInfo>();
+        _inputManager.joinBehavior = _scenePlayerSpawnInfos._joinBehavior;
+        _inputManager.playerPrefab = _scenePlayerSpawnInfos._playerPrefab;
 
-        if (ScenePlayerSpawnInfos._joinBehavior == PlayerJoinBehavior.JoinPlayersManually)
+        if (_scenePlayerSpawnInfos._joinBehavior == PlayerJoinBehavior.JoinPlayersManually)
         {
             SpawnPlayers();
         }

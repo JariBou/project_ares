@@ -13,7 +13,6 @@ public class PlayerSelection : MonoBehaviour
     private int _playerId;
     public void SetPlayerId(int configuration) => _playerId = configuration;
 
-    [SerializeField] private ColorSelection _colorSelectionSo;
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _typeText;
     [SerializeField] private TMP_Text _playerNameText;
