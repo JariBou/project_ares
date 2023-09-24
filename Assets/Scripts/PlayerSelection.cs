@@ -55,10 +55,7 @@ namespace ProjectAres
         {
             if (!_isActive) _isActive = true;
         }
-
-        /* TODO: Clicking on a button that is assigned triggers it but not visually for some reason
-     Possible solution: Manually assign callbacks after player is spawned 
-    */ 
+        
         public void Next(InputAction.CallbackContext context)
         {
             if(!context.performed || _isReady || !_isActive) return;

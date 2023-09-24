@@ -43,18 +43,10 @@ namespace Core
         {
             Instance.StartCoroutine(Instance.ShockWaveAction(position, shockwaveTime));
         }
-
-        private IEnumerator HitParticleAction(Vector2 point)
-        {
-            ParticleSystem particleSystem =
-                Instantiate(_hitParticlesPrefab, point, Quaternion.identity).GetComponent<ParticleSystem>();
-            yield return new WaitForSeconds(particleSystem.main.duration);
-            //Destroy(particleSystem.gameObject);
-        }
-
+        
         public static void SpawnHitParticles(Vector2 point)
         {
-            Instance.StartCoroutine(Instance.HitParticleAction(point));
+            Instantiate(Instance._hitParticlesPrefab, point, Quaternion.identity).GetComponent<ParticleSystem>();
         }
     }
 }

@@ -1,0 +1,10 @@
+Ok so basically each player has 2 stacks: FrameStack and LateStack (Or I can do One stack of each in TickManager)
+
+Attacks and shit are registered on FrameStack, and are sent to other players
+Received Attacks are then registered into LateStack as well as Blocks and resolution is done according to what's on the stack
+
+
+IMPORTANT:
+- Stack does not imply order of resolution, everything is done at the same time basically
+- Only "Collisions" are registered on the Stacks, If a player hits the air, the attack is not registered
+- SHIT animation events are probably fired AFTER Update, hum... anyways we'll see later when we will be able to test

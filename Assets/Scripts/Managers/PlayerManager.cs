@@ -109,8 +109,6 @@ namespace ProjectAres.Managers
             }
         }
 
-        // TODO: Colors get inverted for some reason, actually its more of a the plaeyer on the left is on the right and vice versa
-        // Ptentially intended behaviour (spawn points are inverted lmao)
         private void SpawnPlayers()
         {
             for (int i = 0; i < PlayerConfigs.Count; i++)
