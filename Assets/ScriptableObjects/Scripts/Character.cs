@@ -1,8 +1,6 @@
-using System;
-using NaughtyAttributes;
 using UnityEngine;
 
-namespace ScriptableObjects.Scripts
+namespace ProjectAres.ScriptableObjects.Scripts
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Character")]
     public class Character : ScriptableObject
@@ -27,14 +25,14 @@ namespace ScriptableObjects.Scripts
             _characterType = preset._characterType;
         }
 
-    } 
-}
+    }
 
 
-public enum CharacterType
-{
-    None =3,
-    Light = 0,
-    Regular = 1,
-    Heavy = 2,
+    public enum CharacterType
+    {
+        None =3,
+        Light = 0,
+        Regular = 1,
+        Heavy = 2,
+    }
 }

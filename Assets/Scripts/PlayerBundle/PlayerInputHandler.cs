@@ -1,69 +1,70 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using FishNet.Object;
-using ScriptableObjects.Scripts;
+using Core;
+using ProjectAres.Managers;
+using ProjectAres.ScriptableObjects.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputHandler : MonoBehaviour
+namespace ProjectAres.PlayerBundle
 {
-    [SerializeField] private float _speed;
-    [SerializeField] private float _jumpForce = 6f;
-    private Rigidbody2D _rb;
+    public class PlayerInputHandler : MonoBehaviour
+    {
+        [SerializeField] private float _speed;
+        [SerializeField] private float _jumpForce = 6f;
+        private Rigidbody2D _rb;
 
-    public Vector2 MoveVector { get; private set; }
+        public Vector2 MoveVector { get; private set; }
 
-    private void Awake()
-    {
-        _rb = GetComponent<Rigidbody2D>();
-    }
-    
-    public void Move(InputAction.CallbackContext context)
-    {
-        MoveVector = context.ReadValue<Vector2>().normalized * _speed;
-    }
-    
-    public void Jump(InputAction.CallbackContext context)
-    {
-        if (!context.performed) {return;}
-        _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
-    }
-
-    public void ButtonSouth(InputAction.CallbackContext context)
-    {
-        if (!context.performed) {return;}
-        EffectsManager.StartShockwave(transform.position, 1f);
-    }
-
-    // TODO: Implement ActionStack to define actions made in each frame
-    
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
+        private void Awake()
         {
-            EffectsManager.SpawnHitParticles(other.GetContact(0).point);
+            _rb = GetComponent<Rigidbody2D>();
         }
-    }
+    
+        public void Move(InputAction.CallbackContext context)
+        {
+            MoveVector = context.ReadValue<Vector2>().normalized * _speed;
+        }
+    
+        public void Jump(InputAction.CallbackContext context)
+        {
+            if (!context.performed) {return;}
+            _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
+        }
 
-    private void OnEnable()
-    {
-        TickManager.FrameUpdate += OnFrameUpdate;
-    }
+        public void ButtonSouth(InputAction.CallbackContext context)
+        {
+            if (!context.performed) {return;}
+            EffectsManager.StartShockwave(transform.position, 1f);
+        }
 
-    private void OnFrameUpdate()
-    {
-        _rb.velocity = new Vector2(MoveVector.x, _rb.velocity.y);
-    }
+        // TODO: Implement ActionStack to define actions made in each frame
+    
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Player"))
+            {
+                EffectsManager.SpawnHitParticles(other.GetContact(0).point);
+            }
+        }
 
-    private void OnDisable()
-    {
-        TickManager.FrameUpdate -= OnFrameUpdate;
-    }
+        private void OnEnable()
+        {
+            TickManager.FrameUpdate += OnFrameUpdate;
+        }
 
-    public void SetCharacterStats(Character character)
-    {
-        _speed = character._speed;
-        _jumpForce = character._jumpForce;
+        private void OnFrameUpdate()
+        {
+            _rb.velocity = new Vector2(MoveVector.x, _rb.velocity.y);
+        }
+
+        private void OnDisable()
+        {
+            TickManager.FrameUpdate -= OnFrameUpdate;
+        }
+
+        public void SetCharacterStats(Character character)
+        {
+            _speed = character._speed;
+            _jumpForce = character._jumpForce;
+        }
     }
 }

@@ -1,9 +1,8 @@
-using System;
-using ScriptableObjects.Scripts;
+using ProjectAres.ScriptableObjects.Scripts;
 using TMPro;
 using UnityEngine;
 
-namespace PlayerBundle
+namespace ProjectAres.PlayerBundle
 {
     public class PlayerCharacterInfo : MonoBehaviour
     {

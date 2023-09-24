@@ -1,10 +1,10 @@
 ﻿#if UNITY_EDITOR
-using FishNet.Documenting;
 using System.Collections.Generic;
+using FishNet.Documenting;
 using UnityEditor;
 using UnityEngine;
 
-namespace FishNet.Upgrading.Mirror.Editing
+namespace ProjectAres.FishNet.Upgrading
 {
 
     /* IMPORTANT IMPORTANT IMPORTANT IMPORTANT 

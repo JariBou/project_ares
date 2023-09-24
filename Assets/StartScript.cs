@@ -1,12 +1,16 @@
+using ProjectAres.Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StartScript : MonoBehaviour
+namespace ProjectAres
 {
-    private void Start()
+    public class StartScript : MonoBehaviour
     {
-        Screen.SetResolution(1920, 1080, FullScreenMode.Windowed, 60);
+        private void Start()
+        {
+            Screen.SetResolution(1920, 1080, FullScreenMode.Windowed, 60);
         
-        SceneManager.LoadScene((int)SceneBuildIndex.SelectionMenu);
+            SceneManager.LoadScene((int)SceneBuildIndex.SelectionMenu);
+        }
     }
 }
