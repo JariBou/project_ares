@@ -1,0 +1,2 @@
+Put Animator mode into physics FixedUpdate
+Put Fixed Update fixedDEltaTime to 1/60 of a second
