@@ -36,7 +36,7 @@ namespace Core
 
         private void Update()
         {
-            // Aparently this works, all pre updates are called BEFORE frame update
+            // Apparently this works, all pre updates are called BEFORE frame update
             OnPreUpdate();
             OnFrameUpdate();
         }

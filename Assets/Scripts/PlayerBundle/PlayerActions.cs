@@ -53,6 +53,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EastButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""d95b809a-ea79-4491-8fac-878fd3e0e280"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -130,6 +139,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""X"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b5932fbc-1475-444d-abcd-67ad9387d588"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EastButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -283,6 +303,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_PlayerMap_Move = m_PlayerMap.FindAction("Move", throwIfNotFound: true);
         m_PlayerMap_Jump = m_PlayerMap.FindAction("Jump", throwIfNotFound: true);
         m_PlayerMap_X = m_PlayerMap.FindAction("X", throwIfNotFound: true);
+        m_PlayerMap_EastButton = m_PlayerMap.FindAction("EastButton", throwIfNotFound: true);
         // MenuNavigation
         m_MenuNavigation = asset.FindActionMap("MenuNavigation", throwIfNotFound: true);
         m_MenuNavigation_Next = m_MenuNavigation.FindAction("Next", throwIfNotFound: true);
@@ -355,6 +376,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerMap_Move;
     private readonly InputAction m_PlayerMap_Jump;
     private readonly InputAction m_PlayerMap_X;
+    private readonly InputAction m_PlayerMap_EastButton;
     public struct PlayerMapActions
     {
         private @PlayerActions m_Wrapper;
@@ -362,6 +384,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_PlayerMap_Move;
         public InputAction @Jump => m_Wrapper.m_PlayerMap_Jump;
         public InputAction @X => m_Wrapper.m_PlayerMap_X;
+        public InputAction @EastButton => m_Wrapper.m_PlayerMap_EastButton;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -380,6 +403,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @X.started += instance.OnX;
             @X.performed += instance.OnX;
             @X.canceled += instance.OnX;
+            @EastButton.started += instance.OnEastButton;
+            @EastButton.performed += instance.OnEastButton;
+            @EastButton.canceled += instance.OnEastButton;
         }
 
         private void UnregisterCallbacks(IPlayerMapActions instance)
@@ -393,6 +419,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @X.started -= instance.OnX;
             @X.performed -= instance.OnX;
             @X.canceled -= instance.OnX;
+            @EastButton.started -= instance.OnEastButton;
+            @EastButton.performed -= instance.OnEastButton;
+            @EastButton.canceled -= instance.OnEastButton;
         }
 
         public void RemoveCallbacks(IPlayerMapActions instance)
@@ -510,6 +539,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnX(InputAction.CallbackContext context);
+        void OnEastButton(InputAction.CallbackContext context);
     }
     public interface IMenuNavigationActions
     {

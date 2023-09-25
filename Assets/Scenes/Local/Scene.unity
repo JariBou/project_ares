@@ -1106,7 +1106,7 @@ PrefabInstance:
     - target: {fileID: 9109448765624818239, guid: 2287188deb21521409344cf37c806381, type: 3}
       propertyPath: _playerPrefab
       value: 
-      objectReference: {fileID: 4399962981029863115, guid: bbcae35c22450564296ff52e069810a4, type: 3}
+      objectReference: {fileID: 1458823510075840798, guid: a1b912abcf9df714f8ac6d8ca4659e40, type: 3}
     - target: {fileID: 9109448765624818239, guid: 2287188deb21521409344cf37c806381, type: 3}
       propertyPath: _alsoSetPosition
       value: 1
