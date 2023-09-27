@@ -184,7 +184,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 86649832}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb1359d64d0f08741b9b9f597273afde, type: 3}
+  m_Script: {fileID: 11500000, guid: 08ab3e4ebfff09644be90e5552824263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _weight: 1
@@ -351,7 +351,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
-  m_LocalRotation: {x: -1e-45, y: -1e-45, z: 0, w: 1}
+  m_LocalRotation: {x: 3e-45, y: -1e-45, z: 0, w: 1}
   m_LocalPosition: {x: -6.4094563, y: 0.47390723, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -772,7 +772,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 974408922}
   serializedVersion: 2
-  m_LocalRotation: {x: -1e-45, y: -1e-45, z: -0, w: 1}
+  m_LocalRotation: {x: 3e-45, y: -1e-45, z: 0, w: 1}
   m_LocalPosition: {x: -6.4094563, y: 0.47390723, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1375,7 +1375,7 @@ MonoBehaviour:
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 86649835}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TargetCameraScript, Assembly-CSharp
         m_MethodName: OnPlayerJoin
         m_Mode: 0
