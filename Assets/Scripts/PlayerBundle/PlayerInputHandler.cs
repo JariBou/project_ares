@@ -13,6 +13,8 @@ namespace ProjectAres.PlayerBundle
         private Rigidbody2D _rb;
         private Animator _animator;
         private bool _isAttacking;
+        private float _gravitySave;
+        private bool _isFlipped;
 
         public Vector2 MoveVector { get; private set; }
 
@@ -20,16 +22,19 @@ namespace ProjectAres.PlayerBundle
         {
             _rb = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
+            _gravitySave = _rb.gravityScale;
         }
     
         public void Move(InputAction.CallbackContext context)
         {
-            if (_isAttacking)
-            {
-                MoveVector = Vector2.zero;
-                return;
-            }
             MoveVector = context.ReadValue<Vector2>().normalized * _speed;
+            if (MoveVector.x < 0)
+            {
+                _isFlipped = false;
+            } else if (MoveVector.x > 0)
+            {
+                _isFlipped = true;
+            }
         }
     
         public void Jump(InputAction.CallbackContext context)
@@ -53,11 +58,13 @@ namespace ProjectAres.PlayerBundle
         public void StartedAttacking()
         {
             _isAttacking = true;
+            _rb.gravityScale = 0f;
         }
         
         public void StoppedAttacking()
         {
             _isAttacking = false;
+            _rb.gravityScale = _gravitySave;
         }
 
         // TODO: Implement ActionStack to define actions made in each frame
@@ -87,6 +94,7 @@ namespace ProjectAres.PlayerBundle
                 _rb.velocity = new Vector2(MoveVector.x, _rb.velocity.y);
                 _animator.SetFloat("Speed", MoveVector.magnitude);
             }
+            transform.rotation = Quaternion.Euler(new Vector3(0, _isFlipped ? 180 : 0, 0));
         }
 
         private void OnDisable()

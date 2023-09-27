@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ProjectAres.PlayerBundle
 {
-    public class PlayerCharacterInfo : MonoBehaviour
+    public class PlayerCharacter : MonoBehaviour
     {
         private PlayerInputHandler _playerInputHandler;
 

@@ -78,7 +78,7 @@ namespace ProjectAres.Managers
             switch (_scenePlayerSpawnInfos._sceneBuildIndex)
             {
                 case SceneBuildIndex.Scene:
-                    pi.GetComponent<PlayerCharacterInfo>()._character = _characterManager[PlayerConfigs[playerIndex].SelectionIndex];
+                    pi.GetComponent<PlayerCharacter>()._character = _characterManager[PlayerConfigs[playerIndex].SelectionIndex];
                     break;
                 case SceneBuildIndex.SelectionMenu:
                     //pi.GetComponent<PlayerSelection>().SetActive();

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Core
@@ -10,6 +11,7 @@ namespace Core
         public static event Action PostUpdate;
 
         [SerializeField] private int framerate = 60;
+
 
         private void Awake()
         {
@@ -32,6 +34,8 @@ namespace Core
         {
             PostUpdate?.Invoke();
         }
+
+        
 
 
         private void Update()
