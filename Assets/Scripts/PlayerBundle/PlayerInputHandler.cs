@@ -1,3 +1,4 @@
+using System;
 using Core;
 using ProjectAres.Managers;
 using ProjectAres.ScriptableObjects.Scripts;
@@ -10,8 +11,7 @@ namespace ProjectAres.PlayerBundle
     {
         [SerializeField] private float _speed;
         [SerializeField] private float _jumpForce = 6f;
-        [SerializeField] private Transform playerTransform;
-        private Rigidbody2D _rb;
+        [SerializeField] private Rigidbody2D _rb;
         private Animator _animator;
         private bool _isAttacking;
         private float _gravitySave;
@@ -22,8 +22,7 @@ namespace ProjectAres.PlayerBundle
 
         private void Awake()
         {
-            _rb = playerTransform.GetComponent<Rigidbody2D>();
-            _animator = playerTransform.GetComponent<Animator>();
+            _animator = GetComponent<Animator>();
             _gravitySave = _rb.gravityScale;
         }
     
@@ -47,7 +46,7 @@ namespace ProjectAres.PlayerBundle
         public void ButtonSouth(InputAction.CallbackContext context)
         {
             if (!context.performed || _isAttacking) {return;}
-            EffectsManager.StartShockwave(playerTransform.position, 1f);
+            EffectsManager.StartShockwave(transform.position, 1f);
         }
         
         public void ButtonEast(InputAction.CallbackContext context)
@@ -93,10 +92,10 @@ namespace ProjectAres.PlayerBundle
             else
             {
                 _rb.velocity = new Vector2(MoveVector.x, _rb.velocity.y);
-                _animator.SetFloat(Speed, MoveVector.magnitude);
+                _animator.SetFloat(Speed, Math.Abs(MoveVector.x));
             }
             // TODO: Rotation also rotates nameplate, needs fixing (look at PlayerTest 3.prefab)
-            playerTransform.rotation = Quaternion.Euler(new Vector3(0, _isFlipped ? 180 : 0, 0));
+            transform.rotation = Quaternion.Euler(new Vector3(0, _isFlipped ? 180 : 0, 0));
         }
 
         private void OnDisable()

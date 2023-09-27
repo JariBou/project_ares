@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8785375924195084137}
   - component: {fileID: 2091369029791572277}
+  - component: {fileID: 4965356383818517370}
   m_Layer: 7
   m_Name: HurtBox
   m_TagString: Player
@@ -77,6 +78,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.087755, y: 2.2373486}
   m_EdgeRadius: 0
+--- !u!114 &4965356383818517370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60466028226889808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bef0cc8f8adfd0d47aab7a1db819656e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 8069080826434250450}
 --- !u!1 &3002927090596576080
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,9 +271,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1020580326623572744}
-  - component: {fileID: 2388448638171052631}
-  - component: {fileID: 160173123368223207}
-  - component: {fileID: 7064199387256290366}
+  - component: {fileID: 6954572775508373354}
+  - component: {fileID: 9192848714573697767}
+  - component: {fileID: 4535879714473539550}
   m_Layer: 9
   m_Name: PlayerTest 3
   m_TagString: Player
@@ -284,22 +298,7 @@ Transform:
   - {fileID: 6045415704593266982}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2388448638171052631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3344699218615906976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab269098135e0e8459bef52eacf0d067, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 10
-  _jumpForce: 20
-  playerTransform: {fileID: 6045415704593266982}
---- !u!114 &160173123368223207
+--- !u!114 &6954572775508373354
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -326,8 +325,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2388448638171052631}
-        m_TargetAssemblyTypeName: PlayerInputHandler, Assembly-CSharp
+      - m_Target: {fileID: 6533638019635609922}
+        m_TargetAssemblyTypeName: ProjectAres.PlayerBundle.PlayerInputHandler, Assembly-CSharp
         m_MethodName: Move
         m_Mode: 0
         m_Arguments:
@@ -342,8 +341,8 @@ MonoBehaviour:
     m_ActionName: PlayerMap/Move[/Keyboard/z,/Keyboard/s,/Keyboard/q,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2388448638171052631}
-        m_TargetAssemblyTypeName: PlayerInputHandler, Assembly-CSharp
+      - m_Target: {fileID: 6533638019635609922}
+        m_TargetAssemblyTypeName: ProjectAres.PlayerBundle.PlayerInputHandler, Assembly-CSharp
         m_MethodName: Jump
         m_Mode: 0
         m_Arguments:
@@ -378,8 +377,8 @@ MonoBehaviour:
     m_ActionName: MenuNavigation/Confirm
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2388448638171052631}
-        m_TargetAssemblyTypeName: PlayerInputHandler, Assembly-CSharp
+      - m_Target: {fileID: 6533638019635609922}
+        m_TargetAssemblyTypeName: ProjectAres.PlayerBundle.PlayerInputHandler, Assembly-CSharp
         m_MethodName: ButtonSouth
         m_Mode: 0
         m_Arguments:
@@ -398,7 +397,7 @@ MonoBehaviour:
     m_ActionName: MenuNavigation/TEST
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2388448638171052631}
+      - m_Target: {fileID: 6533638019635609922}
         m_TargetAssemblyTypeName: ProjectAres.PlayerBundle.PlayerInputHandler, Assembly-CSharp
         m_MethodName: ButtonEast
         m_Mode: 0
@@ -417,7 +416,7 @@ MonoBehaviour:
   m_DefaultActionMap: PlayerMap
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &7064199387256290366
+--- !u!114 &9192848714573697767
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -429,8 +428,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff3e2d72bcdfd54b95a47ebe7c3ea87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerInputHandler: {fileID: 6533638019635609922}
   _text: {fileID: 70262150192063069}
   _character: {fileID: 0}
+--- !u!50 &4535879714473539550
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3344699218615906976}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 5
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &6275628728209396882
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,7 +470,7 @@ GameObject:
   - component: {fileID: 5493619594040705083}
   - component: {fileID: 8069080826434250450}
   - component: {fileID: 2671572846119969816}
-  - component: {fileID: 7084362298568605335}
+  - component: {fileID: 6533638019635609922}
   m_Layer: 9
   m_Name: Player (Dynamic Rotation)
   m_TagString: Player
@@ -587,33 +614,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.6221266, y: 0.62107205}
   m_EdgeRadius: 0
---- !u!50 &7084362298568605335
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!114 &6533638019635609922
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6275628728209396882}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 5
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab269098135e0e8459bef52eacf0d067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 10
+  _jumpForce: 20
+  _rb: {fileID: 4535879714473539550}
 --- !u!1 &7304769430697788943
 GameObject:
   m_ObjectHideFlags: 0

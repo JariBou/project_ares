@@ -108,6 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 10
   _jumpForce: 20
+  playerTransform: {fileID: 4719101359235062801}
 --- !u!114 &311252277845661897
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Targets:
   - target: {fileID: 9182050527542018677}
     weight: 1
-    radius: 0
+    radius: 3
 --- !u!4 &86649834
 Transform:
   m_ObjectHideFlags: 0
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weight: 1
-  _radius: 2
+  _radius: 3
 --- !u!1 &328025998
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,7 +327,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 1
+  orthographic size: 3.75
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -351,7 +351,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -1e-45, z: 0, w: 1}
+  m_LocalRotation: {x: 3e-45, y: -1e-45, z: 0, w: 1}
   m_LocalPosition: {x: -6.4094563, y: 0.47390723, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -772,7 +772,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 974408922}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -1e-45, z: 0, w: 1}
+  m_LocalRotation: {x: 3e-45, y: -1e-45, z: 0, w: 1}
   m_LocalPosition: {x: -6.4094563, y: 0.47390723, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -870,8 +870,8 @@ MonoBehaviour:
   m_ScreenY: 0.5
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
+  m_SoftZoneWidth: 2
+  m_SoftZoneHeight: 2
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -1312,7 +1312,7 @@ PrefabInstance:
     - target: {fileID: 9109448765624818239, guid: 2287188deb21521409344cf37c806381, type: 3}
       propertyPath: _playerPrefab
       value: 
-      objectReference: {fileID: 1458823510075840798, guid: a1b912abcf9df714f8ac6d8ca4659e40, type: 3}
+      objectReference: {fileID: 3344699218615906976, guid: 33c64bad4fb30c041b686b78451ec71d, type: 3}
     - target: {fileID: 9109448765624818239, guid: 2287188deb21521409344cf37c806381, type: 3}
       propertyPath: _alsoSetPosition
       value: 1

@@ -50,4 +50,11 @@ namespace Core
             OnPostUpdate();
         }
     }
+    
+    public enum SceneBuildIndex
+    {
+        StartScene = 0,
+        SelectionMenu = 1,
+        Scene = 2,
+    }
 }
