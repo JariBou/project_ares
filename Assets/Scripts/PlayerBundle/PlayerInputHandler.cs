@@ -94,6 +94,7 @@ namespace ProjectAres.PlayerBundle
                 _rb.velocity = new Vector2(MoveVector.x, _rb.velocity.y);
                 _animator.SetFloat(Speed, Math.Abs(MoveVector.x));
             }
+            // TODO: Rotation also rotates nameplate, needs fixing (look at PlayerTest 3.prefab)
             transform.rotation = Quaternion.Euler(new Vector3(0, _isFlipped ? 180 : 0, 0));
         }
 
