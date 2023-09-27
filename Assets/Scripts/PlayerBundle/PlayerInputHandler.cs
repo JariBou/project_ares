@@ -15,8 +15,9 @@ namespace ProjectAres.PlayerBundle
         private bool _isAttacking;
         private float _gravitySave;
         private bool _isFlipped;
+        private static readonly int Speed = Animator.StringToHash("Speed");
 
-        public Vector2 MoveVector { get; private set; }
+        private Vector2 MoveVector { get; set; }
 
         private void Awake()
         {
@@ -28,13 +29,12 @@ namespace ProjectAres.PlayerBundle
         public void Move(InputAction.CallbackContext context)
         {
             MoveVector = context.ReadValue<Vector2>().normalized * _speed;
-            if (MoveVector.x < 0)
+            _isFlipped = MoveVector.x switch
             {
-                _isFlipped = false;
-            } else if (MoveVector.x > 0)
-            {
-                _isFlipped = true;
-            }
+                < 0 => false,
+                > 0 => true,
+                _ => _isFlipped
+            };
         }
     
         public void Jump(InputAction.CallbackContext context)
@@ -87,12 +87,12 @@ namespace ProjectAres.PlayerBundle
             if (_isAttacking)
             {
                 _rb.velocity = Vector2.zero;
-                _animator.SetFloat("Speed", 0);
+                _animator.SetFloat(Speed, 0);
             }
             else
             {
                 _rb.velocity = new Vector2(MoveVector.x, _rb.velocity.y);
-                _animator.SetFloat("Speed", MoveVector.magnitude);
+                _animator.SetFloat(Speed, MoveVector.magnitude);
             }
             transform.rotation = Quaternion.Euler(new Vector3(0, _isFlipped ? 180 : 0, 0));
         }
