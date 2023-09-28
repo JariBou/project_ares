@@ -1,7 +1,7 @@
 using System;
 using Core;
 using ProjectAres.Managers;
-using ProjectAres.ScriptableObjects.Scripts;
+using ScriptableObjects.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +17,7 @@ namespace ProjectAres.PlayerBundle
         private float _gravitySave;
         private bool _isFlipped;
         private static readonly int Speed = Animator.StringToHash("Speed");
+        private static readonly int YSpeed = Animator.StringToHash("ySpeed");
 
         private Vector2 MoveVector { get; set; }
 
@@ -40,7 +41,11 @@ namespace ProjectAres.PlayerBundle
         public void Jump(InputAction.CallbackContext context)
         {
             if (!context.performed || _isAttacking) {return;}
-            _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
+
+            Vector2 rbVelocity = _rb.velocity;
+            rbVelocity = new Vector2(rbVelocity.x, _jumpForce);
+            _rb.velocity = rbVelocity;
+            _animator.SetFloat(YSpeed, Math.Abs(rbVelocity.y));
         }
 
         public void ButtonSouth(InputAction.CallbackContext context)
@@ -93,6 +98,7 @@ namespace ProjectAres.PlayerBundle
             {
                 _rb.velocity = new Vector2(MoveVector.x, _rb.velocity.y);
                 _animator.SetFloat(Speed, Math.Abs(MoveVector.x));
+                _animator.SetFloat(YSpeed, Math.Abs(_rb.velocity.y));
             }
             // TODO: Rotation also rotates nameplate, needs fixing (look at PlayerTest 3.prefab)
             transform.rotation = Quaternion.Euler(new Vector3(0, _isFlipped ? 180 : 0, 0));

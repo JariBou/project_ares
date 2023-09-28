@@ -3,7 +3,7 @@ using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
 
-namespace ProjectAres.ScriptableObjects.Scripts
+namespace ScriptableObjects.Scripts
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/CharacterManager")]
     public class CharacterManager : ScriptableObject

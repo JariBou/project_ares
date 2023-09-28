@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SceneInfoProvider
   - Dummy
+  - HurtBox
   layers:
   - Default
   - TransparentFX

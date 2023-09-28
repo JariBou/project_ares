@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core;
 using ProjectAres.PlayerBundle;
-using ProjectAres.ScriptableObjects.Scripts;
-using ProjectAres.Standalones;
+using ScriptableObjects.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -22,13 +20,16 @@ namespace ProjectAres.Managers
         [SerializeField] private ScenePlayerSpawnInfo _scenePlayerSpawnInfos;
 
         public static PlayerManager Instance { get; private set; }
+        public List<PlayerCharacter> PlayerCharacters { get; private set; }
 
         public List<PlayerConfiguration> PlayerConfigs => _playerConfigs;
-        public CharacterManager CharacterManager => _characterManager;
 
         private PlayerInputManager _inputManager;
 
         [SerializeField] private CharacterManager _characterManager;
+        public CharacterManager CharacterManager => _characterManager;
+        [SerializeField] private PlayerGameActionsManager _gameActionsManager;
+        public PlayerGameActionsManager GameActionsManager => _gameActionsManager;
 
         private void Awake()
         {
@@ -39,8 +40,8 @@ namespace ProjectAres.Managers
             else
             {
                 Instance = this;
-                DontDestroyOnLoad(Instance);
-                _playerConfigs = new List<PlayerConfiguration>();
+                _playerConfigs = new List<PlayerConfiguration>(_maxPlayers);
+                PlayerCharacters = new List<PlayerCharacter>(_maxPlayers);
                 _inputManager = GetComponent<PlayerInputManager>();
             }
         }
@@ -67,9 +68,10 @@ namespace ProjectAres.Managers
                 PlayerConfigs.Add(new PlayerConfiguration(pi));
             }
 
-            Transform parent = _scenePlayerSpawnInfos._playerSpawnPoints.Count > 1
-                ? _scenePlayerSpawnInfos._playerSpawnPoints[playerIndex % _scenePlayerSpawnInfos._playerSpawnPoints.Count]
-                : _scenePlayerSpawnInfos._playerSpawnPoints[0];
+            Transform parent =
+                _scenePlayerSpawnInfos._playerSpawnPoints[
+                    playerIndex % _scenePlayerSpawnInfos._playerSpawnPoints.Count];
+             
 
             pi.transform.SetParent(parent);
             if (_scenePlayerSpawnInfos._alsoSetPosition)
@@ -80,7 +82,7 @@ namespace ProjectAres.Managers
             switch (_scenePlayerSpawnInfos._sceneBuildIndex)
             {
                 case SceneBuildIndex.Scene:
-                    pi.GetComponent<PlayerCharacter>()._character = _characterManager[PlayerConfigs[playerIndex].SelectionIndex];
+                    PlayerCharacters.Add(pi.GetComponent<PlayerCharacter>().WithCharacter(playerIndex));
                     break;
                 case SceneBuildIndex.SelectionMenu:
                     //pi.GetComponent<PlayerSelection>().SetActive();
@@ -88,6 +90,27 @@ namespace ProjectAres.Managers
             }
 
             PlayerConfigs[playerIndex].InputDevices = pi.devices.ToArray();
+        }
+
+        // Player Id = PlayerIndex
+        public Character GetCharacterOfPlayer(int playerId)
+        {
+            return _characterManager[PlayerConfigs[playerId].SelectionIndex];
+        }
+        
+        public PlayerCharacter GetPlayerCharacter(int playerId)
+        {
+            return PlayerCharacters[playerId];
+        }
+        
+        public static Character GetCharacterOfPlayerStatic(int playerId)
+        {
+            return Instance._characterManager[Instance.PlayerConfigs[playerId].SelectionIndex];
+        }
+        
+        public static PlayerCharacter GetPlayerCharacterStatic(int playerId)
+        {
+            return Instance.PlayerCharacters[playerId];
         }
 
         public void ReadyPlayer(int index)

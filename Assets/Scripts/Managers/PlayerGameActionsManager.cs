@@ -1,8 +1,10 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
+using Core;
+using ProjectAres.PlayerBundle;
 using UnityEngine;
 
-namespace Core
+namespace ProjectAres.Managers
 {
     public class PlayerGameActionsManager : MonoBehaviour
     {
@@ -18,9 +20,22 @@ namespace Core
 
         private void OnPreUpdate()
         {
-            foreach (PlayerGameAction action in _preUpdateActions)
+            IOrderedEnumerable<PlayerGameAction> playerGameActions = _preUpdateActions.OrderBy(action => action.ActionType);
+
+            foreach (PlayerGameAction action in playerGameActions)
             {
+                PlayerCharacter source = PlayerManager.GetPlayerCharacterStatic(action.OwnerId);
+                PlayerCharacter target = PlayerManager.GetPlayerCharacterStatic(action.TargetId);
                 
+                switch (action.ActionType)
+                {
+                    case PlayerActionType.Attack:
+                        target.Animator.SetTrigger("Hurt");
+                        break;
+                    case PlayerActionType.Block:
+                        
+                        break;
+                }
             }
 
             _preUpdateActions = new List<PlayerGameAction>(16);

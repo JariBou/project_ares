@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5282655155215177977}
   m_Layer: 7
   m_Name: HurtBox
-  m_TagString: Player
+  m_TagString: HurtBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6045415704593266982}
+  m_Father: {fileID: 7246074341589237168}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2091369029791572277
 BoxCollider2D:
@@ -91,6 +91,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 8069080826434250450}
+--- !u!1 &2658330394344860315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7246074341589237168}
+  - component: {fileID: 1851291915977371864}
+  m_Layer: 7
+  m_Name: HurtBoxes
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7246074341589237168
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2658330394344860315}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8785375924195084137}
+  m_Father: {fileID: 6045415704593266982}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1851291915977371864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2658330394344860315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6b89ce636d659f43861bd0134d92585, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hurtBoxes:
+  - {fileID: 5282655155215177977}
 --- !u!1 &3002927090596576080
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,8 +476,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerInputHandler: {fileID: 6533638019635609922}
+  _hurtBoxesManager: {fileID: 1851291915977371864}
   _text: {fileID: 70262150192063069}
   _character: {fileID: 0}
+  _animator: {fileID: 8069080826434250450}
 --- !u!50 &4535879714473539550
 Rigidbody2D:
   serializedVersion: 4
@@ -492,7 +541,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3298690810916090809}
-  - {fileID: 8785375924195084137}
+  - {fileID: 7246074341589237168}
   - {fileID: 2638595611777602133}
   m_Father: {fileID: 1020580326623572744}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -896,3 +945,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01838fc00b738524bb46f3d1235a10be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _owner: {fileID: 9192848714573697767}

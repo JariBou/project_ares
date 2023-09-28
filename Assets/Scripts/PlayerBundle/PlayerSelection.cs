@@ -1,7 +1,7 @@
 using System;
 using Core;
 using ProjectAres.Managers;
-using ProjectAres.ScriptableObjects.Scripts;
+using ScriptableObjects.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
