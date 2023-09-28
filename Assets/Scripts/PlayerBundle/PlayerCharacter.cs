@@ -1,4 +1,5 @@
 using System;
+using Core;
 using ProjectAres.Managers;
 using ScriptableObjects.Scripts;
 using TMPro;

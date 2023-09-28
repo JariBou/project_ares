@@ -1,11 +1,9 @@
 using System;
-using Core;
-using ProjectAres.Managers;
 using ScriptableObjects.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace ProjectAres.PlayerBundle
+namespace Core
 {
     public class PlayerInputHandler : MonoBehaviour
     {
@@ -18,6 +16,8 @@ namespace ProjectAres.PlayerBundle
         private bool _isFlipped;
         private static readonly int Speed = Animator.StringToHash("Speed");
         private static readonly int YSpeed = Animator.StringToHash("ySpeed");
+        [SerializeField] private int _baseNumberOfJumps = 2; // Might be set in character, can be passed from PlayerCharacter.cs
+        private int _numberOfJumps;
 
         private Vector2 MoveVector { get; set; }
 
@@ -25,6 +25,7 @@ namespace ProjectAres.PlayerBundle
         {
             _animator = GetComponent<Animator>();
             _gravitySave = _rb.gravityScale;
+            _numberOfJumps = _baseNumberOfJumps;
         }
     
         public void Move(InputAction.CallbackContext context)
@@ -40,11 +41,12 @@ namespace ProjectAres.PlayerBundle
     
         public void Jump(InputAction.CallbackContext context)
         {
-            if (!context.performed || _isAttacking) {return;}
+            if (!context.performed || _isAttacking || _numberOfJumps==0) {return;}
 
             Vector2 rbVelocity = _rb.velocity;
             rbVelocity = new Vector2(rbVelocity.x, _jumpForce);
             _rb.velocity = rbVelocity;
+            _numberOfJumps--;
             _animator.SetFloat(YSpeed, Math.Abs(rbVelocity.y));
         }
 
@@ -79,6 +81,19 @@ namespace ProjectAres.PlayerBundle
             if (other.gameObject.CompareTag("Player"))
             {
                 EffectsManager.SpawnHitParticles(other.GetContact(0).point);
+            }
+
+            if (other.gameObject.CompareTag("Ground"))
+            {
+                _numberOfJumps = _baseNumberOfJumps;
+            }
+        }
+        
+        private void OnCollisionExit2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Ground"))
+            {
+                _numberOfJumps = _baseNumberOfJumps-1;
             }
         }
 

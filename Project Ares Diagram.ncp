@@ -1,0 +1,110 @@
+<Project>
+  <Name>Project Ares</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.8.0.2, Culture=neutral, PublicKeyToken=null">
+    <Name>MainClasses</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>PlayerGameAction</Name>
+        <Access>Public</Access>
+        <Location left="327" top="35" />
+        <Size width="184" height="151" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public int OwnerId { get; set; }</Member>
+        <Member type="Property">public int TargetId { get; set; }</Member>
+        <Member type="Property">public PlayerActionType ActionType { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>PlayerActionType</Name>
+        <Access>Public</Access>
+        <Location left="83" top="52" />
+        <Size width="184" height="95" />
+        <Collapsed>False</Collapsed>
+        <Value>Block</Value>
+        <Value>Attack</Value>
+      </Entity>
+      <Entity type="Class">
+        <Name>PlayerConfiguration</Name>
+        <Access>Public</Access>
+        <Location left="16" top="240" />
+        <Size width="184" height="162" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public PlayerInput Input { get; set; }</Member>
+        <Member type="Property">public int PlayerId { get; set; }</Member>
+        <Member type="Property">public bool IsReady { get; set; }</Member>
+        <Member type="Property">public int SelectionIndex { get; set; }</Member>
+        <Member type="Property">public InputDevice[] InputDevices { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PlayerManager</Name>
+        <Access>Public</Access>
+        <Location left="224" top="265" />
+        <Size width="184" height="137" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public List&lt;PlayerConfiguration&gt; PlayerConfigs { get; set; }</Member>
+        <Member type="Property">public CharacterManager CharacterManager { get; set; }</Member>
+        <Member type="Property">public PlayerGameActionsManager GameActionsManager { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PlayerGameActionsManager</Name>
+        <Access>Public</Access>
+        <Location left="904" top="219" />
+        <Size width="184" height="225" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">List&lt;PlayerGameAction&gt; _preUpdateActions</Member>
+        <Member type="Field">List&lt;PlayerGameAction&gt; _onUpdateActions</Member>
+        <Member type="Field">List&lt;PlayerGameAction&gt; _postUpdateActions</Member>
+        <Member type="Method">public void AddPreUpdateAction(PlayerGameAction action)</Member>
+        <Member type="Method">public void AddOnUpdateAction(PlayerGameAction action)</Member>
+        <Member type="Method">public void AddPostUpdateAction(PlayerGameAction action)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>HitBox</Name>
+        <Access>Public</Access>
+        <Location left="592" top="52" />
+        <Size width="184" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public PlayerCharacter Owner { get; set; }</Member>
+        <Member type="Method">private void OnTriggerEnter2D(Collider2D other)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Containers />
+    <Relationships>
+      <Relationship type="Association" first="0" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>683</X>
+          <Y>188</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>987</X>
+          <Y>194</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
