@@ -21,7 +21,7 @@ namespace ProjectAres.PlayerBundle
             // hurtBox.Owner.transform.position is usually the center of gravity of a player
             Vector2 direction = (hurtBox.Owner.transform.position - Owner.transform.position).normalized;
             Debug.Log($"Direction = {direction}");
-            AttackStats attackStats = new AttackStats(1, 10, direction, 120, 60);
+            AttackStats attackStats = new AttackStats(1, 30, direction, 15, 20);
             PlayerManager.Instance.GameActionsManager.AddPreUpdateAction(new PlayerGameAction(Owner.PlayerId, targetId, PlayerActionType.Attack, attackStats));
         }
     }

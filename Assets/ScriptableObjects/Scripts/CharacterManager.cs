@@ -26,8 +26,10 @@ namespace ScriptableObjects.Scripts
             Character asset = CreateInstance<Character>();
             asset.ApplyPreset(_newCharacter);
             _charactersList.Add(asset);
-            
-            AssetDatabase.CreateAsset(asset, $"Assets/ScriptableObjects/Objects/Characters/{asset._name}.asset");
+
+            AssetDatabase.CreateFolder("Assets/ScriptableObjects/Objects/Characters", $"{asset._name}");
+            AssetDatabase.CreateFolder($"Assets/ScriptableObjects/Objects/Characters/{asset._name}", "Attacks");
+            AssetDatabase.CreateAsset(asset, $"Assets/ScriptableObjects/Objects/Characters/{asset._name}/{asset._name}.asset");
             AssetDatabase.SaveAssets();
 
             EditorUtility.FocusProjectWindow();

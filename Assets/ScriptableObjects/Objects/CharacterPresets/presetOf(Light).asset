@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790fc9653f7461c4c959002ff8295a25, type: 3}
   m_Name: presetOf(Light)
   m_EditorClassIdentifier: 
-  _name: character presetOf(Light)
+  _name: TEst
   _characterType: 0
   _weight: 6
   _speed: 15

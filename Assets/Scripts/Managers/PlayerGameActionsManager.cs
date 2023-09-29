@@ -37,6 +37,7 @@ namespace ProjectAres.Managers
                         target.ApplyKb(action.AttackStats.ForceDirection * action.AttackStats.KbValue);
                         target.SetIFrames(action.AttackStats.IFrames);
                         target.SetBlockedFramesCount(action.AttackStats.MoveBlockFrames);
+                        target.IsAttacked();
                         target.Animator.SetTrigger("Hurt");
                         break;
                     case PlayerActionType.Block:

@@ -79,6 +79,12 @@ namespace ProjectAres.PlayerBundle
             _blockedFramesCount = frameCount;
             if (_playerInputHandler != null) _playerInputHandler.SetMoveState(_blockedFramesCount == 0);
         }
+
+        // TODO: Should combine SetBlockedFrames And SetIFrames
+        public void IsAttacked()
+        {
+            if (_playerInputHandler != null) _playerInputHandler.StoppedAttacking();
+        }
         
         public void ApplyKb(Vector2 force)
         {

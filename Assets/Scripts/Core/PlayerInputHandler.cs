@@ -18,6 +18,7 @@ namespace Core
         private static readonly int YSpeed = Animator.StringToHash("ySpeed");
         [SerializeField] private int _baseNumberOfJumps = 2; // Might be set in character, can be passed from PlayerCharacter.cs
         private int _numberOfJumps;
+        private bool _hasJumped;
         public bool CanMove { get; private set; }
 
         private Vector2 MoveVector { get; set; }
@@ -31,10 +32,20 @@ namespace Core
     
         public void Move(InputAction.CallbackContext context)
         {
+            Vector2 moveVecNormalized = context.ReadValue<Vector2>().normalized;
             MoveVector = context.ReadValue<Vector2>().normalized * _speed;
             if (!CanMove) return;
             
-            _isFlipped = MoveVector.x switch
+            if (moveVecNormalized.y > 0.95f)
+            {
+                if (!_hasJumped) Jump(context);
+            }
+            else
+            {
+                _hasJumped = false;
+            }
+            
+            _isFlipped = moveVecNormalized.x switch
             {
                 < 0 => false,
                 > 0 => true,
@@ -51,6 +62,7 @@ namespace Core
             _rb.velocity = rbVelocity;
             _numberOfJumps--;
             _animator.SetFloat(YSpeed, Math.Abs(rbVelocity.y));
+            _hasJumped = true;
         }
 
         public void ButtonSouth(InputAction.CallbackContext context)
@@ -61,7 +73,7 @@ namespace Core
         
         public void ButtonEast(InputAction.CallbackContext context)
         {
-            if (!context.performed) {return;}
+            if (!context.performed || _isAttacking) {return;}
             _animator.SetTrigger("Attack");
         }
         
