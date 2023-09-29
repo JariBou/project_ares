@@ -30,6 +30,7 @@ namespace ProjectAres.Managers
                 switch (action.ActionType)
                 {
                     case PlayerActionType.Attack:
+                        // TODO: Add KB to attacks for feedback
                         target.Animator.SetTrigger("Hurt");
                         break;
                     case PlayerActionType.Block:

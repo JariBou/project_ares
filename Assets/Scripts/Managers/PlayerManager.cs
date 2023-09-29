@@ -16,6 +16,10 @@ namespace ProjectAres.Managers
     
         [SerializeField]
         private int _maxPlayers = 2;
+        [SerializeField]
+        private int _numberOfDummies = 1;
+
+        public int MaxPlayers => _maxPlayers;
 
         [SerializeField] private ScenePlayerSpawnInfo _scenePlayerSpawnInfos;
 
@@ -40,8 +44,8 @@ namespace ProjectAres.Managers
             else
             {
                 Instance = this;
-                _playerConfigs = new List<PlayerConfiguration>(_maxPlayers);
-                PlayerCharacters = new List<PlayerCharacter>(_maxPlayers);
+                _playerConfigs = new List<PlayerConfiguration>(_maxPlayers); // Doesn't need dummy player in this, reserved ol' regular players
+                PlayerCharacters = new List<PlayerCharacter>(_maxPlayers+_numberOfDummies); // for dummy players
                 _inputManager = GetComponent<PlayerInputManager>();
             }
         }
@@ -136,9 +140,9 @@ namespace ProjectAres.Managers
 
         private void SpawnPlayers()
         {
-            for (int i = 0; i < PlayerConfigs.Count; i++)
+            foreach (PlayerConfiguration playerConfig in PlayerConfigs)
             {
-                PlayerConfigs[i].ChangeInput(_inputManager.JoinPlayer(playerIndex: PlayerConfigs[i].PlayerIndex, pairWithDevices: PlayerConfigs[i].InputDevices));
+                playerConfig.ChangeInput(_inputManager.JoinPlayer(playerIndex: playerConfig.PlayerIndex, pairWithDevices: playerConfig.InputDevices));
             }
         }
 

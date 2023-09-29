@@ -1,5 +1,5 @@
-using System;
 using Core;
+using JetBrains.Annotations;
 using ProjectAres.Managers;
 using ScriptableObjects.Scripts;
 using TMPro;
@@ -9,7 +9,7 @@ namespace ProjectAres.PlayerBundle
 {
     public class PlayerCharacter : MonoBehaviour
     {
-        [SerializeField] private PlayerInputHandler _playerInputHandler;
+        [SerializeField, CanBeNull] private PlayerInputHandler _playerInputHandler;
         [SerializeField] private HurtBoxesManager _hurtBoxesManager;
 
         [SerializeField] private TMP_Text _text;
@@ -22,7 +22,8 @@ namespace ProjectAres.PlayerBundle
         void Start()
         {
             _text.text = _character._name;
-            _playerInputHandler.SetCharacterStats(_character);
+            // For now dummy also has a playerCharacter soooooo, i need to do this
+            if (_playerInputHandler != null) _playerInputHandler.SetCharacterStats(_character);
             _hurtBoxesManager.SetOwners(this);
         }
 
@@ -30,6 +31,18 @@ namespace ProjectAres.PlayerBundle
         {
             PlayerId = playerId;
             _character = PlayerManager.Instance.GetCharacterOfPlayer(playerId);
+            return this;
+        }
+        
+        public PlayerCharacter SetId(int playerId)
+        {
+            PlayerId = playerId;
+            return this;
+        }
+        
+        public PlayerCharacter SetCharacter(Character character)
+        {
+            _character = character;
             return this;
         }
         
