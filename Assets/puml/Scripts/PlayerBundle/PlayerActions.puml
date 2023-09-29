@@ -1,0 +1,64 @@
+@startuml
+class "@PlayerActions" <<partial>> {
+    + @PlayerActions()
+    + Dispose() : void
+    + bindingMask : InputBinding? <<get>> <<set>>
+    + devices : ReadOnlyArray<InputDevice>? <<get>> <<set>>
+    + Contains(action:InputAction) : bool
+    + GetEnumerator() : IEnumerator<InputAction>
+    + Enable() : void
+    + Disable() : void
+    + FindAction(actionNameOrId:string, throwIfNotFound:bool) : InputAction
+    + FindBinding(bindingMask:InputBinding, action:InputAction) : int
+}
+class "ReadOnlyArray`1"<T> {
+}
+class "IEnumerable`1"<T> {
+}
+struct PlayerMapActions {
+    + PlayerMapActions(wrapper:@PlayerActions)
+    + Get() : InputActionMap
+    + Enable() : void
+    + Disable() : void
+    + enabled : bool <<get>>
+    + AddCallbacks(instance:IPlayerMapActions) : void
+    + RemoveCallbacks(instance:IPlayerMapActions) : void
+    + SetCallbacks(instance:IPlayerMapActions) : void
+}
+struct MenuNavigationActions {
+    + MenuNavigationActions(wrapper:@PlayerActions)
+    + Get() : InputActionMap
+    + Enable() : void
+    + Disable() : void
+    + enabled : bool <<get>>
+    + AddCallbacks(instance:IMenuNavigationActions) : void
+    + RemoveCallbacks(instance:IMenuNavigationActions) : void
+    + SetCallbacks(instance:IMenuNavigationActions) : void
+}
+interface IPlayerMapActions {
+}
+interface IMenuNavigationActions {
+}
+IInputActionCollection2 <|-- "@PlayerActions"
+IDisposable <|-- "@PlayerActions"
+"@PlayerActions" --> "asset" InputActionAsset
+"@PlayerActions" --> "controlSchemes<InputControlScheme>" "ReadOnlyArray`1"
+"@PlayerActions" --> "bindings<InputBinding>" "IEnumerable`1"
+"@PlayerActions" --> "@PlayerMap" PlayerMapActions
+"@PlayerActions" --> "@MenuNavigation" MenuNavigationActions
+"@PlayerActions" --> "PSControllerScheme" InputControlScheme
+"@PlayerActions" +-- PlayerMapActions
+PlayerMapActions --> "@Move" InputAction
+PlayerMapActions --> "@Jump" InputAction
+PlayerMapActions --> "@X" InputAction
+PlayerMapActions --> "@EastButton" InputAction
+"@PlayerActions" +-- MenuNavigationActions
+MenuNavigationActions --> "@Next" InputAction
+MenuNavigationActions --> "@Previous" InputAction
+MenuNavigationActions --> "@Up" InputAction
+MenuNavigationActions --> "@Down" InputAction
+MenuNavigationActions --> "@Confirm" InputAction
+MenuNavigationActions --> "@TEST" InputAction
+"@PlayerActions" +-- IPlayerMapActions
+"@PlayerActions" +-- IMenuNavigationActions
+@enduml

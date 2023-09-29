@@ -1,0 +1,10 @@
+@startuml
+class PlayerSelection {
+    + SetPlayerId(configuration:int) : void
+    + Next(context:InputAction.CallbackContext) : void
+    + Previous(context:InputAction.CallbackContext) : void
+    + Test(context:InputAction.CallbackContext) : void
+    + Confirm(context:InputAction.CallbackContext) : void
+}
+MonoBehaviour <|-- PlayerSelection
+@enduml

@@ -1,0 +1,7 @@
+@startuml
+class HurtBoxesManager {
+    + SetOwners(owner:PlayerCharacter) : void
+    + GetAllHurtBoxes() : void
+}
+MonoBehaviour <|-- HurtBoxesManager
+@enduml

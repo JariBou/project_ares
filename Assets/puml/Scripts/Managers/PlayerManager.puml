@@ -1,0 +1,19 @@
+@startuml
+class PlayerManager {
+    + MaxPlayers : int <<get>>
+    + HandlePlayerJoin(pi:PlayerInput) : void
+    + GetCharacterOfPlayer(playerId:int) : Character
+    + GetPlayerCharacter(playerId:int) : PlayerCharacter
+    + {static} GetCharacterOfPlayerStatic(playerId:int) : Character
+    + {static} GetPlayerCharacterStatic(playerId:int) : PlayerCharacter
+    + ReadyPlayer(index:int) : void
+}
+class "List`1"<T> {
+}
+MonoBehaviour <|-- PlayerManager
+PlayerManager --> "Instance" PlayerManager
+PlayerManager --> "PlayerCharacters<PlayerCharacter>" "List`1"
+PlayerManager --> "PlayerConfigs<PlayerConfiguration>" "List`1"
+PlayerManager --> "CharacterManager" CharacterManager
+PlayerManager --> "GameActionsManager" PlayerGameActionsManager
+@enduml

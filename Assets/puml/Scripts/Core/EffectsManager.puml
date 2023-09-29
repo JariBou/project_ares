@@ -1,0 +1,7 @@
+@startuml
+class EffectsManager {
+    + {static} StartShockwave(position:Vector2, shockwaveTime:float) : void
+    + {static} SpawnHitParticles(point:Vector2) : void
+}
+MonoBehaviour <|-- EffectsManager
+@enduml

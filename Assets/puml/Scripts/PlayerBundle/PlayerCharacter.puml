@@ -1,0 +1,15 @@
+@startuml
+class PlayerCharacter {
+    + PlayerId : int <<get>>
+    + IsInvincible : bool <<get>>
+    + WithCharacter(playerId:int) : PlayerCharacter
+    + SetId(playerId:int) : PlayerCharacter
+    + SetCharacter(character:Character) : PlayerCharacter
+    + SetIFrames(frameCount:int) : void
+    + SetBlockedFramesCount(frameCount:int) : void
+    + ApplyKb(force:Vector2) : void
+}
+MonoBehaviour <|-- PlayerCharacter
+PlayerCharacter --> "Animator" Animator
+PlayerCharacter --> "Character" Character
+@enduml

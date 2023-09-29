@@ -18,6 +18,7 @@ namespace Core
         private static readonly int YSpeed = Animator.StringToHash("ySpeed");
         [SerializeField] private int _baseNumberOfJumps = 2; // Might be set in character, can be passed from PlayerCharacter.cs
         private int _numberOfJumps;
+        public bool CanMove { get; private set; }
 
         private Vector2 MoveVector { get; set; }
 
@@ -31,6 +32,8 @@ namespace Core
         public void Move(InputAction.CallbackContext context)
         {
             MoveVector = context.ReadValue<Vector2>().normalized * _speed;
+            if (!CanMove) return;
+            
             _isFlipped = MoveVector.x switch
             {
                 < 0 => false,
@@ -60,6 +63,34 @@ namespace Core
         {
             if (!context.performed) {return;}
             _animator.SetTrigger("Attack");
+        }
+        
+        private void OnFrameUpdate()
+        {
+            if (_isAttacking)
+            {
+                _rb.velocity = Vector2.zero;
+                _animator.SetFloat(Speed, 0);
+            }
+            else
+            {
+                // Ok so, rn players can only take vertical KB, possible solution: via animator when hurt use a bool
+                // Or: maybe the best, in _onPreFrameActions we chan check if the player's uncontrolable frames are at 0
+                // smth like that u get it right?
+                if (CanMove)
+                {
+                    _rb.velocity = new Vector2(MoveVector.x, _rb.velocity.y);
+                    _animator.SetFloat(Speed, Math.Abs(MoveVector.x));
+                    _animator.SetFloat(YSpeed, Math.Abs(_rb.velocity.y));
+                }
+            }
+            // TODO: Rotation also rotates nameplate, needs fixing (look at PlayerTest 3.prefab)
+            transform.rotation = Quaternion.Euler(new Vector3(0, _isFlipped ? 180 : 0, 0));
+        }
+
+        public void SetMoveState(bool status)
+        {
+            CanMove = status;
         }
 
         public void StartedAttacking()
@@ -101,24 +132,7 @@ namespace Core
         {
             TickManager.FrameUpdate += OnFrameUpdate;
         }
-
-        private void OnFrameUpdate()
-        {
-            if (_isAttacking)
-            {
-                _rb.velocity = Vector2.zero;
-                _animator.SetFloat(Speed, 0);
-            }
-            else
-            {
-                _rb.velocity = new Vector2(MoveVector.x, _rb.velocity.y);
-                _animator.SetFloat(Speed, Math.Abs(MoveVector.x));
-                _animator.SetFloat(YSpeed, Math.Abs(_rb.velocity.y));
-            }
-            // TODO: Rotation also rotates nameplate, needs fixing (look at PlayerTest 3.prefab)
-            transform.rotation = Quaternion.Euler(new Vector3(0, _isFlipped ? 180 : 0, 0));
-        }
-
+     
         private void OnDisable()
         {
             TickManager.FrameUpdate -= OnFrameUpdate;

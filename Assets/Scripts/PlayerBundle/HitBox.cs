@@ -13,10 +13,16 @@ namespace ProjectAres.PlayerBundle
         {
             Debug.Log($"Collided with {other.gameObject.name}");
             if (!other.gameObject.CompareTag("HurtBox")) return;
+            HurtBox hurtBox = other.GetComponent<HurtBox>();
             
-            int targetId = other.GetComponent<HurtBox>().Owner.PlayerId;
+            int targetId = hurtBox.Owner.PlayerId;
             if (_owner.PlayerId == targetId) {return;}
-            PlayerManager.Instance.GameActionsManager.AddPreUpdateAction(new PlayerGameAction(Owner.PlayerId, targetId, PlayerActionType.Attack));
+            
+            // hurtBox.Owner.transform.position is usually the center of gravity of a player
+            Vector2 direction = (hurtBox.Owner.transform.position - Owner.transform.position).normalized;
+            Debug.Log($"Direction = {direction}");
+            AttackStats attackStats = new AttackStats(1, 10, direction, 120, 60);
+            PlayerManager.Instance.GameActionsManager.AddPreUpdateAction(new PlayerGameAction(Owner.PlayerId, targetId, PlayerActionType.Attack, attackStats));
         }
     }
 }

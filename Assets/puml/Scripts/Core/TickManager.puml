@@ -1,0 +1,13 @@
+@startuml
+class TickManager {
+    + {static}  <<event>> PreUpdate : Action 
+    + {static}  <<event>> FrameUpdate : Action 
+    + {static}  <<event>> PostUpdate : Action 
+}
+enum SceneBuildIndex {
+    StartScene= 0,
+    SelectionMenu= 1,
+    Scene= 2,
+}
+MonoBehaviour <|-- TickManager
+@enduml

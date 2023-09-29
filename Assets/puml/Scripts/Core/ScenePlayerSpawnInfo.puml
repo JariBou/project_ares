@@ -1,0 +1,12 @@
+@startuml
+class ScenePlayerSpawnInfo {
+    + _alsoSetPosition : bool
+}
+class "List`1"<T> {
+}
+MonoBehaviour <|-- ScenePlayerSpawnInfo
+ScenePlayerSpawnInfo --> "_sceneBuildIndex" SceneBuildIndex
+ScenePlayerSpawnInfo o-> "_joinBehavior" PlayerJoinBehavior
+ScenePlayerSpawnInfo --> "_playerSpawnPoints<Transform>" "List`1"
+ScenePlayerSpawnInfo --> "_playerPrefab" GameObject
+@enduml

@@ -1,0 +1,11 @@
+@startuml
+class PlayerConfiguration {
+    + PlayerConfiguration(pi:PlayerInput)
+    + PlayerConfiguration(pi:PlayerInput, selectionIndex:int)
+    + ChangeInput(pi:PlayerInput) : void
+    + PlayerIndex : int <<get>>
+    + IsReady : bool <<get>> <<set>>
+    + SelectionIndex : int <<get>> <<set>>
+}
+PlayerConfiguration --> "Input" PlayerInput
+@enduml

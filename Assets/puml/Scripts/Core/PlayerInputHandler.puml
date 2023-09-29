@@ -1,0 +1,14 @@
+@startuml
+class PlayerInputHandler {
+    + CanMove : bool <<get>>
+    + Move(context:InputAction.CallbackContext) : void
+    + Jump(context:InputAction.CallbackContext) : void
+    + ButtonSouth(context:InputAction.CallbackContext) : void
+    + ButtonEast(context:InputAction.CallbackContext) : void
+    + SetMoveState(status:bool) : void
+    + StartedAttacking() : void
+    + StoppedAttacking() : void
+    + SetCharacterStats(character:Character) : void
+}
+MonoBehaviour <|-- PlayerInputHandler
+@enduml

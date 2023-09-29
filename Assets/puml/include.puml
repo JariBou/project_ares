@@ -1,0 +1,20 @@
+@startuml
+!include .\\.\Scripts\StartScript.puml
+!include .\\.\Scripts\Core\EffectsManager.puml
+!include .\\.\Scripts\Core\PlayerConfiguration.puml
+!include .\\.\Scripts\Core\PlayerGameAction.puml
+!include .\\.\Scripts\Core\PlayerInputHandler.puml
+!include .\\.\Scripts\Core\ScenePlayerSpawnInfo.puml
+!include .\\.\Scripts\Core\TickManager.puml
+!include .\\.\Scripts\Managers\PlayerGameActionsManager.puml
+!include .\\.\Scripts\Managers\PlayerManager.puml
+!include .\\.\Scripts\PlayerBundle\HitBox.puml
+!include .\\.\Scripts\PlayerBundle\HurtBox.puml
+!include .\\.\Scripts\PlayerBundle\HurtBoxesManager.puml
+!include .\\.\Scripts\PlayerBundle\PlayerActions.puml
+!include .\\.\Scripts\PlayerBundle\PlayerCharacter.puml
+!include .\\.\Scripts\PlayerBundle\PlayerSelection.puml
+!include .\\.\Scripts\Standalones\DummyScript.puml
+!include .\\.\Scripts\Standalones\ScenePlayerSpawnInfo.puml
+!include .\\.\Scripts\Standalones\TargetCameraScript.puml
+@enduml

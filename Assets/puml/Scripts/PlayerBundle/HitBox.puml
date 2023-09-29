@@ -1,0 +1,6 @@
+@startuml
+class HitBox {
+}
+MonoBehaviour <|-- HitBox
+HitBox --> "Owner" PlayerCharacter
+@enduml

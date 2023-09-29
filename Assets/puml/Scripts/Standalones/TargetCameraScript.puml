@@ -1,0 +1,5 @@
+@startuml
+class TargetCameraScript {
+}
+MonoBehaviour <|-- TargetCameraScript
+@enduml

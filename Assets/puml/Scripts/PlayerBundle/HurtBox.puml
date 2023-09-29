@@ -1,0 +1,8 @@
+@startuml
+class HurtBox {
+    + SetOwner(playerCharacter:PlayerCharacter) : void
+}
+MonoBehaviour <|-- HurtBox
+HurtBox --> "Owner" PlayerCharacter
+HurtBox --> "Animator" Animator
+@enduml

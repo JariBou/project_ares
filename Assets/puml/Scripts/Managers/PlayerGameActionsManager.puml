@@ -1,0 +1,8 @@
+@startuml
+class PlayerGameActionsManager {
+    + AddPreUpdateAction(action:PlayerGameAction) : void
+    + AddOnUpdateAction(action:PlayerGameAction) : void
+    + AddPostUpdateAction(action:PlayerGameAction) : void
+}
+MonoBehaviour <|-- PlayerGameActionsManager
+@enduml

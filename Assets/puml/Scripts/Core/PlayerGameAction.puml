@@ -1,0 +1,24 @@
+@startuml
+class PlayerGameAction {
+    + OwnerId : int <<get>>
+    + TargetId : int <<get>>
+    + PlayerGameAction(ownerId:int, targetId:int, actionType:PlayerActionType)
+    + PlayerGameAction(ownerId:int, targetId:int, actionType:PlayerActionType, attackStats:AttackStats)
+}
+class AttackStats {
+    + Damage : int <<get>>
+    + KbValue : int <<get>>
+    + IFrames : int <<get>>
+    + MoveBlockFrames : int <<get>>
+    + AttackStats(damage:int, kbValue:int, forceDirection:Vector2, frames:int, moveBlockFrames:int)
+}
+enum PlayerActionType {
+    Block,
+    Attack,
+    IFrames,
+    MoveBlockFrames,
+}
+PlayerGameAction --> "ActionType" PlayerActionType
+PlayerGameAction --> "AttackStats" AttackStats
+AttackStats --> "ForceDirection" Vector2
+@enduml

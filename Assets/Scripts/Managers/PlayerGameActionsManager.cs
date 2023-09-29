@@ -22,8 +22,10 @@ namespace ProjectAres.Managers
         {
             IOrderedEnumerable<PlayerGameAction> playerGameActions = _preUpdateActions.OrderBy(action => action.ActionType);
 
-            foreach (PlayerGameAction action in playerGameActions)
+            foreach ((PlayerGameAction action, int index) in playerGameActions.Select((value, i) => ( value, i )))
             {
+                // Idk if block should actually be here... maybe a bool on PlayerCharacter?
+                // Because rn this implies sending an event to _preUpdateActions every frame to say the player is blocking
                 PlayerCharacter source = PlayerManager.GetPlayerCharacterStatic(action.OwnerId);
                 PlayerCharacter target = PlayerManager.GetPlayerCharacterStatic(action.TargetId);
                 
@@ -31,6 +33,10 @@ namespace ProjectAres.Managers
                 {
                     case PlayerActionType.Attack:
                         // TODO: Add KB to attacks for feedback
+                        if (target.IsInvincible) break;
+                        target.ApplyKb(action.AttackStats.ForceDirection * action.AttackStats.KbValue);
+                        target.SetIFrames(action.AttackStats.IFrames);
+                        target.SetBlockedFramesCount(action.AttackStats.MoveBlockFrames);
                         target.Animator.SetTrigger("Hurt");
                         break;
                     case PlayerActionType.Block:
