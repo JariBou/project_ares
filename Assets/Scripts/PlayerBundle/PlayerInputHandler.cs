@@ -80,6 +80,27 @@ namespace ProjectAres.PlayerBundle
             if (!context.performed || _isAttacking) {return;}
             _animator.SetTrigger("Attack");
         }
+
+        private void OnPreUpdate()
+        {
+            if (_numberOfJumps == _baseNumberOfJumps)
+            {
+                _numberOfJumps = _baseNumberOfJumps - 1;
+            }
+            _isGrounded = false;
+            Collider2D[] colliders = Physics2D.OverlapBoxAll((Vector2)transform.position + _groundCheckOffset, _groundCheckSize, 0f);
+
+            if (colliders.Length == 0) return;
+            foreach (Collider2D col in colliders)
+            {
+                if (col.gameObject.CompareTag("Ground"))
+                {
+                    _isGrounded = true;
+                    _numberOfJumps = _baseNumberOfJumps;
+                    break;
+                }
+            }
+        }
         
         private void OnFrameUpdate()
         {
@@ -135,11 +156,13 @@ namespace ProjectAres.PlayerBundle
         private void OnEnable()
         {
             TickManager.FrameUpdate += OnFrameUpdate;
+            TickManager.PreUpdate += OnPreUpdate;
         }
      
         private void OnDisable()
         {
             TickManager.FrameUpdate -= OnFrameUpdate;
+            TickManager.PreUpdate -= OnPreUpdate;
         }
 
         public void SetCharacterStats(Character character)
@@ -153,7 +176,7 @@ namespace ProjectAres.PlayerBundle
 
         public void SetGrounded(bool state)
         {
-            _numberOfJumps = _baseNumberOfJumps + (state ? 0 : -1);
+            if (state) _numberOfJumps = _baseNumberOfJumps;
             _isGrounded = state;
         }
     }
