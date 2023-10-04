@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace ScriptableObjects.Scripts
@@ -12,6 +13,8 @@ namespace ScriptableObjects.Scripts
         public int _speed;
         public int _jumpForce; // Theoretically shouldn't change, only weight should change, nvm only changing weight isn't enough
         // should make some math to find an easy way to setup, maybe with some curves
+        public Vector2 _groundCheckOffset;
+        public Vector2 _groundCheckSize;
         
         
         

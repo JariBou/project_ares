@@ -1,15 +1,18 @@
 using System;
+using Core;
 using ScriptableObjects.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Core
+namespace ProjectAres.PlayerBundle
 {
     public class PlayerInputHandler : MonoBehaviour
     {
         [SerializeField] private float _speed;
         [SerializeField] private float _jumpForce = 6f;
         [SerializeField] private Rigidbody2D _rb;
+        public Vector2 _groundCheckOffset;
+        public Vector2 _groundCheckSize;
         private Animator _animator;
         private bool _isAttacking;
         private float _gravitySave;
@@ -22,6 +25,7 @@ namespace Core
         public bool CanMove { get; private set; }
 
         private Vector2 MoveVector { get; set; }
+        private bool _isGrounded;
 
         private void Awake()
         {
@@ -125,19 +129,7 @@ namespace Core
             {
                 EffectsManager.SpawnHitParticles(other.GetContact(0).point);
             }
-
-            if (other.gameObject.CompareTag("Ground"))
-            {
-                _numberOfJumps = _baseNumberOfJumps;
-            }
-        }
-        
-        private void OnCollisionExit2D(Collision2D other)
-        {
-            if (other.gameObject.CompareTag("Ground"))
-            {
-                _numberOfJumps = _baseNumberOfJumps-1;
-            }
+            
         }
 
         private void OnEnable()
@@ -154,6 +146,15 @@ namespace Core
         {
             _speed = character._speed;
             _jumpForce = character._jumpForce;
+            _groundCheckOffset = character._groundCheckOffset;
+            _groundCheckSize = character._groundCheckSize;
+        }
+
+
+        public void SetGrounded(bool state)
+        {
+            _numberOfJumps = _baseNumberOfJumps + (state ? 0 : -1);
+            _isGrounded = state;
         }
     }
 }
