@@ -10,12 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6d4222025e0f3a749b350f299aff3e6c, type: 3}
-  m_Name: Combo 1
+  m_Name: Combo 2
   m_EditorClassIdentifier: 
   Attacks:
-  - _attack: {fileID: 11400000, guid: 15f112cdec08f6244ba6148754ec3c39, type: 2}
-    _buttonPos: 2
-  - _attack: {fileID: 11400000, guid: 5796ce868e4266041af22c87f38634bf, type: 2}
-    _buttonPos: 2
   - _attack: {fileID: 11400000, guid: 548e463ea28ef08418758b25032abf73, type: 2}
+    _buttonPos: 1
+  - _attack: {fileID: 11400000, guid: 548e463ea28ef08418758b25032abf73, type: 2}
+    _buttonPos: 1
+  - _attack: {fileID: 11400000, guid: 5796ce868e4266041af22c87f38634bf, type: 2}
+    _buttonPos: 1
+  - _attack: {fileID: 11400000, guid: 548e463ea28ef08418758b25032abf73, type: 2}
+    _buttonPos: 1
+  - _attack: {fileID: 11400000, guid: 5796ce868e4266041af22c87f38634bf, type: 2}
     _buttonPos: 1

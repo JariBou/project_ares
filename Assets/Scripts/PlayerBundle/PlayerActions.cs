@@ -62,6 +62,24 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NorthButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""58c0f85c-96a6-47a7-b38a-f206e9263fef"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WestButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""b324527d-f39c-4c8e-bfbd-e06f29152157"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -150,6 +168,28 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""EastButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0680b809-52ca-4b6f-ad3d-89773a76744f"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NorthButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a921913d-238c-42ab-981c-28db5339779d"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WestButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -295,17 +335,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""isOR"": false
                 }
             ]
-        },
-        {
-            ""name"": ""XBox Controller"",
-            ""bindingGroup"": ""XBox Controller"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<XInputController>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
         }
     ]
 }");
@@ -315,6 +344,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_PlayerMap_Jump = m_PlayerMap.FindAction("Jump", throwIfNotFound: true);
         m_PlayerMap_X = m_PlayerMap.FindAction("X", throwIfNotFound: true);
         m_PlayerMap_EastButton = m_PlayerMap.FindAction("EastButton", throwIfNotFound: true);
+        m_PlayerMap_NorthButton = m_PlayerMap.FindAction("NorthButton", throwIfNotFound: true);
+        m_PlayerMap_WestButton = m_PlayerMap.FindAction("WestButton", throwIfNotFound: true);
         // MenuNavigation
         m_MenuNavigation = asset.FindActionMap("MenuNavigation", throwIfNotFound: true);
         m_MenuNavigation_Next = m_MenuNavigation.FindAction("Next", throwIfNotFound: true);
@@ -388,6 +419,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerMap_Jump;
     private readonly InputAction m_PlayerMap_X;
     private readonly InputAction m_PlayerMap_EastButton;
+    private readonly InputAction m_PlayerMap_NorthButton;
+    private readonly InputAction m_PlayerMap_WestButton;
     public struct PlayerMapActions
     {
         private @PlayerActions m_Wrapper;
@@ -396,6 +429,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_PlayerMap_Jump;
         public InputAction @X => m_Wrapper.m_PlayerMap_X;
         public InputAction @EastButton => m_Wrapper.m_PlayerMap_EastButton;
+        public InputAction @NorthButton => m_Wrapper.m_PlayerMap_NorthButton;
+        public InputAction @WestButton => m_Wrapper.m_PlayerMap_WestButton;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -417,6 +452,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @EastButton.started += instance.OnEastButton;
             @EastButton.performed += instance.OnEastButton;
             @EastButton.canceled += instance.OnEastButton;
+            @NorthButton.started += instance.OnNorthButton;
+            @NorthButton.performed += instance.OnNorthButton;
+            @NorthButton.canceled += instance.OnNorthButton;
+            @WestButton.started += instance.OnWestButton;
+            @WestButton.performed += instance.OnWestButton;
+            @WestButton.canceled += instance.OnWestButton;
         }
 
         private void UnregisterCallbacks(IPlayerMapActions instance)
@@ -433,6 +474,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @EastButton.started -= instance.OnEastButton;
             @EastButton.performed -= instance.OnEastButton;
             @EastButton.canceled -= instance.OnEastButton;
+            @NorthButton.started -= instance.OnNorthButton;
+            @NorthButton.performed -= instance.OnNorthButton;
+            @NorthButton.canceled -= instance.OnNorthButton;
+            @WestButton.started -= instance.OnWestButton;
+            @WestButton.performed -= instance.OnWestButton;
+            @WestButton.canceled -= instance.OnWestButton;
         }
 
         public void RemoveCallbacks(IPlayerMapActions instance)
@@ -545,21 +592,14 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_PSControllerSchemeIndex];
         }
     }
-    private int m_XBoxControllerSchemeIndex = -1;
-    public InputControlScheme XBoxControllerScheme
-    {
-        get
-        {
-            if (m_XBoxControllerSchemeIndex == -1) m_XBoxControllerSchemeIndex = asset.FindControlSchemeIndex("XBox Controller");
-            return asset.controlSchemes[m_XBoxControllerSchemeIndex];
-        }
-    }
     public interface IPlayerMapActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnX(InputAction.CallbackContext context);
         void OnEastButton(InputAction.CallbackContext context);
+        void OnNorthButton(InputAction.CallbackContext context);
+        void OnWestButton(InputAction.CallbackContext context);
     }
     public interface IMenuNavigationActions
     {

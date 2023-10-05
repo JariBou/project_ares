@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a0b96fda05e039489ec42ea6fa40196, type: 3}
   m_Name: Attack 1
   m_EditorClassIdentifier: 
-  Damage: 1
-  KbAmount: 1
-  IFramesCount: 1
-  BlockMoveFramesCount: 1
-  _AnimatorOverride: {fileID: 22100000, guid: e7bb5a5e4cf705c469d2cd5144276cea, type: 2}
+  _damage: 1
+  _kbAmount: 1
+  _framesCount: 1
+  _blockMoveFramesCount: 1
+  _animatorOverride: {fileID: 22100000, guid: e7bb5a5e4cf705c469d2cd5144276cea, type: 2}
+  _buttonPos: 1

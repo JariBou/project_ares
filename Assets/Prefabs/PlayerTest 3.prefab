@@ -535,6 +535,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d95b809a-ea79-4491-8fac-878fd3e0e280
     m_ActionName: PlayerMap/EastButton[/XInputControllerWindows/buttonEast,/DualShock4GamepadHID/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6533638019635609922}
+        m_TargetAssemblyTypeName: ProjectAres.PlayerBundle.PlayerInputHandler, Assembly-CSharp
+        m_MethodName: ButtonNorth
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 58c0f85c-96a6-47a7-b38a-f206e9263fef
+    m_ActionName: PlayerMap/NorthButton[/XInputControllerWindows/buttonNorth,/DualShock4GamepadHID/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6533638019635609922}
+        m_TargetAssemblyTypeName: ProjectAres.PlayerBundle.PlayerInputHandler, Assembly-CSharp
+        m_MethodName: ButtonWest
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b324527d-f39c-4c8e-bfbd-e06f29152157
+    m_ActionName: PlayerMap/WestButton[/XInputControllerWindows/buttonWest,/DualShock4GamepadHID/buttonWest]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerMap
@@ -717,6 +749,7 @@ MonoBehaviour:
   _groundCheckOffset: {x: 0, y: -1.37}
   _groundCheckSize: {x: 1.27, y: 0.15}
   _baseNumberOfJumps: 2
+  _maxLastAttackFrameAge: 60
 --- !u!1 &7304769430697788943
 GameObject:
   m_ObjectHideFlags: 0

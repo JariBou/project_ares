@@ -12,6 +12,5 @@ namespace ProjectAres.ScriptableObjects.Scripts
         [FormerlySerializedAs("IFramesCount")] public int _framesCount;
         [FormerlySerializedAs("BlockMoveFramesCount")] public int _blockMoveFramesCount;
         [FormerlySerializedAs("_AnimatorOverride")] public AnimatorOverrideController _animatorOverride;
-        public ButtonPos _buttonPos;
     }
 }

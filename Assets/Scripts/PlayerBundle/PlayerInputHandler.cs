@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ProjectAres.Core;
 using ProjectAres.ScriptableObjects.Scripts;
 using UnityEngine;
@@ -32,11 +33,16 @@ namespace ProjectAres.PlayerBundle
 
         private int _comboCount;
 
+        private List<ButtonPos> _prevInputs;
+        private int _lastAttackFrameAge;
+        [SerializeField]private int _maxLastAttackFrameAge = 5;
+
         private void Awake()
         {
             _animator = GetComponent<Animator>();
             _gravitySave = _rb.gravityScale;
             _numberOfJumps = _baseNumberOfJumps;
+            _prevInputs = new List<ButtonPos>(5);
         }
     
         public void Move(InputAction.CallbackContext context)
@@ -83,14 +89,67 @@ namespace ProjectAres.PlayerBundle
         public void ButtonEast(InputAction.CallbackContext context)
         {
             if (!context.performed || _isAttacking) {return;}
+            
+            ProcessAttack(ButtonPos.EAST);
+            // _animator.runtimeAnimatorController = _character._attackCombos[0].Attacks[_comboCount]._animatorOverride;
+            // _comboCount = (_comboCount + 1) % _character._attackCombos[0].Count;
+            // _animator.SetTrigger("Attack");
+        }
+        
+        public void ButtonNorth(InputAction.CallbackContext context)
+        {
+            if (!context.performed || _isAttacking) {return;}
 
-            _animator.runtimeAnimatorController = _character._attackCombos[0].Attacks[_comboCount]._animatorOverride;
-            _comboCount = (_comboCount + 1) % _character._attackCombos[0].Count;
+            ProcessAttack(ButtonPos.NORTH);
+            // _animator.runtimeAnimatorController = _character._attackCombos[0].Attacks[_comboCount]._animatorOverride;
+            // _comboCount = (_comboCount + 1) % _character._attackCombos[0].Count;
+            // _animator.SetTrigger("Attack");
+        }
+        
+        public void ButtonWest(InputAction.CallbackContext context)
+        {
+            if (!context.performed || _isAttacking) {return;}
+
+            ProcessAttack(ButtonPos.WEST);
+            // _animator.runtimeAnimatorController = _character._attackCombos[0].Attacks[_comboCount]._animatorOverride;
+            // _comboCount = (_comboCount + 1) % _character._attackCombos[0].Count;
+            // _animator.SetTrigger("Attack");
+        }
+
+        private void ProcessAttack(ButtonPos inputButtonPos)
+        {
+            _prevInputs.Add(inputButtonPos);
+            bool isInCombo = _character.GetCurrentComboAttack(_prevInputs, _comboCount, out AttackSo attack);
+            // AttackSo attack = _character.GetCurrentComboAttack(_prevInputs, _comboCount);
+            
+            Debug.Log($"IsCombo = {isInCombo}");
+            
+            if (_comboCount == 0 || !isInCombo)
+            {
+                if (_comboCount != 0) _prevInputs.RemoveRange(0, _prevInputs.Count-1);
+                _comboCount = 1;
+            }
+            else
+            {
+                _comboCount++;
+            }
+            
+            _animator.runtimeAnimatorController = attack._animatorOverride;;
             _animator.SetTrigger("Attack");
+
         }
 
         private void OnPreUpdate()
         {
+            if (_comboCount !=0 && !_isAttacking) _lastAttackFrameAge++;
+            if (_comboCount !=0 && _lastAttackFrameAge > _maxLastAttackFrameAge)
+            {
+                _comboCount = 0;
+                _lastAttackFrameAge = 0;
+                _prevInputs.Clear();
+                Debug.Log("Resetting Combo");
+            }
+            
             if (_numberOfJumps == _baseNumberOfJumps)
             {
                 _numberOfJumps = _baseNumberOfJumps - 1;
@@ -142,12 +201,14 @@ namespace ProjectAres.PlayerBundle
         {
             _isAttacking = true;
             _rb.gravityScale = 0f;
+            _lastAttackFrameAge = 0;
         }
         
         public void StoppedAttacking()
         {
             _isAttacking = false;
             _rb.gravityScale = _gravitySave;
+            _lastAttackFrameAge = 0;
         }
 
         // TODO: Implement ActionStack to define actions made in each frame
