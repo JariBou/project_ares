@@ -26,6 +26,11 @@ namespace ProjectAres.PlayerBundle
 
         private Vector2 MoveVector { get; set; }
         private bool _isGrounded;
+        
+        [Header("Combo System")]
+        private Character _character;
+
+        private int _comboCount;
 
         private void Awake()
         {
@@ -78,6 +83,9 @@ namespace ProjectAres.PlayerBundle
         public void ButtonEast(InputAction.CallbackContext context)
         {
             if (!context.performed || _isAttacking) {return;}
+
+            _animator.runtimeAnimatorController = _character._attackCombos[0].Attacks[_comboCount]._animatorOverride;
+            _comboCount = (_comboCount + 1) % _character._attackCombos[0].Count;
             _animator.SetTrigger("Attack");
         }
 
@@ -165,8 +173,9 @@ namespace ProjectAres.PlayerBundle
             TickManager.PreUpdate -= OnPreUpdate;
         }
 
-        public void SetCharacterStats(Character character)
+        public void SetCharacter(Character character)
         {
+            _character = character;
             _speed = character._speed;
             _jumpForce = character._jumpForce;
             _groundCheckOffset = character._groundCheckOffset;

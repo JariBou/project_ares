@@ -295,6 +295,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""XBox Controller"",
+            ""bindingGroup"": ""XBox Controller"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<XInputController>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
@@ -532,6 +543,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         {
             if (m_PSControllerSchemeIndex == -1) m_PSControllerSchemeIndex = asset.FindControlSchemeIndex("PS Controller");
             return asset.controlSchemes[m_PSControllerSchemeIndex];
+        }
+    }
+    private int m_XBoxControllerSchemeIndex = -1;
+    public InputControlScheme XBoxControllerScheme
+    {
+        get
+        {
+            if (m_XBoxControllerSchemeIndex == -1) m_XBoxControllerSchemeIndex = asset.FindControlSchemeIndex("XBox Controller");
+            return asset.controlSchemes[m_XBoxControllerSchemeIndex];
         }
     }
     public interface IPlayerMapActions

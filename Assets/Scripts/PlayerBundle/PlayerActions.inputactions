@@ -273,6 +273,17 @@
                     "isOR": false
                 }
             ]
+        },
+        {
+            "name": "XBox Controller",
+            "bindingGroup": "XBox Controller",
+            "devices": [
+                {
+                    "devicePath": "<XInputController>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
         }
     ]
 }

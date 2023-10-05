@@ -44,7 +44,7 @@ namespace ProjectAres.PlayerBundle
         {
             _text.text = _character._name;
             // For now dummy also has a playerCharacter soooooo, i need to do this
-            if (_playerInputHandler != null) _playerInputHandler.SetCharacterStats(_character);
+            if (_playerInputHandler != null) _playerInputHandler.SetCharacter(_character);
             _hurtBoxesManager.SetOwners(this);
         }
 
