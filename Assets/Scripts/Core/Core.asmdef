@@ -1,9 +1,8 @@
 {
     "name": "Core",
-    "rootNamespace": "",
+    "rootNamespace": "ProjectAres",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:7fb91607a7894530af8988fc654f6e45"
+        "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,4 +1,4 @@
-using Core;
+using ProjectAres.Core;
 using ProjectAres.Managers;
 using UnityEngine;
 

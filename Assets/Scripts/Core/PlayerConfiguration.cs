@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine.InputSystem;
 
-namespace Core
+namespace ProjectAres.Core
 {
     [Serializable]
     public class PlayerConfiguration

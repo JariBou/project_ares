@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using Core;
-using NaughtyAttributes;
+using ProjectAres.Core;
 using UnityEngine;
 
-namespace ScriptableObjects.Scripts
+namespace ProjectAres.ScriptableObjects.Scripts
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Character")]
     public class Character : ScriptableObject

@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace ProjectAres
+namespace ProjectAres.Core
 {
     [Serializable]
     public class ScenePlayerSpawnInfo : MonoBehaviour

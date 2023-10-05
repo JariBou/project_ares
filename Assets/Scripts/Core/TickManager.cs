@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core
+namespace ProjectAres.Core
 {
     public class TickManager : MonoBehaviour
     {

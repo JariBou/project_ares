@@ -1,7 +1,6 @@
-using ScriptableObjects.Scripts;
 using UnityEngine;
 
-namespace Core
+namespace ProjectAres.Core
 {
     public class PlayerGameAction
     {

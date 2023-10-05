@@ -1,4 +1,4 @@
-namespace Core
+namespace ProjectAres.Core
 {
     public enum ButtonPos
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ScriptableObjects.Scripts
+namespace ProjectAres.ScriptableObjects.Scripts
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/AttackCombo")]
     public class AttackComboSO : ScriptableObject

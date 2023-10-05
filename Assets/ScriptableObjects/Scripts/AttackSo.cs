@@ -1,8 +1,8 @@
-using Core;
+using ProjectAres.Core;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace ScriptableObjects.Scripts
+namespace ProjectAres.ScriptableObjects.Scripts
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Attack")]
     public class AttackSo : ScriptableObject

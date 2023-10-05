@@ -1,6 +1,6 @@
 using System;
-using Core;
-using ScriptableObjects.Scripts;
+using ProjectAres.Core;
+using ProjectAres.ScriptableObjects.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

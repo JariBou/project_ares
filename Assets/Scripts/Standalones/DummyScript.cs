@@ -1,6 +1,6 @@
 using ProjectAres.Managers;
 using ProjectAres.PlayerBundle;
-using ScriptableObjects.Scripts;
+using ProjectAres.ScriptableObjects.Scripts;
 using UnityEngine;
 
 namespace ProjectAres.Standalones
