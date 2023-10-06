@@ -9,7 +9,7 @@ namespace ProjectAres.ScriptableObjects.Scripts
     {
         [FormerlySerializedAs("Damage")] public int _damage;
         [FormerlySerializedAs("KbAmount")] public int _kbAmount;
-        [FormerlySerializedAs("IFramesCount")] public int _framesCount;
+        [FormerlySerializedAs("_framesCount")] public int _invincibilityFramesCount;
         [FormerlySerializedAs("BlockMoveFramesCount")] public int _blockMoveFramesCount;
         [FormerlySerializedAs("_AnimatorOverride")] public AnimatorOverrideController _animatorOverride;
     }

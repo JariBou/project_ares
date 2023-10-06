@@ -1,5 +1,6 @@
 using ProjectAres.Core;
 using ProjectAres.Managers;
+using ProjectAres.ScriptableObjects.Scripts;
 using UnityEngine;
 
 namespace ProjectAres.PlayerBundle
@@ -8,6 +9,8 @@ namespace ProjectAres.PlayerBundle
     {
         [SerializeField] private PlayerCharacter _owner;
         public PlayerCharacter Owner => _owner;
+
+        [SerializeField] private PlayerInputHandler _playerInputHandler;
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -21,7 +24,8 @@ namespace ProjectAres.PlayerBundle
             // hurtBox.Owner.transform.position is usually the center of gravity of a player
             Vector2 direction = (hurtBox.Owner.transform.position - Owner.transform.position).normalized;
             Debug.Log($"Direction = {direction}");
-            AttackStats attackStats = new AttackStats(1, 30, direction, 15, 20);
+            AttackSo attackSo = _playerInputHandler.CurrentAttack;
+            AttackStats attackStats = new AttackStats(attackSo._damage, attackSo._kbAmount, direction, attackSo._invincibilityFramesCount, attackSo._blockMoveFramesCount);
             PlayerManager.Instance.GameActionsManager.AddPreUpdateAction(new PlayerGameAction(Owner.PlayerId, targetId, PlayerActionType.Attack, attackStats));
         }
     }

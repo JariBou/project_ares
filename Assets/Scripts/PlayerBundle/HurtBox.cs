@@ -5,13 +5,19 @@ namespace ProjectAres.PlayerBundle
     public class HurtBox : MonoBehaviour
     {
         [SerializeField] private Animator _animator;
-        public PlayerCharacter Owner { get; private set;}
+        public PlayerCharacter OwnerOld { get; private set;}
+        public Damageable Owner { get; private set;}
 
         public Animator Animator => _animator;
 
         public void SetOwner(PlayerCharacter playerCharacter)
         {
-            Owner = playerCharacter;
+            OwnerOld = playerCharacter;
+        }
+        
+        public void SetOwner(Damageable damageable)
+        {
+            Owner = damageable;
         }
         
         // TODO: There should be a list of all the hurtboxes of the character in a script

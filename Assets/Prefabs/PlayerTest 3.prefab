@@ -584,11 +584,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff3e2d72bcdfd54b95a47ebe7c3ea87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerInputHandler: {fileID: 6533638019635609922}
   _hurtBoxesManager: {fileID: 1851291915977371864}
   _text: {fileID: 70262150192063069}
   _character: {fileID: 11400000, guid: e157a86225b12954086d78d7c8449c01, type: 2}
   _animator: {fileID: 8069080826434250450}
+  _playerInputHandler: {fileID: 6533638019635609922}
   _groundCheckOffset: {x: 0, y: -1.37}
   _groundCheckSize: {x: 1.22, y: 0.18}
   _showGroundDetection: 1
@@ -1018,3 +1018,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _owner: {fileID: 9192848714573697767}
+  _playerInputHandler: {fileID: 6533638019635609922}

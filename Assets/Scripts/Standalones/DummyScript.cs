@@ -5,16 +5,23 @@ using UnityEngine;
 
 namespace ProjectAres.Standalones
 {
-    public class DummyScript : MonoBehaviour
+    public class DummyScript : Damageable
     {
-        [SerializeField] private PlayerCharacter _selfPlayerCharacter;
         [SerializeField] private Character _dummyCharacter;
+        
+        private void Awake()
+        {
+            _rb = GetComponent<Rigidbody2D>();
+        }
         
         private void Start()
         {
-            PlayerManager.Instance.PlayerCharacters.Add(_selfPlayerCharacter);
-            int id = PlayerManager.Instance.PlayerCharacters.IndexOf(_selfPlayerCharacter);
-            _selfPlayerCharacter.SetId(id).SetCharacter(_dummyCharacter);
+            PlayerManager.Instance.PlayerCharacters.Add(this);
+            int id = PlayerManager.Instance.PlayerCharacters.IndexOf(this);
+            _text.text = _character._name;
+            _hurtBoxesManager.SetOwners(this);
+            SetId(id);
+            SetCharacter(_dummyCharacter);
         }
         
     }

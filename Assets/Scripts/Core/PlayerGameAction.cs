@@ -31,16 +31,16 @@ namespace ProjectAres.Core
     {
         public int Damage { get; private set; }
         public int KbValue { get; private set; } // Strength of KB basically
-        public int IFrames { get; private set; } // Number of frames the ennemy cant be hit again
+        public int InvincibilityFrames { get; private set; } // Number of frames the ennemy cant be hit again
         public int MoveBlockFrames { get; private set; } // Number of frames the ennemy cant move
         public Vector2 ForceDirection { get; private set; }
         
-        public AttackStats(int damage, int kbValue, Vector2 forceDirection, int frames, int moveBlockFrames)
+        public AttackStats(int damage, int kbValue, Vector2 forceDirection, int invincibilityFrames, int moveBlockFrames)
         {
             Damage = damage;
             KbValue = kbValue;
             ForceDirection = forceDirection;
-            IFrames = frames;
+            InvincibilityFrames = invincibilityFrames;
             MoveBlockFrames = moveBlockFrames;
         }
         

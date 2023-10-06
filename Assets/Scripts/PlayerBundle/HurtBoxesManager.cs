@@ -15,6 +15,14 @@ namespace ProjectAres.PlayerBundle
                 hurtBox.SetOwner(owner);
             }
         }
+        
+        public void SetOwners(Damageable owner)
+        {
+            foreach (HurtBox hurtBox in _hurtBoxes)
+            {
+                hurtBox.SetOwner(owner);
+            }
+        }
 
         [Button]
         public void GetAllHurtBoxes()

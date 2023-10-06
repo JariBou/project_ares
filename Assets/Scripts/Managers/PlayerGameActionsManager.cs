@@ -26,8 +26,8 @@ namespace ProjectAres.Managers
             {
                 // Idk if block should actually be here... maybe a bool on PlayerCharacter?
                 // Because rn this implies sending an event to _preUpdateActions every frame to say the player is blocking
-                PlayerCharacter source = PlayerManager.GetPlayerCharacterStatic(action.OwnerId);
-                PlayerCharacter target = PlayerManager.GetPlayerCharacterStatic(action.TargetId);
+                Damageable source = PlayerManager.GetPlayerCharacterStatic(action.OwnerId);
+                Damageable target = PlayerManager.GetPlayerCharacterStatic(action.TargetId);
                 
                 switch (action.ActionType)
                 {
@@ -35,7 +35,7 @@ namespace ProjectAres.Managers
                         // TODO: Add KB to attacks for feedback
                         if (target.IsInvincible) break;
                         target.ApplyKb(action.AttackStats.ForceDirection * action.AttackStats.KbValue);
-                        target.SetIFrames(action.AttackStats.IFrames);
+                        target.SetIFrames(action.AttackStats.InvincibilityFrames);
                         target.SetBlockedFramesCount(action.AttackStats.MoveBlockFrames);
                         target.IsAttacked();
                         target.Animator.SetTrigger("Hurt");

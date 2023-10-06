@@ -36,6 +36,7 @@ namespace ProjectAres.PlayerBundle
         private List<ButtonPos> _prevInputs;
         private int _lastAttackFrameAge;
         [SerializeField]private int _maxLastAttackFrameAge = 5;
+        public AttackSo CurrentAttack { get; private set; }
 
         private void Awake()
         {
@@ -133,7 +134,8 @@ namespace ProjectAres.PlayerBundle
             {
                 _comboCount++;
             }
-            
+
+            CurrentAttack = attack;
             _animator.runtimeAnimatorController = attack._animatorOverride;;
             _animator.SetTrigger("Attack");
 
@@ -204,7 +206,7 @@ namespace ProjectAres.PlayerBundle
             _lastAttackFrameAge = 0;
         }
         
-        public void StoppedAttacking()
+        public void StopAttacking()
         {
             _isAttacking = false;
             _rb.gravityScale = _gravitySave;

@@ -24,7 +24,7 @@ namespace ProjectAres.Managers
         [SerializeField] private ScenePlayerSpawnInfo _scenePlayerSpawnInfos;
 
         public static PlayerManager Instance { get; private set; }
-        public List<PlayerCharacter> PlayerCharacters { get; private set; }
+        public List<Damageable> PlayerCharacters { get; private set; }
 
         public List<PlayerConfiguration> PlayerConfigs => _playerConfigs;
 
@@ -45,7 +45,7 @@ namespace ProjectAres.Managers
             {
                 Instance = this;
                 _playerConfigs = new List<PlayerConfiguration>(_maxPlayers); // Doesn't need dummy player in this, reserved ol' regular players
-                PlayerCharacters = new List<PlayerCharacter>(_maxPlayers+_numberOfDummies); // for dummy players
+                PlayerCharacters = new List<Damageable>(_maxPlayers+_numberOfDummies); // for dummy players
                 _inputManager = GetComponent<PlayerInputManager>();
             }
         }
@@ -102,7 +102,7 @@ namespace ProjectAres.Managers
             return _characterManager[PlayerConfigs[playerId].SelectionIndex];
         }
         
-        public PlayerCharacter GetPlayerCharacter(int playerId)
+        public Damageable GetPlayerCharacter(int playerId)
         {
             return PlayerCharacters[playerId];
         }
@@ -112,7 +112,7 @@ namespace ProjectAres.Managers
             return Instance._characterManager[Instance.PlayerConfigs[playerId].SelectionIndex];
         }
         
-        public static PlayerCharacter GetPlayerCharacterStatic(int playerId)
+        public static Damageable GetPlayerCharacterStatic(int playerId)
         {
             return Instance.PlayerCharacters[playerId];
         }
