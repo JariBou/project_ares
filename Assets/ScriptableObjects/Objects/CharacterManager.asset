@@ -17,7 +17,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c280065898ed8b94db4dbaafda3bb272, type: 2}
   - {fileID: 11400000, guid: 752ec410453042a4da86009a532b03a8, type: 2}
   - {fileID: 11400000, guid: e157a86225b12954086d78d7c8449c01, type: 2}
-  _newCharacter: {fileID: 11400000, guid: 66c9fc1cb2240cc4b838caf0194483c0, type: 2}
+  - {fileID: 11400000, guid: 171c43a843cc8484fa74f0e3397f3502, type: 2}
+  _newCharacter: {fileID: 11400000, guid: e157a86225b12954086d78d7c8449c01, type: 2}
   _lightPreset: {fileID: 11400000, guid: 66c9fc1cb2240cc4b838caf0194483c0, type: 2}
   _regularPreset: {fileID: 11400000, guid: e62fae137ef7f424b8ebd22cd0c856a8, type: 2}
   _heavyPreset: {fileID: 11400000, guid: 767dd7b669e1a1142bdfc3566044fba1, type: 2}

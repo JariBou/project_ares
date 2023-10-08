@@ -12,15 +12,15 @@ namespace ProjectAres.PlayerBundle
     public class PlayerCharacter : Damageable
     {
         [SerializeField] private PlayerInputHandler _playerInputHandler;
-
-        private BoxCollider2D _pushBox;
         
         #if UNITY_EDITOR
         [SerializeField, Foldout("Ground Check")] private Vector2 _groundCheckOffset;
         [SerializeField, Foldout("Ground Check")] private Vector2 _groundCheckSize;
         [SerializeField, Foldout("Ground Check")] private bool _showGroundDetection;
         [SerializeField, Foldout("Ground Check"), ShowIf("_showGroundDetection")] private Color _groundCheckColor;
-        #endif
+        private static readonly int Hurt = Animator.StringToHash("Hurt");
+        public PlayerInputHandler InputHandler => _playerInputHandler;
+#endif
         
         private void Awake()
         {
@@ -29,30 +29,28 @@ namespace ProjectAres.PlayerBundle
         
         void Start()
         {
-            Debug.Log("Calling Base Start");
             _text.text = _character._name;
             _hurtBoxesManager.SetOwners(this);
-            _playerInputHandler.SetCharacter(_character);
+            InputHandler.SetCharacter(_character);
         }
-
-
 
         protected override void OnPreUpdate()
         {
             base.OnPreUpdate();
-            _playerInputHandler.SetMoveState(BlockedFramesCount == 0);
+            InputHandler.SetMoveState(BlockedFramesCount == 0);
         }
         
         public override void SetBlockedFramesCount(int frameCount)
         {
             base.SetBlockedFramesCount(frameCount);
-            _playerInputHandler.SetMoveState(BlockedFramesCount == 0);
+            InputHandler.SetMoveState(BlockedFramesCount == 0);
         }
 
         // TODO: Should combine SetBlockedFrames And SetIFrames
         public override void IsAttacked()
         {
-            _playerInputHandler.StopAttacking();
+            Debug.Log("I was attacked!!!");
+            InputHandler.StopAttacking();
         }
 
         #if UNITY_EDITOR

@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using ProjectAres.Core;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -12,5 +13,11 @@ namespace ProjectAres.ScriptableObjects.Scripts
         [FormerlySerializedAs("_framesCount")] public int _invincibilityFramesCount;
         [FormerlySerializedAs("BlockMoveFramesCount")] public int _blockMoveFramesCount;
         [FormerlySerializedAs("_AnimatorOverride")] public AnimatorOverrideController _animatorOverride;
+        public int _maxFramesBeforeNextInput = 10;
+        
+        public bool _isSpAtk;
+        [ShowIf("_isSpAtk")] public AnimatorOverrideController _startAnimatorOverride;
+        [ShowIf("_isSpAtk")] public AnimatorOverrideController _endAnimatorOverride;
+        [ShowIf("_isSpAtk")] public GameObject _spAttackGameObject;
     }
 }

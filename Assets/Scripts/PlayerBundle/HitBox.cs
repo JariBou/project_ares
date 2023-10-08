@@ -25,7 +25,7 @@ namespace ProjectAres.PlayerBundle
             Vector2 direction = (hurtBox.Owner.transform.position - Owner.transform.position).normalized;
             Debug.Log($"Direction = {direction}");
             AttackSo attackSo = _playerInputHandler.CurrentAttack;
-            AttackStats attackStats = new AttackStats(attackSo._damage, attackSo._kbAmount, direction, attackSo._invincibilityFramesCount, attackSo._blockMoveFramesCount);
+            AttackStats attackStats = new(attackSo._damage, attackSo._kbAmount, direction, attackSo._invincibilityFramesCount, attackSo._blockMoveFramesCount);
             PlayerManager.Instance.GameActionsManager.AddPreUpdateAction(new PlayerGameAction(Owner.PlayerId, targetId, PlayerActionType.Attack, attackStats));
         }
     }

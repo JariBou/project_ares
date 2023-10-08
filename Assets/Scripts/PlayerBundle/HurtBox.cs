@@ -12,7 +12,7 @@ namespace ProjectAres.PlayerBundle
 
         public void SetOwner(PlayerCharacter playerCharacter)
         {
-            OwnerOld = playerCharacter;
+            Owner = playerCharacter;
         }
         
         public void SetOwner(Damageable damageable)

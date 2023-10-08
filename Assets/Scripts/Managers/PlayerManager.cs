@@ -64,8 +64,19 @@ namespace ProjectAres.Managers
         public void HandlePlayerJoin(PlayerInput pi)
         {
             int playerIndex = pi.playerIndex;
-            Debug.Log("player joined " + playerIndex);
-
+            string debugString = "";
+            foreach (InputDevice inputDevice in pi.devices)
+            {
+                if (inputDevice is UnityEngine.InputSystem.XInput.XInputController) // I cannot stress how much I HATE this
+                {
+                    Destroy(pi.gameObject);
+                    return;
+                }
+                debugString += inputDevice.name + ", ";
+            }
+            Debug.Log($"Player {playerIndex} joined with inputs {debugString}   " );
+            
+            
             if(PlayerConfigs.All(p => p.PlayerIndex != playerIndex))
             {
                 pi.GetComponent<PlayerSelection>().SetPlayerId(playerIndex);

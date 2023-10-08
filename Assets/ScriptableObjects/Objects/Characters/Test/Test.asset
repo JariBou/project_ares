@@ -12,14 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790fc9653f7461c4c959002ff8295a25, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
-  _name: Test
+  _name: Wind Elemental
   _characterType: 0
   _weight: 6
   _speed: 15
   _jumpForce: 21
   _groundCheckOffset: {x: 0, y: -1.37}
   _groundCheckSize: {x: 1.22, y: 0.18}
-  _attackCombos:
-  - {fileID: 11400000, guid: 3e4b460b7358fe848858a6a79146d8dd, type: 2}
-  - {fileID: 11400000, guid: a7e78430ddf3d384baca28a72dd29cf8, type: 2}
-  - {fileID: 11400000, guid: c4dc069a382d14c489916a46034893a3, type: 2}
+  _attackCombos: []

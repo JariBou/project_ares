@@ -20,6 +20,7 @@ namespace ProjectAres.ScriptableObjects.Scripts
         public Vector2 _groundCheckSize;
 
         public List<AttackComboSO> _attackCombos;
+        public bool _isFacingRight;
         
         public void ApplyPreset(Character preset)
         {

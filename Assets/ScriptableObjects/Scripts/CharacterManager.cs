@@ -29,6 +29,7 @@ namespace ProjectAres.ScriptableObjects.Scripts
 
             AssetDatabase.CreateFolder("Assets/ScriptableObjects/Objects/Characters", $"{asset._name}");
             AssetDatabase.CreateFolder($"Assets/ScriptableObjects/Objects/Characters/{asset._name}", "Attacks");
+            AssetDatabase.CreateFolder($"Assets/ScriptableObjects/Objects/Characters/{asset._name}", "Combos");
             AssetDatabase.CreateAsset(asset, $"Assets/ScriptableObjects/Objects/Characters/{asset._name}/{asset._name}.asset");
             AssetDatabase.SaveAssets();
 

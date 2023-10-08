@@ -15,6 +15,7 @@ namespace ProjectAres.PlayerBundle
         public Vector2 _groundCheckOffset;
         public Vector2 _groundCheckSize;
         private Animator _animator;
+        private SpriteRenderer _spriteRenderer;
         private bool _isAttacking;
         private float _gravitySave;
         private bool _isFlipped;
@@ -36,11 +37,19 @@ namespace ProjectAres.PlayerBundle
         private List<ButtonPos> _prevInputs;
         private int _lastAttackFrameAge;
         [SerializeField]private int _maxLastAttackFrameAge = 5;
+        private bool _canAttack = true;
+        private static readonly int Grounded = Animator.StringToHash("Grounded");
+        private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
+        private static readonly int Attack = Animator.StringToHash("Attack");
         public AttackSo CurrentAttack { get; private set; }
+
+        private Vector3 _targetPos;
+        [SerializeField] private PlayerCharacter _playerCharacter;
 
         private void Awake()
         {
             _animator = GetComponent<Animator>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
             _gravitySave = _rb.gravityScale;
             _numberOfJumps = _baseNumberOfJumps;
             _prevInputs = new List<ButtonPos>(5);
@@ -49,7 +58,7 @@ namespace ProjectAres.PlayerBundle
         public void Move(InputAction.CallbackContext context)
         {
             Vector2 moveVecNormalized = context.ReadValue<Vector2>().normalized;
-            MoveVector = context.ReadValue<Vector2>().normalized * _speed;
+            MoveVector = moveVecNormalized * _speed;
             if (!CanMove) return;
             
             if (moveVecNormalized.y > 0.95f)
@@ -63,8 +72,8 @@ namespace ProjectAres.PlayerBundle
             
             _isFlipped = moveVecNormalized.x switch
             {
-                < 0 => false,
-                > 0 => true,
+                < 0 => _character._isFacingRight,
+                > 0 => !_character._isFacingRight,
                 _ => _isFlipped
             };
         }
@@ -72,26 +81,37 @@ namespace ProjectAres.PlayerBundle
         public void Jump(InputAction.CallbackContext context)
         {
             if (!context.performed || _isAttacking || _numberOfJumps==0) {return;}
+            if (!CanMove) return;
 
             Vector2 rbVelocity = _rb.velocity;
             rbVelocity = new Vector2(rbVelocity.x, _jumpForce);
             _rb.velocity = rbVelocity;
             _numberOfJumps--;
-            _animator.SetFloat(YSpeed, Math.Abs(rbVelocity.y));
+            _animator.SetFloat(YSpeed, rbVelocity.y);
             _hasJumped = true;
         }
 
         public void ButtonSouth(InputAction.CallbackContext context)
         {
-            if (!context.performed || _isAttacking) {return;}
+            if (!context.performed || _isAttacking || !_canAttack) {return;}
             EffectsManager.StartShockwave(transform.position, 1f);
+        }
+        
+        public void TriggerR2(InputAction.CallbackContext context)
+        {
+            if (!context.performed || _isAttacking || !_canAttack) {return;}
+            
+            ProcessAttack(ButtonPos.TriggerR2);
+            // _animator.runtimeAnimatorController = _character._attackCombos[0].Attacks[_comboCount]._animatorOverride;
+            // _comboCount = (_comboCount + 1) % _character._attackCombos[0].Count;
+            // _animator.SetTrigger("Attack");
         }
         
         public void ButtonEast(InputAction.CallbackContext context)
         {
-            if (!context.performed || _isAttacking) {return;}
+            if (!context.performed || _isAttacking || !_canAttack) {return;}
             
-            ProcessAttack(ButtonPos.EAST);
+            ProcessAttack(ButtonPos.East);
             // _animator.runtimeAnimatorController = _character._attackCombos[0].Attacks[_comboCount]._animatorOverride;
             // _comboCount = (_comboCount + 1) % _character._attackCombos[0].Count;
             // _animator.SetTrigger("Attack");
@@ -99,9 +119,9 @@ namespace ProjectAres.PlayerBundle
         
         public void ButtonNorth(InputAction.CallbackContext context)
         {
-            if (!context.performed || _isAttacking) {return;}
+            if (!context.performed || _isAttacking || !_canAttack) {return;}
 
-            ProcessAttack(ButtonPos.NORTH);
+            ProcessAttack(ButtonPos.North);
             // _animator.runtimeAnimatorController = _character._attackCombos[0].Attacks[_comboCount]._animatorOverride;
             // _comboCount = (_comboCount + 1) % _character._attackCombos[0].Count;
             // _animator.SetTrigger("Attack");
@@ -109,9 +129,9 @@ namespace ProjectAres.PlayerBundle
         
         public void ButtonWest(InputAction.CallbackContext context)
         {
-            if (!context.performed || _isAttacking) {return;}
+            if (!context.performed || _isAttacking || !_canAttack) {return;}
 
-            ProcessAttack(ButtonPos.WEST);
+            ProcessAttack(ButtonPos.West);
             // _animator.runtimeAnimatorController = _character._attackCombos[0].Attacks[_comboCount]._animatorOverride;
             // _comboCount = (_comboCount + 1) % _character._attackCombos[0].Count;
             // _animator.SetTrigger("Attack");
@@ -136,21 +156,59 @@ namespace ProjectAres.PlayerBundle
             }
 
             CurrentAttack = attack;
-            _animator.runtimeAnimatorController = attack._animatorOverride;;
-            _animator.SetTrigger("Attack");
 
+            if (attack._isSpAtk)
+            {
+                Vector3 facingDirection = _character._isFacingRight ? transform.right : -transform.right;
+                _targetPos = transform.position + facingDirection * 10;
+                _animator.runtimeAnimatorController = CurrentAttack._startAnimatorOverride;
+                foreach (RaycastHit2D raycastHit2D in Physics2D.RaycastAll(transform.position,facingDirection
+                             , 10))
+                {
+                    if (!raycastHit2D.collider.CompareTag("HurtBox")) continue;
+                    HurtBox hurtBox = raycastHit2D.collider.GetComponent<HurtBox>();
+                    int targetId = hurtBox.Owner.PlayerId;
+                    if (_playerCharacter.PlayerId == targetId) {continue;}
+                    _targetPos = raycastHit2D.transform.position;
+                    hurtBox.Owner.SetBlockedFramesCount(60);
+                    EffectsManager.StartShockwave(transform.position, 3f), 0.2f
+                    break;
+                }
+            }
+            else
+            {
+                _animator.runtimeAnimatorController = attack._animatorOverride;
+            }
+            _animator.SetTrigger(Attack);
+            _animator.SetBool(IsAttacking, true);
+        }
+
+        public void StartSpAtk()
+        {
+            EffectsManager.StartShockwave(_targetPos, 1f);
+
+            Instantiate(CurrentAttack._spAttackGameObject, _targetPos, Quaternion.identity).GetComponent<Wind_elementalspAttack1>().SetCharacter(_playerCharacter);
+            _spriteRenderer.enabled = false;
+        }
+        
+        public void SetEndSpAttackAnimator()
+        {
+            _spriteRenderer.enabled = true;
+            _animator.runtimeAnimatorController = CurrentAttack._endAnimatorOverride;
+            _animator.SetTrigger(Attack);
+            EffectsManager.StartShockwave(_targetPos, 2f, 0.2f);
         }
 
         private void OnPreUpdate()
         {
-            if (_comboCount !=0 && !_isAttacking) _lastAttackFrameAge++;
-            if (_comboCount !=0 && _lastAttackFrameAge > _maxLastAttackFrameAge)
+            if (_comboCount !=0 && !_isAttacking && _canAttack) _lastAttackFrameAge++;
+            if (_comboCount !=0 && _lastAttackFrameAge > _maxLastAttackFrameAge && _canAttack)
             {
                 _comboCount = 0;
                 _lastAttackFrameAge = 0;
                 _prevInputs.Clear();
-                Debug.Log("Resetting Combo");
             }
+            
             
             if (_numberOfJumps == _baseNumberOfJumps)
             {
@@ -169,6 +227,7 @@ namespace ProjectAres.PlayerBundle
                     break;
                 }
             }
+            _animator.SetBool(Grounded, _isGrounded);
         }
         
         private void OnFrameUpdate()
@@ -187,8 +246,8 @@ namespace ProjectAres.PlayerBundle
                 {
                     _rb.velocity = new Vector2(MoveVector.x, _rb.velocity.y);
                     _animator.SetFloat(Speed, Math.Abs(MoveVector.x));
-                    _animator.SetFloat(YSpeed, Math.Abs(_rb.velocity.y));
-                }
+                    _animator.SetFloat(YSpeed, _rb.velocity.y);
+                } 
             }
             // TODO: Rotation also rotates nameplate, needs fixing (look at PlayerTest 3.prefab)
             transform.rotation = Quaternion.Euler(new Vector3(0, _isFlipped ? 180 : 0, 0));
@@ -197,6 +256,7 @@ namespace ProjectAres.PlayerBundle
         public void SetMoveState(bool status)
         {
             CanMove = status;
+            _canAttack = status;
         }
 
         public void StartedAttacking()
@@ -211,6 +271,7 @@ namespace ProjectAres.PlayerBundle
             _isAttacking = false;
             _rb.gravityScale = _gravitySave;
             _lastAttackFrameAge = 0;
+            _animator.SetBool(IsAttacking, false);
         }
 
         // TODO: Implement ActionStack to define actions made in each frame

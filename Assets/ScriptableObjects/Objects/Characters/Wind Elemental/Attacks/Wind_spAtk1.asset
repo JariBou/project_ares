@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a0b96fda05e039489ec42ea6fa40196, type: 3}
+  m_Name: Wind_spAtk1
+  m_EditorClassIdentifier: 
+  _damage: 0
+  _kbAmount: 0
+  _invincibilityFramesCount: 0
+  _blockMoveFramesCount: 0
+  _animatorOverride: {fileID: 0}
+  _maxFramesBeforeNextInput: 10
+  _isSpAtk: 1
+  _startAnimatorOverride: {fileID: 22100000, guid: 427cf05f26b1ccb40b220935249d326d, type: 2}
+  _endAnimatorOverride: {fileID: 22100000, guid: ef11cdf8995ff204b8e2d7c66e55b1c6, type: 2}
+  _spAttackGameObject: {fileID: 4391550005016161083, guid: d559473b88039924b85b80312744902a, type: 3}

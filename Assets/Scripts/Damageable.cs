@@ -29,7 +29,7 @@ namespace ProjectAres
         public bool IsInvincible { get; protected set; }
 
         private BoxCollider2D _pushBox;
-        
+
         // TODO: maybe make red damage taken indicator duration proportional to current iFrames 
         
         public Damageable WithCharacter(int playerId)
@@ -59,11 +59,12 @@ namespace ProjectAres
         
         public void ApplyKb(Vector2 force)
         {
-            Debug.Log($"Force Before Compensation: {force}");
-            force.y *= SpeedCompensationFunction(-_rb.velocity.y);
-            Debug.Log($"Force After Compensation: {force}");
-            
-            _rb.AddForce(force, ForceMode2D.Impulse);
+            // Debug.Log($"Force Before Compensation: {force}");
+            // force.y *= SpeedCompensationFunction(-_rb.velocity.y);
+            // Debug.Log($"Force After Compensation: {force}");
+
+            _rb.velocity = force;
+            // _rb.AddForce(force, ForceMode2D.Impulse);
         }
         
         private float SpeedCompensationFunction(float x)

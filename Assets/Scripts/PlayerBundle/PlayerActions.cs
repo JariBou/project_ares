@@ -80,6 +80,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TriggerR2"",
+                    ""type"": ""Button"",
+                    ""id"": ""182680b1-0e1f-4bde-8b78-c2897c45f7cf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -190,6 +199,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""WestButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39d92692-3668-4899-865f-057e40825047"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TriggerR2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -335,6 +355,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""XBox controller"",
+            ""bindingGroup"": ""XBox controller"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<XInputController>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
@@ -346,6 +377,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_PlayerMap_EastButton = m_PlayerMap.FindAction("EastButton", throwIfNotFound: true);
         m_PlayerMap_NorthButton = m_PlayerMap.FindAction("NorthButton", throwIfNotFound: true);
         m_PlayerMap_WestButton = m_PlayerMap.FindAction("WestButton", throwIfNotFound: true);
+        m_PlayerMap_TriggerR2 = m_PlayerMap.FindAction("TriggerR2", throwIfNotFound: true);
         // MenuNavigation
         m_MenuNavigation = asset.FindActionMap("MenuNavigation", throwIfNotFound: true);
         m_MenuNavigation_Next = m_MenuNavigation.FindAction("Next", throwIfNotFound: true);
@@ -421,6 +453,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerMap_EastButton;
     private readonly InputAction m_PlayerMap_NorthButton;
     private readonly InputAction m_PlayerMap_WestButton;
+    private readonly InputAction m_PlayerMap_TriggerR2;
     public struct PlayerMapActions
     {
         private @PlayerActions m_Wrapper;
@@ -431,6 +464,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @EastButton => m_Wrapper.m_PlayerMap_EastButton;
         public InputAction @NorthButton => m_Wrapper.m_PlayerMap_NorthButton;
         public InputAction @WestButton => m_Wrapper.m_PlayerMap_WestButton;
+        public InputAction @TriggerR2 => m_Wrapper.m_PlayerMap_TriggerR2;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -458,6 +492,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @WestButton.started += instance.OnWestButton;
             @WestButton.performed += instance.OnWestButton;
             @WestButton.canceled += instance.OnWestButton;
+            @TriggerR2.started += instance.OnTriggerR2;
+            @TriggerR2.performed += instance.OnTriggerR2;
+            @TriggerR2.canceled += instance.OnTriggerR2;
         }
 
         private void UnregisterCallbacks(IPlayerMapActions instance)
@@ -480,6 +517,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @WestButton.started -= instance.OnWestButton;
             @WestButton.performed -= instance.OnWestButton;
             @WestButton.canceled -= instance.OnWestButton;
+            @TriggerR2.started -= instance.OnTriggerR2;
+            @TriggerR2.performed -= instance.OnTriggerR2;
+            @TriggerR2.canceled -= instance.OnTriggerR2;
         }
 
         public void RemoveCallbacks(IPlayerMapActions instance)
@@ -592,6 +632,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_PSControllerSchemeIndex];
         }
     }
+    private int m_XBoxcontrollerSchemeIndex = -1;
+    public InputControlScheme XBoxcontrollerScheme
+    {
+        get
+        {
+            if (m_XBoxcontrollerSchemeIndex == -1) m_XBoxcontrollerSchemeIndex = asset.FindControlSchemeIndex("XBox controller");
+            return asset.controlSchemes[m_XBoxcontrollerSchemeIndex];
+        }
+    }
     public interface IPlayerMapActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -600,6 +649,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnEastButton(InputAction.CallbackContext context);
         void OnNorthButton(InputAction.CallbackContext context);
         void OnWestButton(InputAction.CallbackContext context);
+        void OnTriggerR2(InputAction.CallbackContext context);
     }
     public interface IMenuNavigationActions
     {

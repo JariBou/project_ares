@@ -567,6 +567,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b324527d-f39c-4c8e-bfbd-e06f29152157
     m_ActionName: PlayerMap/WestButton[/XInputControllerWindows/buttonWest,/DualShock4GamepadHID/buttonWest]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 182680b1-0e1f-4bde-8b78-c2897c45f7cf
+    m_ActionName: PlayerMap/TriggerR2[/XInputControllerWindows2/rightTrigger,/DualShock4GamepadHID2/rightTrigger,/XInputControllerWindows/rightTrigger,/DualShock4GamepadHID/rightTrigger]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerMap
@@ -750,6 +754,7 @@ MonoBehaviour:
   _groundCheckSize: {x: 1.27, y: 0.15}
   _baseNumberOfJumps: 2
   _maxLastAttackFrameAge: 60
+  _playerCharacter: {fileID: 9192848714573697767}
 --- !u!1 &7304769430697788943
 GameObject:
   m_ObjectHideFlags: 0

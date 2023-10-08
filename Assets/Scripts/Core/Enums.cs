@@ -2,9 +2,10 @@ namespace ProjectAres.Core
 {
     public enum ButtonPos
     {
-        SOUTH,
-        NORTH,
-        EAST,
-        WEST
+        South,
+        North,
+        East,
+        West,
+        TriggerR2
     }
 }

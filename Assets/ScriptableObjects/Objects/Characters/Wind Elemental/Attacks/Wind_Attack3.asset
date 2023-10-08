@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a0b96fda05e039489ec42ea6fa40196, type: 3}
+  m_Name: Wind_Attack3
+  m_EditorClassIdentifier: 
+  _damage: 0
+  _kbAmount: 14
+  _invincibilityFramesCount: 30
+  _blockMoveFramesCount: 30
+  _animatorOverride: {fileID: 22100000, guid: aa55aa2cf0c84d747adde476ad2edd37, type: 2}
+  _maxFramesBeforeNextInput: 10

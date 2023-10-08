@@ -16,13 +16,13 @@ namespace ProjectAres.Core
             Instance = this;
         }
 
-
-        private IEnumerator ShockWaveAction(Vector2 position, float shockwaveTime)
+        private IEnumerator ShockWaveAction(Vector2 position, float shockwaveTime, float shockwaveSize = 0.05f)
         {
             SpriteRenderer spriteRenderer =
                 Instantiate(_shockwavePrefab, position, Quaternion.identity).GetComponent<SpriteRenderer>();
             Material mat = spriteRenderer.material;
             float lerpedAmount = 0f;
+            mat.SetFloat("Size", shockwaveSize);
 
             float elapsedTime = 0f;
             while (elapsedTime < shockwaveTime)
@@ -42,6 +42,11 @@ namespace ProjectAres.Core
         public static void StartShockwave(Vector2 position, float shockwaveTime)
         {
             Instance.StartCoroutine(Instance.ShockWaveAction(position, shockwaveTime));
+        }
+        
+        public static void StartShockwave(Vector2 position, float shockwaveTime, float shockwaveSize)
+        {
+            Instance.StartCoroutine(Instance.ShockWaveAction(position, shockwaveTime, shockwaveSize));
         }
         
         public static void SpawnHitParticles(Vector2 point)

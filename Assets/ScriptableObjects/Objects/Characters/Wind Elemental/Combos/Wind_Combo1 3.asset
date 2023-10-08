@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d4222025e0f3a749b350f299aff3e6c, type: 3}
+  m_Name: Wind_Combo1 3
+  m_EditorClassIdentifier: 
+  Attacks:
+  - _attack: {fileID: 11400000, guid: 31dd1c480b1f98747b9f8f445d73b1fb, type: 2}
+    _buttonPos: 4

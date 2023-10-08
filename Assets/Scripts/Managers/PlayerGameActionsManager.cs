@@ -39,6 +39,7 @@ namespace ProjectAres.Managers
                         target.SetBlockedFramesCount(action.AttackStats.MoveBlockFrames);
                         target.IsAttacked();
                         target.Animator.SetTrigger("Hurt");
+                        Debug.Log($"Attacked {target.name}");
                         break;
                     case PlayerActionType.Block:
                         
