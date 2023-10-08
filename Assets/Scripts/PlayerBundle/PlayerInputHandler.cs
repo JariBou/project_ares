@@ -171,7 +171,7 @@ namespace ProjectAres.PlayerBundle
                     if (_playerCharacter.PlayerId == targetId) {continue;}
                     _targetPos = raycastHit2D.transform.position;
                     hurtBox.Owner.SetBlockedFramesCount(60);
-                    EffectsManager.StartShockwave(transform.position, 3f), 0.2f
+                    EffectsManager.StartShockwave(transform.position, 3f, 0.2f);
                     break;
                 }
             }
