@@ -94,7 +94,7 @@ namespace ProjectAres.PlayerBundle
         public void ButtonSouth(InputAction.CallbackContext context)
         {
             if (!context.performed || _isAttacking || !_canAttack) {return;}
-            EffectsManager.StartShockwave(transform.position, 1f);
+            // EffectsManager.StartShockwave(transform.position, 1f);
         }
         
         public void TriggerR2(InputAction.CallbackContext context)
@@ -185,7 +185,7 @@ namespace ProjectAres.PlayerBundle
 
         public void StartSpAtk()
         {
-            EffectsManager.StartShockwave(_targetPos, 1f);
+            //EffectsManager.StartShockwave(_targetPos, 1f);
 
             Instantiate(CurrentAttack._spAttackGameObject, _targetPos, Quaternion.identity).GetComponent<Wind_elementalspAttack1>().SetCharacter(_playerCharacter);
             _spriteRenderer.enabled = false;

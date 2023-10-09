@@ -35,6 +35,8 @@ namespace ProjectAres.Managers
         [SerializeField] private PlayerGameActionsManager _gameActionsManager;
         public PlayerGameActionsManager GameActionsManager => _gameActionsManager;
 
+        private string _testString = "";
+
         private void Awake()
         {
             if(Instance != null)
@@ -75,7 +77,7 @@ namespace ProjectAres.Managers
                 debugString += inputDevice.name + ", ";
             }
             Debug.Log($"Player {playerIndex} joined with inputs {debugString}   " );
-            
+            Debug.Log($"TestString: {_testString}");
             
             if(PlayerConfigs.All(p => p.PlayerIndex != playerIndex))
             {
@@ -153,6 +155,9 @@ namespace ProjectAres.Managers
         {
             foreach (PlayerConfiguration playerConfig in PlayerConfigs)
             {
+                _testString = $"Spawning player with id {playerConfig.PlayerIndex}";
+                // TODO: Do this lmao
+                _inputManager.playerPrefab = _characterManager[playerConfig.SelectionIndex]._characterPrefab;
                 playerConfig.ChangeInput(_inputManager.JoinPlayer(playerIndex: playerConfig.PlayerIndex, pairWithDevices: playerConfig.InputDevices));
             }
         }

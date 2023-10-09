@@ -25,3 +25,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9ff1e8acd223f0f4881e61bcc499372c, type: 2}
   - {fileID: 11400000, guid: 2f0159db7a4b8924ba88a77a8c91f215, type: 2}
   _isFacingRight: 1
+  _characterPrefab: {fileID: 9157288590551559207, guid: df0d6cb20205e3340a586fc48c08896e, type: 3}

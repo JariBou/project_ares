@@ -21,6 +21,7 @@ namespace ProjectAres.ScriptableObjects.Scripts
 
         public List<AttackComboSO> _attackCombos;
         public bool _isFacingRight;
+        public GameObject _characterPrefab;
         
         public void ApplyPreset(Character preset)
         {
