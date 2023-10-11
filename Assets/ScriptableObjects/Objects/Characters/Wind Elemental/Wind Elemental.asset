@@ -17,6 +17,7 @@ MonoBehaviour:
   _weight: 6
   _speed: 15
   _jumpForce: 21
+  _maxHealth: 126
   _groundCheckOffset: {x: 0, y: -1.18}
   _groundCheckSize: {x: 1.1, y: 0.18}
   _attackCombos:
@@ -26,3 +27,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2f0159db7a4b8924ba88a77a8c91f215, type: 2}
   _isFacingRight: 1
   _characterPrefab: {fileID: 9157288590551559207, guid: df0d6cb20205e3340a586fc48c08896e, type: 3}
+  _characterIcon: {fileID: 21300000, guid: 7c79c79d0c199c547aae10e00a4b170c, type: 3}

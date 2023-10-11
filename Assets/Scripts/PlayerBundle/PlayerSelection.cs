@@ -69,7 +69,6 @@ namespace ProjectAres.PlayerBundle
         {
             if(!context.performed || _isReady || !_isActive) return;
             _selectionIndex = _selectionIndex == 0 ? PlayerManager.Instance.CharacterManager.Count - 1 : _selectionIndex - 1;
-        
             PlayerManager.Instance.PlayerConfigs[_playerId].SelectionIndex = _selectionIndex;
             UpdateDisplay();
         }

@@ -36,7 +36,7 @@ namespace ProjectAres.Managers
                         target.ApplyKb(action.AttackStats.ForceDirection * action.AttackStats.KbValue);
                         target.SetIFrames(action.AttackStats.InvincibilityFrames);
                         target.SetBlockedFramesCount(action.AttackStats.MoveBlockFrames);
-                        target.IsAttacked();
+                        target.IsAttacked(action.AttackStats.Damage);
                         target.Animator.SetTrigger("Hurt");
                         Debug.Log($"Attacked {target.name}");
                         break;

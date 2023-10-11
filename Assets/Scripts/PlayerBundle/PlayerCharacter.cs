@@ -42,11 +42,13 @@ namespace ProjectAres.PlayerBundle
         }
 
         // TODO: Should combine SetBlockedFrames And SetIFrames
-        public override void IsAttacked()
+        public override void IsAttacked(float damage)
         {
-            Debug.Log("I was attacked!!!");
             InputHandler.StopAttacking();
+            PlayerHealth -= damage;
         }
+
+       
 
         #if UNITY_EDITOR
         private void OnValidate()

@@ -35,6 +35,8 @@ namespace ProjectAres.Managers
         [SerializeField] private PlayerGameActionsManager _gameActionsManager;
         public PlayerGameActionsManager GameActionsManager => _gameActionsManager;
 
+        public List<int> DummiesIdList { get; private set; }
+
         private string _testString = "";
 
         private void Awake()
@@ -49,7 +51,16 @@ namespace ProjectAres.Managers
                 _playerConfigs = new List<PlayerConfiguration>(_maxPlayers); // Doesn't need dummy player in this, reserved ol' regular players
                 PlayerCharacters = new List<Damageable>(_maxPlayers+_numberOfDummies); // for dummy players
                 _inputManager = GetComponent<PlayerInputManager>();
+                DummiesIdList = new List<int>(_numberOfDummies);
             }
+        }
+
+        public int AddDummy(Damageable dummy)
+        {
+            PlayerCharacters.Add(dummy);
+            int id = PlayerCharacters.IndexOf(dummy);
+            DummiesIdList.Add(id);
+            return id;
         }
 
         private void Start()

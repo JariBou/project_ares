@@ -12,9 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a0b96fda05e039489ec42ea6fa40196, type: 3}
   m_Name: Wind_Attack1
   m_EditorClassIdentifier: 
-  _damage: 0
+  _damage: 2
   _kbAmount: 7
   _invincibilityFramesCount: 10
   _blockMoveFramesCount: 20
   _animatorOverride: {fileID: 22100000, guid: fb94b58cbe5efc1438abd4b44b9f7e81, type: 2}
   _maxFramesBeforeNextInput: 10
+  _isSpAtk: 0
+  _isInstantCast: 0
+  _startAnimatorOverride: {fileID: 0}
+  _hasEndAnimationCast: 0
+  _endAnimatorOverride: {fileID: 0}
+  _spAttackGameObject: {fileID: 0}

@@ -15,6 +15,8 @@ namespace ProjectAres.ScriptableObjects.Scripts
         public int _weight; // Weight is going to be used to calculate Knockback
         public int _speed;
         public int _jumpForce; // Theoretically shouldn't change, only weight should change, nvm only changing weight isn't enough
+
+        public int _maxHealth = 100;
         // should make some math to find an easy way to setup, maybe with some curves
         public Vector2 _groundCheckOffset;
         public Vector2 _groundCheckSize;
@@ -22,6 +24,7 @@ namespace ProjectAres.ScriptableObjects.Scripts
         public List<AttackComboSO> _attackCombos;
         public bool _isFacingRight;
         public GameObject _characterPrefab;
+        public Sprite _characterIcon;
         
         public void ApplyPreset(Character preset)
         {

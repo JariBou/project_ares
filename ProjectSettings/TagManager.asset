@@ -8,6 +8,7 @@ TagManager:
   - Dummy
   - HurtBox
   - Ground
+  - Managers
   layers:
   - Default
   - TransparentFX

@@ -17,6 +17,7 @@ namespace ProjectAres
         [SerializeField] protected Animator _animator;
         protected Rigidbody2D _rb;
         public int PlayerId { get; protected set; }
+        public float PlayerHealth { get; protected set; }
         public Animator Animator => _animator;
         public Character Character => _character;
 
@@ -32,7 +33,13 @@ namespace ProjectAres
         {
             PlayerId = playerId;
             _character = PlayerManager.Instance.GetCharacterOfPlayer(playerId);
+            PlayerHealth = _character._maxHealth;
             return this;
+        }
+        
+        public float GetPlayerPercentRemainingHp()
+        {
+            return PlayerHealth / _character._maxHealth;
         }
         
         public Damageable SetId(int playerId)
@@ -85,7 +92,7 @@ namespace ProjectAres
             IFramesCount = IFramesCount > 0 ? IFramesCount-1 : 0;
             BlockedFramesCount = BlockedFramesCount > 0 ? BlockedFramesCount-1 : 0;
         }
-        public virtual void IsAttacked(){}
+        public virtual void IsAttacked(float damage){}
         
         public virtual void SetBlockedFramesCount(int frameCount)
         {
