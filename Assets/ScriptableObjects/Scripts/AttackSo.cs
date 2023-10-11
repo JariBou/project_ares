@@ -16,8 +16,10 @@ namespace ProjectAres.ScriptableObjects.Scripts
         public int _maxFramesBeforeNextInput = 10;
         
         public bool _isSpAtk;
-        [ShowIf("_isSpAtk")] public AnimatorOverrideController _startAnimatorOverride;
-        [ShowIf("_isSpAtk")] public AnimatorOverrideController _endAnimatorOverride;
+        [ShowIf("_isSpAtk")] public bool _isInstantCast;
+        [HideIf("_isInstantCast")] public AnimatorOverrideController _startAnimatorOverride;
+        [ShowIf("_isSpAtk")] public bool _hasEndAnimationCast;
+        [ShowIf("_hasEndAnimationCast")] public AnimatorOverrideController _endAnimatorOverride;
         [ShowIf("_isSpAtk")] public GameObject _spAttackGameObject;
     }
 }

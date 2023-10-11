@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using ProjectAres.Core;
 using ProjectAres.ScriptableObjects.Scripts;
@@ -9,11 +10,28 @@ namespace ProjectAres.PlayerBundle
 {
     public class PlayerInputHandler : MonoBehaviour
     {
+        [Header("Character Stats")]
         [SerializeField] private float _speed;
         [SerializeField] private float _jumpForce = 6f;
+        [SerializeField] private int _baseNumberOfJumps = 2; // Might be set in character, can be passed from PlayerCharacter.cs
+        
+        [Header("References")]
         [SerializeField] private Rigidbody2D _rb;
-        public Vector2 _groundCheckOffset;
-        public Vector2 _groundCheckSize;
+        [SerializeField] private GameObject _nameplate;
+        [SerializeField] private PlayerCharacter _playerCharacter;
+        private Character _character;
+        
+        [Header("Combo System")]
+        [SerializeField]private int _maxLastAttackFrameAge = 5;
+        private int _comboCount;
+        private List<ButtonPos> _prevInputs;
+        private int _lastAttackFrameAge;
+        private bool _canAttack = true;
+
+        #region Private Variables
+
+        private Vector2 _groundCheckOffset;
+        private Vector2 _groundCheckSize;
         private Animator _animator;
         private SpriteRenderer _spriteRenderer;
         private bool _isAttacking;
@@ -21,30 +39,30 @@ namespace ProjectAres.PlayerBundle
         private bool _isFlipped;
         private static readonly int Speed = Animator.StringToHash("Speed");
         private static readonly int YSpeed = Animator.StringToHash("ySpeed");
-        [SerializeField] private int _baseNumberOfJumps = 2; // Might be set in character, can be passed from PlayerCharacter.cs
         private int _numberOfJumps;
         private bool _hasJumped;
+        private Vector3 _tempPosMemory;
+
+        #endregion
+        
         public bool CanMove { get; private set; }
 
         private Vector2 MoveVector { get; set; }
         private bool _isGrounded;
         
-        [Header("Combo System")]
-        private Character _character;
-
-        private int _comboCount;
-
-        private List<ButtonPos> _prevInputs;
-        private int _lastAttackFrameAge;
-        [SerializeField]private int _maxLastAttackFrameAge = 5;
-        private bool _canAttack = true;
+        
         private static readonly int Grounded = Animator.StringToHash("Grounded");
         private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
         private static readonly int Attack = Animator.StringToHash("Attack");
+        
         public AttackSo CurrentAttack { get; private set; }
 
+        public Animator SelfAnimator => _animator;
+        public SpriteRenderer Renderer => _spriteRenderer;
+
+        public GameObject Nameplate => _nameplate;
+
         private Vector3 _targetPos;
-        [SerializeField] private PlayerCharacter _playerCharacter;
 
         private void Awake()
         {
@@ -156,47 +174,36 @@ namespace ProjectAres.PlayerBundle
             }
 
             CurrentAttack = attack;
+            _animator.SetBool(IsAttacking, true);
 
             if (attack._isSpAtk)
             {
-                Vector3 facingDirection = _character._isFacingRight ? transform.right : -transform.right;
-                _targetPos = transform.position + facingDirection * 10;
-                _animator.runtimeAnimatorController = CurrentAttack._startAnimatorOverride;
-                foreach (RaycastHit2D raycastHit2D in Physics2D.RaycastAll(transform.position,facingDirection
-                             , 10))
+                if (attack._isInstantCast)
                 {
-                    if (!raycastHit2D.collider.CompareTag("HurtBox")) continue;
-                    HurtBox hurtBox = raycastHit2D.collider.GetComponent<HurtBox>();
-                    int targetId = hurtBox.Owner.PlayerId;
-                    if (_playerCharacter.PlayerId == targetId) {continue;}
-                    _targetPos = raycastHit2D.transform.position;
-                    hurtBox.Owner.SetBlockedFramesCount(60);
-                    EffectsManager.StartShockwave(transform.position, 3f, 0.2f);
-                    break;
+                    StartedAttacking();
+                    Instantiate(CurrentAttack._spAttackGameObject, _targetPos, Quaternion.identity).GetComponent<ISpecialAtk>().SetCharacter(_playerCharacter);
+                    return;
                 }
+
+                _animator.runtimeAnimatorController = attack._startAnimatorOverride;
             }
             else
             {
                 _animator.runtimeAnimatorController = attack._animatorOverride;
             }
             _animator.SetTrigger(Attack);
-            _animator.SetBool(IsAttacking, true);
         }
 
         public void StartSpAtk()
         {
             //EffectsManager.StartShockwave(_targetPos, 1f);
 
-            Instantiate(CurrentAttack._spAttackGameObject, _targetPos, Quaternion.identity).GetComponent<Wind_elementalspAttack1>().SetCharacter(_playerCharacter);
-            _spriteRenderer.enabled = false;
+            Instantiate(CurrentAttack._spAttackGameObject, _targetPos, Quaternion.identity).GetComponent<ISpecialAtk>().SetCharacter(_playerCharacter);
         }
         
-        public void SetEndSpAttackAnimator()
+        public void SetEndSpAttack()
         {
-            _spriteRenderer.enabled = true;
-            _animator.runtimeAnimatorController = CurrentAttack._endAnimatorOverride;
-            _animator.SetTrigger(Attack);
-            EffectsManager.StartShockwave(_targetPos, 2f, 0.2f);
+            StopAttacking();
         }
 
         private void OnPreUpdate()
@@ -274,7 +281,30 @@ namespace ProjectAres.PlayerBundle
             _animator.SetBool(IsAttacking, false);
         }
 
-        // TODO: Implement ActionStack to define actions made in each frame
+        public void TeleportTemp(Vector3 position, float time)
+        {
+            _tempPosMemory = _playerCharacter.transform.position;
+            StartCoroutine(SlideTp(position, time));
+        }
+
+        IEnumerator SlideTp(Vector3 endPosition, float time)
+        {
+            float timeToWait = time / 60;
+            float t = 0;
+            while (t < time)
+            {
+                _playerCharacter.transform.position = Vector3.Lerp(_tempPosMemory, endPosition, t);
+                t += timeToWait;
+                Debug.Log($"TempPosMemory = {_tempPosMemory}");
+                yield return new WaitForSeconds(timeToWait);
+            }
+        }
+
+        public void RolBackTeleport()
+        {
+            StopCoroutine(nameof(SlideTp));
+            _playerCharacter.transform.position = _tempPosMemory;
+        }
     
         private void OnCollisionEnter2D(Collision2D other)
         {

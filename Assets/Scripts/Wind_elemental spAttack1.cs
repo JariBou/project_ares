@@ -1,21 +1,47 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using ProjectAres.Core;
 using ProjectAres.Managers;
 using ProjectAres.PlayerBundle;
-using ProjectAres.ScriptableObjects.Scripts;
 using UnityEngine;
 
 namespace ProjectAres
 {
-    public class Wind_elementalspAttack1 : MonoBehaviour
+    public class WindElementalSpAttack1 : MonoBehaviour, ISpecialAtk
     {
         [SerializeField] private List<SpAtkData> _spAtkData;
         [SerializeField] private Color _castColor;
         [SerializeField] private Vector2 _castOffset;
         [SerializeField] private Vector2 _castSize;
         private PlayerCharacter _owner;
+        private static readonly int Attack = Animator.StringToHash("Attack");
+        private PlayerInputHandler PlayerInputHandler => _owner.InputHandler;
+        private Vector3 _targetPos;
+        private Vector3 Position => PlayerInputHandler.transform.position;
+
+        private void Start()
+        {
+            PlayerInputHandler.Nameplate.SetActive(false);
+            PlayerInputHandler.Renderer.enabled = false;
+            Vector3 facingDirection = PlayerInputHandler.transform.right * (_owner.Character._isFacingRight ? 1 : -1);
+            _targetPos = Position + facingDirection * 10;
+            PlayerInputHandler.SelfAnimator.runtimeAnimatorController = PlayerInputHandler.CurrentAttack._startAnimatorOverride;
+            foreach (RaycastHit2D raycastHit2D in Physics2D.RaycastAll(Position,facingDirection
+                         , 10))
+            {
+                if (!raycastHit2D.collider.CompareTag("HurtBox")) continue;
+                HurtBox hurtBox = raycastHit2D.collider.GetComponent<HurtBox>();
+                int targetId = hurtBox.Owner.PlayerId;
+                if (_owner.PlayerId == targetId) {continue;}
+                _targetPos = raycastHit2D.transform.position;
+                hurtBox.Owner.SetBlockedFramesCount(60);
+                EffectsManager.StartShockwave(Position, 3f, 0.2f);
+                break;
+            }
+
+            transform.position = _targetPos;
+            PlayerInputHandler.TeleportTemp(_targetPos, 1f);
+        }
 
         public void SetCharacter(PlayerCharacter character)
         {
@@ -43,7 +69,19 @@ namespace ProjectAres
 
         public void EndSpAtk()
         {
-            _owner.InputHandler.SetEndSpAttackAnimator();
+            PlayerInputHandler.RolBackTeleport();
+            PlayerInputHandler.Nameplate.SetActive(true);
+            PlayerInputHandler.Renderer.enabled = true;
+            if (PlayerInputHandler.CurrentAttack._hasEndAnimationCast)
+            {
+                PlayerInputHandler.SelfAnimator.runtimeAnimatorController = PlayerInputHandler.CurrentAttack._endAnimatorOverride;
+                PlayerInputHandler.SelfAnimator.SetTrigger(Attack);
+            }
+            else
+            {
+                PlayerInputHandler.SetEndSpAttack();
+            }
+            EffectsManager.StartShockwave(_targetPos, 2f, 0.2f);
             Destroy(gameObject);
         }
         

@@ -1,10 +1,4 @@
-using System;
-using JetBrains.Annotations;
 using NaughtyAttributes;
-using ProjectAres.Core;
-using ProjectAres.Managers;
-using ProjectAres.ScriptableObjects.Scripts;
-using TMPro;
 using UnityEngine;
 
 namespace ProjectAres.PlayerBundle
@@ -12,6 +6,7 @@ namespace ProjectAres.PlayerBundle
     public class PlayerCharacter : Damageable
     {
         [SerializeField] private PlayerInputHandler _playerInputHandler;
+        public PlayerInputHandler InputHandler => _playerInputHandler;
         
         #if UNITY_EDITOR
         [SerializeField, Foldout("Ground Check")] private Vector2 _groundCheckOffset;
@@ -20,7 +15,6 @@ namespace ProjectAres.PlayerBundle
         [SerializeField, Foldout("Ground Check"), ShowIf("_showGroundDetection")] private Color _groundCheckColor;
         #endif
 
-        public PlayerInputHandler InputHandler => _playerInputHandler;
         private static readonly int Hurt = Animator.StringToHash("Hurt");
 
         private void Awake()

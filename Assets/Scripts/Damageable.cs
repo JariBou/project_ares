@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
 using NaughtyAttributes;
 using ProjectAres.Core;
 using ProjectAres.Managers;
@@ -8,7 +5,6 @@ using ProjectAres.PlayerBundle;
 using ProjectAres.ScriptableObjects.Scripts;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace ProjectAres
 {
