@@ -21,16 +21,19 @@ namespace ProjectAres.Core
 
         private static void OnPreUpdate()
         {
+            Debug.Log("Calling All PreUpdates");
             PreUpdate?.Invoke();
         }
 
         private static void OnFrameUpdate()
         {
+            Debug.Log("Calling All FrameUpdates");
             FrameUpdate?.Invoke();
         }
 
         private static void OnPostUpdate()
         {
+            Debug.Log("Calling All PostUpdates");
             PostUpdate?.Invoke();
         }
 

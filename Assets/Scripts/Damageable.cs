@@ -78,15 +78,15 @@ namespace ProjectAres
         
         private void OnEnable()
         {
-            TickManager.PreUpdate += OnPreUpdate;
+            TickManager.PostUpdate += OnPostUpdate;
         }
-
+        
         private void OnDisable()
         {
-            TickManager.PreUpdate -= OnPreUpdate;
+            TickManager.PostUpdate -= OnPostUpdate;
         }
-
-        protected virtual void OnPreUpdate()
+        
+        protected virtual void OnPostUpdate()
         {
             IsInvincible = IFramesCount > 0;
             IFramesCount = IFramesCount > 0 ? IFramesCount-1 : 0;

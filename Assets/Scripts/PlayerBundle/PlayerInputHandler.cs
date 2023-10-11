@@ -239,23 +239,20 @@ namespace ProjectAres.PlayerBundle
         
         private void OnFrameUpdate()
         {
-            if (_isAttacking)
+            switch (CanMove)
             {
-                _rb.velocity = Vector2.zero;
-                _animator.SetFloat(Speed, 0);
-            }
-            else
-            {
-                // Ok so, rn players can only take vertical KB, possible solution: via animator when hurt use a bool
-                // Or: maybe the best, in _onPreFrameActions we chan check if the player's uncontrolable frames are at 0
-                // smth like that u get it right?
-                if (CanMove)
-                {
+                case true when _isAttacking:
+                    _rb.velocity = Vector2.zero;
+                    _animator.SetFloat(Speed, 0);
+                    break;
+
+                case true:
                     _rb.velocity = new Vector2(MoveVector.x, _rb.velocity.y);
                     _animator.SetFloat(Speed, Math.Abs(MoveVector.x));
                     _animator.SetFloat(YSpeed, _rb.velocity.y);
-                } 
+                    break;
             }
+
             // TODO: Rotation also rotates nameplate, needs fixing (look at PlayerTest 3.prefab)
             transform.rotation = Quaternion.Euler(new Vector3(0, _isFlipped ? 180 : 0, 0));
         }

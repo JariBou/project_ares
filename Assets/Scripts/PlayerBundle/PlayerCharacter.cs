@@ -29,9 +29,9 @@ namespace ProjectAres.PlayerBundle
             InputHandler.SetCharacter(_character);
         }
 
-        protected override void OnPreUpdate()
+        protected override void OnPostUpdate()
         {
-            base.OnPreUpdate();
+            base.OnPostUpdate();
             InputHandler.SetMoveState(BlockedFramesCount == 0);
         }
         

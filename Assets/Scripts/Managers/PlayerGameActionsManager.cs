@@ -31,13 +31,12 @@ namespace ProjectAres.Managers
                 switch (action.ActionType)
                 {
                     case PlayerActionType.Attack:
-                        // TODO: Add KB to attacks for feedback
                         if (target.IsInvincible) break;
-                        target.ApplyKb(action.AttackStats.ForceDirection * action.AttackStats.KbValue);
+                        target.Animator.SetTrigger("Hurt");
+                        target.IsAttacked(action.AttackStats.Damage);
                         target.SetIFrames(action.AttackStats.InvincibilityFrames);
                         target.SetBlockedFramesCount(action.AttackStats.MoveBlockFrames);
-                        target.IsAttacked(action.AttackStats.Damage);
-                        target.Animator.SetTrigger("Hurt");
+                        target.ApplyKb(action.AttackStats.ForceDirection * action.AttackStats.KbValue);
                         Debug.Log($"Attacked {target.name}");
                         break;
                     case PlayerActionType.Block:
@@ -51,11 +50,29 @@ namespace ProjectAres.Managers
 
         private void OnFrameUpdate()
         {
-            foreach (PlayerGameAction action in _onUpdateActions)
+            IOrderedEnumerable<PlayerGameAction> playerGameActions = _onUpdateActions.OrderBy(action => action.ActionType);
+
+            foreach ((PlayerGameAction action, int index) in playerGameActions.Select((value, i) => ( value, i )))
             {
+                // Idk if block should actually be here... maybe a bool on PlayerCharacter?
+                // Because rn this implies sending an event to _preUpdateActions every frame to say the player is blocking
+                Damageable source = PlayerManager.GetPlayerCharacterStatic(action.OwnerId);
+                Damageable target = PlayerManager.GetPlayerCharacterStatic(action.TargetId);
                 
+                switch (action.ActionType)
+                {
+                    case PlayerActionType.Attack:
+                        target.SetIFrames(action.AttackStats.InvincibilityFrames);
+                        target.SetBlockedFramesCount(action.AttackStats.MoveBlockFrames);
+                        target.ApplyKb(action.AttackStats.ForceDirection * action.AttackStats.KbValue);
+                        Debug.Log($"Attacked {target.name}");
+                        break;
+                    case PlayerActionType.Block:
+                        
+                        break;
+                }
             }
-            
+
             _onUpdateActions = new List<PlayerGameAction>(16);
         }
         
