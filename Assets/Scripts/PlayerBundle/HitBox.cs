@@ -7,8 +7,8 @@ namespace ProjectAres.PlayerBundle
 {
     public class HitBox : MonoBehaviour
     {
-        [SerializeField] private PlayerCharacter _owner;
-        public PlayerCharacter Owner => _owner;
+        [SerializeField] private PlayerCharacterOld _owner;
+        public PlayerCharacterOld Owner => _owner;
 
         [SerializeField] private PlayerInputHandler _playerInputHandler;
 

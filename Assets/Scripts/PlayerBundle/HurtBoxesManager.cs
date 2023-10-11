@@ -8,7 +8,7 @@ namespace ProjectAres.PlayerBundle
     {
         [SerializeField] private List<HurtBox> _hurtBoxes;
 
-        public void SetOwners(PlayerCharacter owner)
+        public void SetOwners(PlayerCharacterOld owner)
         {
             foreach (HurtBox hurtBox in _hurtBoxes)
             {
@@ -17,6 +17,14 @@ namespace ProjectAres.PlayerBundle
         }
         
         public void SetOwners(Damageable owner)
+        {
+            foreach (HurtBox hurtBox in _hurtBoxes)
+            {
+                hurtBox.SetOwner(owner);
+            }
+        }
+        
+        public void SetOwners(IDamageable owner)
         {
             foreach (HurtBox hurtBox in _hurtBoxes)
             {

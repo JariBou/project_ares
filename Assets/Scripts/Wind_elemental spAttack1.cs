@@ -15,9 +15,9 @@ namespace ProjectAres
         [SerializeField] private Color _castColor;
         [SerializeField] private Vector2 _castOffset;
         [SerializeField] private Vector2 _castSize;
-        private PlayerCharacter _owner;
+        private PlayerCharacterOld _owner;
 
-        public void SetCharacter(PlayerCharacter character)
+        public void SetCharacter(PlayerCharacterOld character)
         {
             _owner = character;
         }
