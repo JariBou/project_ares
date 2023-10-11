@@ -11,22 +11,20 @@ namespace ProjectAres
     public class Damageable : MonoBehaviour
     {
         [SerializeField] protected HurtBoxesManager _hurtBoxesManager;
-
         [SerializeField] protected TMP_Text _text;
-        [SerializeField, Expandable] protected Character _character;
         [SerializeField] protected Animator _animator;
+        [SerializeField, Expandable] protected Character _character;
+        
         protected Rigidbody2D _rb;
+        protected int IFramesCount;
+        protected int BlockedFramesCount;
         public int PlayerId { get; protected set; }
         public float PlayerHealth { get; protected set; }
         public Animator Animator => _animator;
         public Character Character => _character;
 
-        protected int IFramesCount;
-        protected int BlockedFramesCount;
         public bool IsInvincible { get; protected set; }
-
-        private BoxCollider2D _pushBox;
-
+        
         // TODO: maybe make red damage taken indicator duration proportional to current iFrames 
         
         public Damageable WithCharacter(int playerId)

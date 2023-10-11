@@ -42,27 +42,26 @@ namespace ProjectAres.PlayerBundle
         private int _numberOfJumps;
         private bool _hasJumped;
         private Vector3 _tempPosMemory;
-
-        #endregion
-        
-        public bool CanMove { get; private set; }
-
+        private Vector3 _targetPos;
         private Vector2 MoveVector { get; set; }
         private bool _isGrounded;
-        
-        
+        private bool CanMove { get; set; }
+
+        #endregion
+
+
         private static readonly int Grounded = Animator.StringToHash("Grounded");
         private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
         private static readonly int Attack = Animator.StringToHash("Attack");
-        
+
+        #region Properties
         public AttackSo CurrentAttack { get; private set; }
 
         public Animator SelfAnimator => _animator;
         public SpriteRenderer Renderer => _spriteRenderer;
 
         public GameObject Nameplate => _nameplate;
-
-        private Vector3 _targetPos;
+        #endregion
 
         private void Awake()
         {
@@ -253,7 +252,6 @@ namespace ProjectAres.PlayerBundle
                     break;
             }
 
-            // TODO: Rotation also rotates nameplate, needs fixing (look at PlayerTest 3.prefab)
             transform.rotation = Quaternion.Euler(new Vector3(0, _isFlipped ? 180 : 0, 0));
         }
 

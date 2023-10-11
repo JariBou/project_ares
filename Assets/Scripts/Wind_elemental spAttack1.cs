@@ -34,6 +34,7 @@ namespace ProjectAres
                 int targetId = hurtBox.Owner.PlayerId;
                 if (_owner.PlayerId == targetId) {continue;}
                 _targetPos = raycastHit2D.transform.position;
+                // TODO: this fucks up everything (enemy gets rooted although he moved)
                 hurtBox.Owner.SetBlockedFramesCount(60);
                 EffectsManager.StartShockwave(Position, 3f, 0.2f);
                 break;

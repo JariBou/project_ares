@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ProjectAres.Core
 {
@@ -9,12 +10,12 @@ namespace ProjectAres.Core
         public static event Action FrameUpdate;
         public static event Action PostUpdate;
 
-        [SerializeField] private int framerate = 60;
+        [SerializeField] private int _framerate = 60;
 
 
         private void Awake()
         {
-            Application.targetFrameRate = framerate;
+            Application.targetFrameRate = _framerate;
             Physics2D.simulationMode = SimulationMode2D.Update;
             DontDestroyOnLoad(gameObject);
         }
