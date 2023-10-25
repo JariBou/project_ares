@@ -18,6 +18,7 @@ namespace ProjectAres.Managers
         [Header("Game Settings")]
         [SerializeField] private int _maxPlayers = 2;
         [SerializeField] private int _numberOfDummies = 1;
+        [SerializeField] private bool _displayCharacterName = true;
 
         #region Private Fields
         
@@ -35,6 +36,7 @@ namespace ProjectAres.Managers
         public CharacterManager CharacterManager => _characterManager;
         public PlayerGameActionsManager GameActionsManager => _gameActionsManager;
         public List<int> DummiesIdList { get; private set; }
+        public bool DisplayCharacterName => _displayCharacterName;
 
         #endregion
         
@@ -153,8 +155,8 @@ namespace ProjectAres.Managers
         private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
             _scenePlayerSpawnInfos = GameObject.FindWithTag("SceneInfoProvider").GetComponent<ScenePlayerSpawnInfo>();
-            _inputManager.joinBehavior = _scenePlayerSpawnInfos._joinBehavior;
             _inputManager.playerPrefab = _scenePlayerSpawnInfos._playerPrefab;
+            _inputManager.joinBehavior = _scenePlayerSpawnInfos._joinBehavior;
 
             if (_scenePlayerSpawnInfos._joinBehavior == PlayerJoinBehavior.JoinPlayersManually)
             {

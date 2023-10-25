@@ -672,7 +672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52dfe2cb5a23ea449b9b4c73e5a60527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  framerate: 60
+  _framerate: 60
 --- !u!114 &1090359734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -711,12 +711,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99b2a3f2eeef37a4290a99cf6f72ebea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerConfigs: []
+  _characterManager: {fileID: 11400000, guid: 2deaac2f2be1bc843830828fd6ae5448, type: 2}
   _maxPlayers: 2
   _numberOfDummies: 1
-  _scenePlayerSpawnInfos: {fileID: 0}
-  _characterManager: {fileID: 11400000, guid: 2deaac2f2be1bc843830828fd6ae5448, type: 2}
-  _gameActionsManager: {fileID: 1090359735}
+  _displayCharacterName: 0
 --- !u!114 &1090359737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -732,7 +730,7 @@ MonoBehaviour:
   m_NotificationBehavior: 2
   m_MaxPlayerCount: -1
   m_AllowJoining: 1
-  m_JoinBehavior: 0
+  m_JoinBehavior: 2
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls:

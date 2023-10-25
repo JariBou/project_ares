@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using ProjectAres.Managers;
 using UnityEngine;
 
 namespace ProjectAres.PlayerBundle
@@ -7,6 +8,7 @@ namespace ProjectAres.PlayerBundle
     {
         [SerializeField] private PlayerInputHandler _playerInputHandler;
         public PlayerInputHandler InputHandler => _playerInputHandler;
+        private PlayerManager _playerManager;
         
         #if UNITY_EDITOR
         [SerializeField, Foldout("Ground Check")] private Vector2 _groundCheckOffset;
@@ -20,12 +22,13 @@ namespace ProjectAres.PlayerBundle
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            _playerManager = GameObject.FindWithTag("Managers").GetComponent<PlayerManager>();
         }
 
         void Start()
         {
-            _text.text = _character._name;
-            _hurtBoxesManager.SetOwners(this);
+            _text.text = _playerManager.DisplayCharacterName ? _character._name : $"Player {PlayerId}";
+            _hurtBoxesManager.SetOwners(this); 
             InputHandler.SetCharacter(_character);
         }
 
