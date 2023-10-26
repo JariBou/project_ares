@@ -690,6 +690,7 @@ MonoBehaviour:
   _speed: 8
   _jumpForce: 17
   _rb: {fileID: 496892430240876583}
+  _nameplate: {fileID: 2130661391962458734}
   _groundCheckOffset: {x: 0, y: -1.1}
   _groundCheckSize: {x: 1.03, y: 0.15}
   _baseNumberOfJumps: 2

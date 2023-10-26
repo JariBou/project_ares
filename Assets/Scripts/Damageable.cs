@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
 using NaughtyAttributes;
 using ProjectAres.Core;
 using ProjectAres.Managers;
@@ -8,27 +5,29 @@ using ProjectAres.PlayerBundle;
 using ProjectAres.ScriptableObjects.Scripts;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace ProjectAres
 {
     public class Damageable : MonoBehaviour
     {
         [SerializeField] protected HurtBoxesManager _hurtBoxesManager;
-
         [SerializeField] protected TMP_Text _text;
-        [SerializeField, Expandable] protected Character _character;
         [SerializeField] protected Animator _animator;
+        [SerializeField] protected PlayerManager _playerManager;
+        [SerializeField, Expandable] protected Character _character;
+        
         protected Rigidbody2D _rb;
+        protected int IFramesCount;
+        protected int BlockedFramesCount;
+        protected Vector3 StartPos;
         public int PlayerId { get; protected set; }
+        public float PlayerHealth { get; protected set; }
         public Animator Animator => _animator;
         public Character Character => _character;
 
-        protected int IFramesCount;
-        protected int BlockedFramesCount;
         public bool IsInvincible { get; protected set; }
 
-        private BoxCollider2D _pushBox;
+        public PlayerManager Manager => _playerManager;
 
         // TODO: maybe make red damage taken indicator duration proportional to current iFrames 
         
@@ -36,7 +35,13 @@ namespace ProjectAres
         {
             PlayerId = playerId;
             _character = PlayerManager.Instance.GetCharacterOfPlayer(playerId);
+            PlayerHealth = _character._maxHealth;
             return this;
+        }
+        
+        public float GetPlayerPercentRemainingHp()
+        {
+            return PlayerHealth / _character._maxHealth;
         }
         
         public Damageable SetId(int playerId)
@@ -75,25 +80,31 @@ namespace ProjectAres
         
         private void OnEnable()
         {
-            TickManager.PreUpdate += OnPreUpdate;
+            TickManager.PostUpdate += OnPostUpdate;
         }
-
+        
         private void OnDisable()
         {
-            TickManager.PreUpdate -= OnPreUpdate;
+            TickManager.PostUpdate -= OnPostUpdate;
         }
-
-        protected virtual void OnPreUpdate()
+        
+        protected virtual void OnPostUpdate()
         {
             IsInvincible = IFramesCount > 0;
             IFramesCount = IFramesCount > 0 ? IFramesCount-1 : 0;
             BlockedFramesCount = BlockedFramesCount > 0 ? BlockedFramesCount-1 : 0;
         }
-        public virtual void IsAttacked(){}
+        public virtual void IsAttacked(float damage){}
         
         public virtual void SetBlockedFramesCount(int frameCount)
         {
             BlockedFramesCount = frameCount;
+        }
+
+        public void Respawn()
+        {
+            _rb.velocity = Vector2.zero;
+            transform.position = StartPos;
         }
 
     }

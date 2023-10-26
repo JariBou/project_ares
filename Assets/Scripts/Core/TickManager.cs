@@ -9,28 +9,31 @@ namespace ProjectAres.Core
         public static event Action FrameUpdate;
         public static event Action PostUpdate;
 
-        [SerializeField] private int framerate = 60;
+        [SerializeField] private int _framerate = 60;
 
 
         private void Awake()
         {
-            Application.targetFrameRate = framerate;
+            Application.targetFrameRate = _framerate;
             Physics2D.simulationMode = SimulationMode2D.Update;
             DontDestroyOnLoad(gameObject);
         }
 
         private static void OnPreUpdate()
         {
+            Debug.Log("Calling All PreUpdates");
             PreUpdate?.Invoke();
         }
 
         private static void OnFrameUpdate()
         {
+            Debug.Log("Calling All FrameUpdates");
             FrameUpdate?.Invoke();
         }
 
         private static void OnPostUpdate()
         {
+            Debug.Log("Calling All PostUpdates");
             PostUpdate?.Invoke();
         }
 

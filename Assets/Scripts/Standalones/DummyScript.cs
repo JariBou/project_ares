@@ -1,5 +1,4 @@
 using ProjectAres.Managers;
-using ProjectAres.PlayerBundle;
 using ProjectAres.ScriptableObjects.Scripts;
 using UnityEngine;
 
@@ -12,12 +11,13 @@ namespace ProjectAres.Standalones
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            _playerManager = GameObject.FindWithTag("Managers").GetComponent<PlayerManager>();
+            StartPos = transform.position;
         }
         
         private void Start()
         {
-            PlayerManager.Instance.PlayerCharacters.Add(this);
-            int id = PlayerManager.Instance.PlayerCharacters.IndexOf(this);
+            int id = _playerManager.AddDummy(this);
             _text.text = _character._name;
             _hurtBoxesManager.SetOwners(this);
             SetId(id);

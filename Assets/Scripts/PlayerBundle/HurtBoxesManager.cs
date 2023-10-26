@@ -7,14 +7,6 @@ namespace ProjectAres.PlayerBundle
     public class HurtBoxesManager : MonoBehaviour
     {
         [SerializeField] private List<HurtBox> _hurtBoxes;
-
-        public void SetOwners(PlayerCharacter owner)
-        {
-            foreach (HurtBox hurtBox in _hurtBoxes)
-            {
-                hurtBox.SetOwner(owner);
-            }
-        }
         
         public void SetOwners(Damageable owner)
         {

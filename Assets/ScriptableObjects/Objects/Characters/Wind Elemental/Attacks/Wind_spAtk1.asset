@@ -19,6 +19,8 @@ MonoBehaviour:
   _animatorOverride: {fileID: 0}
   _maxFramesBeforeNextInput: 10
   _isSpAtk: 1
+  _isInstantCast: 0
   _startAnimatorOverride: {fileID: 22100000, guid: 427cf05f26b1ccb40b220935249d326d, type: 2}
+  _hasEndAnimationCast: 1
   _endAnimatorOverride: {fileID: 22100000, guid: ef11cdf8995ff204b8e2d7c66e55b1c6, type: 2}
   _spAttackGameObject: {fileID: 4391550005016161083, guid: d559473b88039924b85b80312744902a, type: 3}

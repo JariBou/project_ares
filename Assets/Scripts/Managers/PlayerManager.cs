@@ -11,32 +11,37 @@ namespace ProjectAres.Managers
 {
     public class PlayerManager : MonoBehaviour
     {
-        [SerializeField]
-        private List<PlayerConfiguration> _playerConfigs;
-    
-        [SerializeField]
-        private int _maxPlayers = 2;
-        [SerializeField]
-        private int _numberOfDummies = 1;
-
-        public int MaxPlayers => _maxPlayers;
-
-        [SerializeField] private ScenePlayerSpawnInfo _scenePlayerSpawnInfos;
-
+        // TODO: Remove Instance
         public static PlayerManager Instance { get; private set; }
-        public List<Damageable> PlayerCharacters { get; private set; }
-
-        public List<PlayerConfiguration> PlayerConfigs => _playerConfigs;
-
-        private PlayerInputManager _inputManager;
-
+    
         [SerializeField] private CharacterManager _characterManager;
+        [Header("Game Settings")]
+        [SerializeField] private int _maxPlayers = 2;
+        [SerializeField] private int _numberOfDummies = 1;
+        [SerializeField] private bool _displayCharacterName = true;
+        [SerializeField] private List<Color> _playerColors;
+
+        #region Private Fields
+        
+        private PlayerGameActionsManager _gameActionsManager;
+        private ScenePlayerSpawnInfo _scenePlayerSpawnInfos;
+        private PlayerInputManager _inputManager;
+        private List<PlayerConfiguration> _playerConfigs;
+        
+        #endregion
+
+        #region Properties
+
+        public List<Damageable> PlayerCharacters { get; private set; }
+        public List<PlayerConfiguration> PlayerConfigs => _playerConfigs;
         public CharacterManager CharacterManager => _characterManager;
-        [SerializeField] private PlayerGameActionsManager _gameActionsManager;
         public PlayerGameActionsManager GameActionsManager => _gameActionsManager;
+        public List<int> DummiesIdList { get; private set; }
+        public bool DisplayCharacterName => _displayCharacterName;
 
-        private string _testString = "";
-
+        #endregion
+        
+        
         private void Awake()
         {
             if(Instance != null)
@@ -49,7 +54,17 @@ namespace ProjectAres.Managers
                 _playerConfigs = new List<PlayerConfiguration>(_maxPlayers); // Doesn't need dummy player in this, reserved ol' regular players
                 PlayerCharacters = new List<Damageable>(_maxPlayers+_numberOfDummies); // for dummy players
                 _inputManager = GetComponent<PlayerInputManager>();
+                _gameActionsManager = GetComponent<PlayerGameActionsManager>();
+                DummiesIdList = new List<int>(_numberOfDummies);
             }
+        }
+
+        public int AddDummy(Damageable dummy)
+        {
+            PlayerCharacters.Add(dummy);
+            int id = PlayerCharacters.IndexOf(dummy);
+            DummiesIdList.Add(id);
+            return id;
         }
 
         private void Start()
@@ -77,7 +92,6 @@ namespace ProjectAres.Managers
                 debugString += inputDevice.name + ", ";
             }
             Debug.Log($"Player {playerIndex} joined with inputs {debugString}   " );
-            Debug.Log($"TestString: {_testString}");
             
             if(PlayerConfigs.All(p => p.PlayerIndex != playerIndex))
             {
@@ -103,6 +117,9 @@ namespace ProjectAres.Managers
                     break;
                 case SceneBuildIndex.SelectionMenu:
                     //pi.GetComponent<PlayerSelection>().SetActive();
+                    break;
+                default:
+                    Debug.LogWarning("Scene not handled by Player Manager");
                     break;
             }
 
@@ -142,8 +159,8 @@ namespace ProjectAres.Managers
         private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
             _scenePlayerSpawnInfos = GameObject.FindWithTag("SceneInfoProvider").GetComponent<ScenePlayerSpawnInfo>();
-            _inputManager.joinBehavior = _scenePlayerSpawnInfos._joinBehavior;
             _inputManager.playerPrefab = _scenePlayerSpawnInfos._playerPrefab;
+            _inputManager.joinBehavior = _scenePlayerSpawnInfos._joinBehavior;
 
             if (_scenePlayerSpawnInfos._joinBehavior == PlayerJoinBehavior.JoinPlayersManually)
             {
@@ -155,7 +172,6 @@ namespace ProjectAres.Managers
         {
             foreach (PlayerConfiguration playerConfig in PlayerConfigs)
             {
-                _testString = $"Spawning player with id {playerConfig.PlayerIndex}";
                 // TODO: Do this lmao
                 _inputManager.playerPrefab = _characterManager[playerConfig.SelectionIndex]._characterPrefab;
                 playerConfig.ChangeInput(_inputManager.JoinPlayer(playerIndex: playerConfig.PlayerIndex, pairWithDevices: playerConfig.InputDevices));
@@ -171,9 +187,15 @@ namespace ProjectAres.Managers
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
+
+        public Color GetColorOfPlayer(int playerId)
+        {
+            if (playerId >= _playerColors.Count)
+            {
+                Debug.LogError("Player ID out of range of _PlayerColors");
+                return Color.black;
+            }
+            return _playerColors[playerId];
+        }
     }
-
-    
-
-    
 }

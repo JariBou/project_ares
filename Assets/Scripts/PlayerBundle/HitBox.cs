@@ -8,7 +8,6 @@ namespace ProjectAres.PlayerBundle
     public class HitBox : MonoBehaviour
     {
         [SerializeField] private PlayerCharacter _owner;
-        public PlayerCharacter Owner => _owner;
 
         [SerializeField] private PlayerInputHandler _playerInputHandler;
 
@@ -21,10 +20,10 @@ namespace ProjectAres.PlayerBundle
             if (_owner.PlayerId == targetId) {return;}
             
             // hurtBox.Owner.transform.position is usually the center of gravity of a player
-            Vector2 direction = (hurtBox.Owner.transform.position - Owner.transform.position).normalized;
+            Vector2 direction = (hurtBox.Owner.transform.position - _owner.transform.position).normalized * 10f;
             AttackSo attackSo = _playerInputHandler.CurrentAttack;
             AttackStats attackStats = new(attackSo._damage, attackSo._kbAmount, direction, attackSo._invincibilityFramesCount, attackSo._blockMoveFramesCount);
-            PlayerManager.Instance.GameActionsManager.AddPreUpdateAction(new PlayerGameAction(Owner.PlayerId, targetId, PlayerActionType.Attack, attackStats));
+            PlayerManager.Instance.GameActionsManager.AddPreUpdateAction(new PlayerGameAction(_owner.PlayerId, targetId, PlayerActionType.Attack, attackStats));
         }
     }
 }

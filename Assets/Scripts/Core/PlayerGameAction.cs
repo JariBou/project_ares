@@ -46,12 +46,4 @@ namespace ProjectAres.Core
         
     }
 
-    // Order of enum is order of execution
-    public enum PlayerActionType
-    {
-        Block,
-        Attack,
-        IFrames,
-        MoveBlockFrames
-    }
 }

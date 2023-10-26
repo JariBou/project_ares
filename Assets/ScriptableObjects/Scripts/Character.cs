@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using NaughtyAttributes;
 using ProjectAres.Core;
+using UnityEditor;
 using UnityEngine;
 
 namespace ProjectAres.ScriptableObjects.Scripts
@@ -9,20 +11,27 @@ namespace ProjectAres.ScriptableObjects.Scripts
     [CreateAssetMenu(menuName = "ScriptableObjects/Character")]
     public class Character : ScriptableObject
     {
+
+        [Header("Base Stats")]
         public string _name = "New Blank Character";
         public CharacterType _characterType = CharacterType.None;
-
+        public int _maxHealth = 100;
         public int _weight; // Weight is going to be used to calculate Knockback
         public int _speed;
         public int _jumpForce; // Theoretically shouldn't change, only weight should change, nvm only changing weight isn't enough
         // should make some math to find an easy way to setup, maybe with some curves
+
+        [Header("Ground Check")]
         public Vector2 _groundCheckOffset;
         public Vector2 _groundCheckSize;
 
+        [Space]
         public List<AttackComboSO> _attackCombos;
-        public bool _isFacingRight;
+        [Header("Display and Spawning")]
         public GameObject _characterPrefab;
-        
+        public Sprite _characterIcon;
+        public bool _isFacingRight;
+
         public void ApplyPreset(Character preset)
         {
             _name = preset._name;
@@ -32,21 +41,6 @@ namespace ProjectAres.ScriptableObjects.Scripts
             _characterType = preset._characterType;
         }
 
-
-        public List<AttackComboSO> GetPossibleCombos(List<ButtonPos> previousInputs)
-        {
-            List<AttackComboSO> possibleCombos = new List<AttackComboSO>(_attackCombos.Count);
-
-            foreach (AttackComboSO comboSo in _attackCombos)
-            {
-                if (HasCombination(comboSo, previousInputs))
-                {
-                    possibleCombos.Add(comboSo);
-                }
-            }
-
-            return possibleCombos;
-        }
         /// <summary>
         /// Returns the first Combo found with the provided inputs
         /// </summary>
@@ -64,26 +58,6 @@ namespace ProjectAres.ScriptableObjects.Scripts
             }
         
             throw new InvalidOperationException($"No Current Combo on Character '{_name}' for inputs '{previousInputs}'");
-        }
-        
-        /// <summary>
-        /// Returns the current combo attack defined by previous inputs and comboCount
-        /// Defaults to the Base Attack of the last provided Input
-        /// </summary>
-        /// <param name="previousInputs"></param>
-        /// <param name="comboCount"></param>
-        /// <returns></returns>
-        public AttackSo GetCurrentComboAttack(List<ButtonPos> previousInputs, int comboCount)
-        {
-            try
-            {
-                return GetCurrentCombo(previousInputs).Attacks[comboCount].Attack;
-            }
-            catch (InvalidOperationException e)
-            {
-                Console.WriteLine(e);
-                return GetBaseAttackOfInput(previousInputs[^1]);
-            }
         }
         
         /// <summary>
@@ -109,7 +83,29 @@ namespace ProjectAres.ScriptableObjects.Scripts
             }
         }
 
-        public AttackSo GetBaseAttackOfInput(ButtonPos input)
+        [Button]
+        private void GetAllCreatedCombos()
+        {
+            string pathToFile = AssetDatabase.GetAssetPath(this);
+            string[] pathToDirectory = pathToFile.Split("/")[Range.EndAt(^1)];
+            string path = "";
+            foreach (string folder in pathToDirectory)
+            {
+                path += folder + "/";
+            }
+            path += "Combos";
+            DirectoryInfo info = new(path);
+            FileInfo[] fileInfo = info.GetFiles();
+            _attackCombos = new List<AttackComboSO>();
+            foreach (FileInfo fileInfo1 in fileInfo)
+            {
+                string filename = fileInfo1.Name;
+                if (filename.EndsWith(".meta")) continue;
+                _attackCombos.Add(AssetDatabase.LoadAssetAtPath<AttackComboSO>(path+$"/{filename}"));
+            }
+        }
+
+        private AttackSo GetBaseAttackOfInput(ButtonPos input)
         {
             foreach (AttackComboSO attackComboSo in _attackCombos)
             {
@@ -139,11 +135,4 @@ namespace ProjectAres.ScriptableObjects.Scripts
     }
 
 
-    public enum CharacterType
-    {
-        None =3,
-        Light = 0,
-        Regular = 1,
-        Heavy = 2,
-    }
 }
