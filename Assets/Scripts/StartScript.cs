@@ -8,7 +8,8 @@ namespace ProjectAres
     {
         private void Start()
         {
-            Screen.SetResolution(1920, 1080, FullScreenMode.Windowed, 60);
+            Screen.SetResolution(1920, 1080, FullScreenMode.Windowed, new RefreshRate { numerator = 60, denominator = 1 });
+            
         
             SceneManager.LoadScene((int)SceneBuildIndex.SelectionMenu);
         }

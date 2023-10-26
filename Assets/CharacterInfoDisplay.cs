@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using ProjectAres.Core;
-using ProjectAres.PlayerBundle;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +12,12 @@ namespace ProjectAres
         [SerializeField] private Image _characterImage;
 
         private Damageable _linkedPlayerCharacter;
+
+        private void Start()
+        {
+            _remainingHpPercent.color =
+                _linkedPlayerCharacter.Manager.GetColorOfPlayer(_linkedPlayerCharacter.PlayerId);
+        }
 
         public void SetPlayerCharacter(Damageable playerCharacter)
         {

@@ -713,8 +713,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterManager: {fileID: 11400000, guid: 2deaac2f2be1bc843830828fd6ae5448, type: 2}
   _maxPlayers: 2
-  _numberOfDummies: 1
+  _numberOfDummies: 7
   _displayCharacterName: 0
+  _playerColors:
+  - {r: 0.113642514, g: 0.7169812, b: 0, a: 1}
+  - {r: 0.6037736, g: 0.048415814, b: 0.048415814, a: 1}
+  - {r: 0, g: 0.41531873, b: 0.8113208, a: 1}
+  - {r: 1, g: 0.74682754, b: 0, a: 1}
 --- !u!114 &1090359737
 MonoBehaviour:
   m_ObjectHideFlags: 0

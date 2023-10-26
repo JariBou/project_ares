@@ -13,18 +13,22 @@ namespace ProjectAres
         [SerializeField] protected HurtBoxesManager _hurtBoxesManager;
         [SerializeField] protected TMP_Text _text;
         [SerializeField] protected Animator _animator;
+        [SerializeField] protected PlayerManager _playerManager;
         [SerializeField, Expandable] protected Character _character;
         
         protected Rigidbody2D _rb;
         protected int IFramesCount;
         protected int BlockedFramesCount;
+        protected Vector3 StartPos;
         public int PlayerId { get; protected set; }
         public float PlayerHealth { get; protected set; }
         public Animator Animator => _animator;
         public Character Character => _character;
 
         public bool IsInvincible { get; protected set; }
-        
+
+        public PlayerManager Manager => _playerManager;
+
         // TODO: maybe make red damage taken indicator duration proportional to current iFrames 
         
         public Damageable WithCharacter(int playerId)
@@ -95,6 +99,12 @@ namespace ProjectAres
         public virtual void SetBlockedFramesCount(int frameCount)
         {
             BlockedFramesCount = frameCount;
+        }
+
+        public void Respawn()
+        {
+            _rb.velocity = Vector2.zero;
+            transform.position = StartPos;
         }
 
     }

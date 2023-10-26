@@ -1,3 +1,4 @@
+using System;
 using NaughtyAttributes;
 using ProjectAres.Managers;
 using UnityEngine;
@@ -8,7 +9,6 @@ namespace ProjectAres.PlayerBundle
     {
         [SerializeField] private PlayerInputHandler _playerInputHandler;
         public PlayerInputHandler InputHandler => _playerInputHandler;
-        private PlayerManager _playerManager;
         
         #if UNITY_EDITOR
         [SerializeField, Foldout("Ground Check")] private Vector2 _groundCheckOffset;
@@ -23,11 +23,13 @@ namespace ProjectAres.PlayerBundle
         {
             _rb = GetComponent<Rigidbody2D>();
             _playerManager = GameObject.FindWithTag("Managers").GetComponent<PlayerManager>();
+            StartPos = transform.position;
         }
 
         void Start()
         {
             _text.text = _playerManager.DisplayCharacterName ? _character._name : $"Player {PlayerId}";
+            _text.color = _playerManager.GetColorOfPlayer(PlayerId);
             _hurtBoxesManager.SetOwners(this); 
             InputHandler.SetCharacter(_character);
         }
@@ -56,8 +58,15 @@ namespace ProjectAres.PlayerBundle
         #if UNITY_EDITOR
         private void OnValidate()
         {
-            _character._groundCheckOffset = _groundCheckOffset;
-            _character._groundCheckSize = _groundCheckSize;
+            try
+            {
+                _character._groundCheckOffset = _groundCheckOffset;
+                _character._groundCheckSize = _groundCheckSize;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(e);
+            }
         }
 
         private void OnDrawGizmos()

@@ -19,6 +19,7 @@ namespace ProjectAres.Managers
         [SerializeField] private int _maxPlayers = 2;
         [SerializeField] private int _numberOfDummies = 1;
         [SerializeField] private bool _displayCharacterName = true;
+        [SerializeField] private List<Color> _playerColors;
 
         #region Private Fields
         
@@ -117,6 +118,9 @@ namespace ProjectAres.Managers
                 case SceneBuildIndex.SelectionMenu:
                     //pi.GetComponent<PlayerSelection>().SetActive();
                     break;
+                default:
+                    Debug.LogWarning("Scene not handled by Player Manager");
+                    break;
             }
 
             PlayerConfigs[playerIndex].InputDevices = pi.devices.ToArray();
@@ -183,9 +187,15 @@ namespace ProjectAres.Managers
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
+
+        public Color GetColorOfPlayer(int playerId)
+        {
+            if (playerId >= _playerColors.Count)
+            {
+                Debug.LogError("Player ID out of range of _PlayerColors");
+                return Color.black;
+            }
+            return _playerColors[playerId];
+        }
     }
-
-    
-
-    
 }

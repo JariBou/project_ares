@@ -16,6 +16,7 @@ namespace ProjectAres.PlayerBundle
         [SerializeField] private TMP_Text _nameText;
         [SerializeField] private TMP_Text _typeText;
         [SerializeField] private TMP_Text _playerNameText;
+        private PlayerManager _playerManager;
     
         private int _selectionIndex;
 
@@ -24,7 +25,9 @@ namespace ProjectAres.PlayerBundle
 
         private void Awake()
         {
+            _playerManager = GameObject.FindWithTag("Managers").GetComponent<PlayerManager>();
             _playerNameText.text = $"Player {_playerId}";
+            _playerNameText.color = _playerManager.GetColorOfPlayer(_playerId);
         }
 
         private void Start()
@@ -44,7 +47,7 @@ namespace ProjectAres.PlayerBundle
 
         private void UpdateDisplay()
         {
-            Character currChar = PlayerManager.Instance.CharacterManager[_selectionIndex];
+            Character currChar = _playerManager.CharacterManager[_selectionIndex];
             _nameText.text = $"Name: {currChar._name}";
             _typeText.text = $"Type: {Enum.GetName(typeof(CharacterType), currChar._characterType)}";
         }
