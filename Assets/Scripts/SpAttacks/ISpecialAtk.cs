@@ -1,6 +1,6 @@
 using ProjectAres.PlayerBundle;
 
-namespace ProjectAres
+namespace ProjectAres.SpAttacks
 {
     public interface ISpecialAtk
     {

@@ -1,12 +1,11 @@
 using NaughtyAttributes;
 using ProjectAres.Core;
 using ProjectAres.Managers;
-using ProjectAres.PlayerBundle;
 using ProjectAres.ScriptableObjects.Scripts;
 using TMPro;
 using UnityEngine;
 
-namespace ProjectAres
+namespace ProjectAres.PlayerBundle
 {
     public class Damageable : MonoBehaviour
     {

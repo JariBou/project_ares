@@ -5,7 +5,7 @@ using ProjectAres.Managers;
 using ProjectAres.PlayerBundle;
 using UnityEngine;
 
-namespace ProjectAres
+namespace ProjectAres.SpAttacks
 {
     public class WindElementalSpAttack1 : MonoBehaviour, ISpecialAtk
     {

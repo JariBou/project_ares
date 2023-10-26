@@ -1,10 +1,11 @@
 using System;
 using ProjectAres.Core;
+using ProjectAres.PlayerBundle;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectAres
+namespace ProjectAres.UI
 {
     public class CharacterInfoDisplay : MonoBehaviour
     {

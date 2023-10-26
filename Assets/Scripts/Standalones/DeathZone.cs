@@ -1,7 +1,7 @@
 using ProjectAres.PlayerBundle;
 using UnityEngine;
 
-namespace ProjectAres
+namespace ProjectAres.Standalones
 {
     public class DeathZone : MonoBehaviour
     {

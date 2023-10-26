@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ProjectAres.Core;
+using ProjectAres.PlayerBundle;
 using UnityEngine;
 
 namespace ProjectAres.Managers
@@ -11,7 +12,8 @@ namespace ProjectAres.Managers
         private List<PlayerGameAction> _preUpdateActions = new(16);
         private List<PlayerGameAction> _onUpdateActions = new(16);
         private List<PlayerGameAction> _postUpdateActions = new(16);
-        
+        private static readonly int Hurt = Animator.StringToHash("Hurt");
+
         public void AddPreUpdateAction(PlayerGameAction action) => _preUpdateActions.Add(action);
         public void AddOnUpdateAction(PlayerGameAction action) => _onUpdateActions.Add(action);
         public void AddPostUpdateAction(PlayerGameAction action) => _postUpdateActions.Add(action);
@@ -32,7 +34,7 @@ namespace ProjectAres.Managers
                 {
                     case PlayerActionType.Attack:
                         if (target.IsInvincible) break;
-                        target.Animator.SetTrigger("Hurt");
+                        target.Animator.SetTrigger(Hurt);
                         target.IsAttacked(action.AttackStats.Damage);
                         target.SetIFrames(action.AttackStats.InvincibilityFrames);
                         target.SetBlockedFramesCount(action.AttackStats.MoveBlockFrames);

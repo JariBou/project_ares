@@ -1,7 +1,8 @@
 using ProjectAres.Managers;
+using ProjectAres.PlayerBundle;
 using UnityEngine;
 
-namespace ProjectAres
+namespace ProjectAres.UI
 {
     public class PlayerInfoDisplay : MonoBehaviour
     {

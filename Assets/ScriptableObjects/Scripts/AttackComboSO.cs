@@ -2,14 +2,15 @@ using System;
 using System.Collections.Generic;
 using ProjectAres.Core;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ProjectAres.ScriptableObjects.Scripts
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/AttackCombo")]
-    public class AttackComboSO : ScriptableObject
+    public class AttackComboSo : ScriptableObject
     {
-        public List<AttackComboBinding> Attacks;
-        public int Count => Attacks.Count;
+        [FormerlySerializedAs("Attacks")] public List<AttackComboBinding> _attacks;
+        public int Count => _attacks.Count;
     }
 
     [Serializable]

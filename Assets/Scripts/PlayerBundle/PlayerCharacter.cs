@@ -16,9 +16,7 @@ namespace ProjectAres.PlayerBundle
         [SerializeField, Foldout("Ground Check")] private bool _showGroundDetection;
         [SerializeField, Foldout("Ground Check"), ShowIf("_showGroundDetection")] private Color _groundCheckColor;
         #endif
-
-        private static readonly int Hurt = Animator.StringToHash("Hurt");
-
+        
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();

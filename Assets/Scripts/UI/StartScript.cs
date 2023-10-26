@@ -2,7 +2,7 @@ using ProjectAres.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace ProjectAres
+namespace ProjectAres.UI
 {
     public class StartScript : MonoBehaviour
     {

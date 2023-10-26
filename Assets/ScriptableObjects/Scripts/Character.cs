@@ -26,7 +26,7 @@ namespace ProjectAres.ScriptableObjects.Scripts
         public Vector2 _groundCheckSize;
 
         [Space]
-        public List<AttackComboSO> _attackCombos;
+        public List<AttackComboSo> _attackCombos;
         [Header("Display and Spawning")]
         public GameObject _characterPrefab;
         public Sprite _characterIcon;
@@ -47,9 +47,9 @@ namespace ProjectAres.ScriptableObjects.Scripts
         /// <param name="previousInputs"></param>
         /// <returns>Current combo SO</returns>
         /// <exception cref="InvalidOperationException">Throws an error if does not find a suitable current combo</exception>
-        public AttackComboSO GetCurrentCombo(List<ButtonPos> previousInputs)
+        public AttackComboSo GetCurrentCombo(List<ButtonPos> previousInputs)
         {
-            foreach (AttackComboSO comboSo in _attackCombos)
+            foreach (AttackComboSo comboSo in _attackCombos)
             {
                 if (HasCombination(comboSo, previousInputs))
                 {
@@ -72,7 +72,7 @@ namespace ProjectAres.ScriptableObjects.Scripts
         {
             try
             {
-                attack = GetCurrentCombo(previousInputs).Attacks[comboCount].Attack;
+                attack = GetCurrentCombo(previousInputs)._attacks[comboCount].Attack;
                 return true;
             }
             catch (InvalidOperationException e)
@@ -96,34 +96,34 @@ namespace ProjectAres.ScriptableObjects.Scripts
             path += "Combos";
             DirectoryInfo info = new(path);
             FileInfo[] fileInfo = info.GetFiles();
-            _attackCombos = new List<AttackComboSO>();
+            _attackCombos = new List<AttackComboSo>();
             foreach (FileInfo fileInfo1 in fileInfo)
             {
                 string filename = fileInfo1.Name;
                 if (filename.EndsWith(".meta")) continue;
-                _attackCombos.Add(AssetDatabase.LoadAssetAtPath<AttackComboSO>(path+$"/{filename}"));
+                _attackCombos.Add(AssetDatabase.LoadAssetAtPath<AttackComboSo>(path+$"/{filename}"));
             }
         }
 
         private AttackSo GetBaseAttackOfInput(ButtonPos input)
         {
-            foreach (AttackComboSO attackComboSo in _attackCombos)
+            foreach (AttackComboSo attackComboSo in _attackCombos)
             {
-                if (attackComboSo.Attacks[0].ButtonPos == input)
+                if (attackComboSo._attacks[0].ButtonPos == input)
                 {
-                    return attackComboSo.Attacks[0].Attack;
+                    return attackComboSo._attacks[0].Attack;
                 }            
             }
 
             throw new InvalidOperationException($"No base Attack on Character '{_name}' for input '{input.ToString()}'");
         }
 
-        private bool HasCombination(AttackComboSO combo, List<ButtonPos> comboInputs)
+        private bool HasCombination(AttackComboSo combo, List<ButtonPos> comboInputs)
         {
             if (combo.Count < comboInputs.Count) return false;
             for (int i = 0; i < comboInputs.Count; i++)
             {
-                if (combo.Attacks[i].ButtonPos != comboInputs[i])
+                if (combo._attacks[i].ButtonPos != comboInputs[i])
                 {
                     return false;
                 }
