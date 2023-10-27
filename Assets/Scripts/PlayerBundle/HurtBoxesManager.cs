@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
@@ -7,7 +8,8 @@ namespace ProjectAres.PlayerBundle
     public class HurtBoxesManager : MonoBehaviour
     {
         [SerializeField] private List<HurtBox> _hurtBoxes;
-        
+        public List<HurtBox> HurtBoxes => _hurtBoxes;
+
         public void SetOwners(Damageable owner)
         {
             foreach (HurtBox hurtBox in _hurtBoxes)

@@ -1,3 +1,4 @@
+using System;
 using ProjectAres.Core;
 using ProjectAres.Managers;
 using ProjectAres.ScriptableObjects.Scripts;
@@ -10,6 +11,14 @@ namespace ProjectAres.PlayerBundle
         [SerializeField] private PlayerCharacter _owner;
 
         [SerializeField] private PlayerInputHandler _playerInputHandler;
+        private Collider2D _collider;
+
+        public Collider2D Collider => _collider;
+
+        private void Awake()
+        {
+            _collider = GetComponent<Collider2D>();
+        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {

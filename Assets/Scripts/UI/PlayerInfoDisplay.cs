@@ -16,9 +16,8 @@ namespace ProjectAres.UI
         private void Start()
         {
 
-            foreach (Damageable playerCharacter in _playerManager.PlayerCharacters)
+            foreach (Damageable playerCharacter in _playerManager.GetPlayers())
             {
-                if (_playerManager.DummiesIdList.Contains(playerCharacter.PlayerId)) continue;
                 Instantiate(_displayPrefab, transform).GetComponent<CharacterInfoDisplay>().SetPlayerCharacter(playerCharacter);
             }
         }

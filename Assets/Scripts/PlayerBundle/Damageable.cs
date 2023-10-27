@@ -10,6 +10,7 @@ namespace ProjectAres.PlayerBundle
     public class Damageable : MonoBehaviour
     {
         [SerializeField] protected HurtBoxesManager _hurtBoxesManager;
+        [SerializeField] protected HitBox _hitBox;
         [SerializeField] protected TMP_Text _text;
         [SerializeField] protected Animator _animator;
         [SerializeField] protected PlayerManager _playerManager;
@@ -27,6 +28,8 @@ namespace ProjectAres.PlayerBundle
         public bool IsInvincible { get; protected set; }
 
         public PlayerManager Manager => _playerManager;
+        public HurtBoxesManager HurtBoxManager => _hurtBoxesManager;
+        public HitBox HitBoxScript => _hitBox;
 
         // TODO: maybe make red damage taken indicator duration proportional to current iFrames 
         

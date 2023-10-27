@@ -89,6 +89,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DEBUG"",
+                    ""type"": ""Button"",
+                    ""id"": ""8f676e8c-751e-48a3-8095-208c3fa8c2e2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -210,6 +219,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TriggerR2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6fb5fbb8-74f6-4edc-a14d-1d84a6e200df"",
+                    ""path"": ""<Keyboard>/f1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DEBUG"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -378,6 +398,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_PlayerMap_NorthButton = m_PlayerMap.FindAction("NorthButton", throwIfNotFound: true);
         m_PlayerMap_WestButton = m_PlayerMap.FindAction("WestButton", throwIfNotFound: true);
         m_PlayerMap_TriggerR2 = m_PlayerMap.FindAction("TriggerR2", throwIfNotFound: true);
+        m_PlayerMap_DEBUG = m_PlayerMap.FindAction("DEBUG", throwIfNotFound: true);
         // MenuNavigation
         m_MenuNavigation = asset.FindActionMap("MenuNavigation", throwIfNotFound: true);
         m_MenuNavigation_Next = m_MenuNavigation.FindAction("Next", throwIfNotFound: true);
@@ -454,6 +475,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerMap_NorthButton;
     private readonly InputAction m_PlayerMap_WestButton;
     private readonly InputAction m_PlayerMap_TriggerR2;
+    private readonly InputAction m_PlayerMap_DEBUG;
     public struct PlayerMapActions
     {
         private @PlayerActions m_Wrapper;
@@ -465,6 +487,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @NorthButton => m_Wrapper.m_PlayerMap_NorthButton;
         public InputAction @WestButton => m_Wrapper.m_PlayerMap_WestButton;
         public InputAction @TriggerR2 => m_Wrapper.m_PlayerMap_TriggerR2;
+        public InputAction @DEBUG => m_Wrapper.m_PlayerMap_DEBUG;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -495,6 +518,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @TriggerR2.started += instance.OnTriggerR2;
             @TriggerR2.performed += instance.OnTriggerR2;
             @TriggerR2.canceled += instance.OnTriggerR2;
+            @DEBUG.started += instance.OnDEBUG;
+            @DEBUG.performed += instance.OnDEBUG;
+            @DEBUG.canceled += instance.OnDEBUG;
         }
 
         private void UnregisterCallbacks(IPlayerMapActions instance)
@@ -520,6 +546,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @TriggerR2.started -= instance.OnTriggerR2;
             @TriggerR2.performed -= instance.OnTriggerR2;
             @TriggerR2.canceled -= instance.OnTriggerR2;
+            @DEBUG.started -= instance.OnDEBUG;
+            @DEBUG.performed -= instance.OnDEBUG;
+            @DEBUG.canceled -= instance.OnDEBUG;
         }
 
         public void RemoveCallbacks(IPlayerMapActions instance)
@@ -650,6 +679,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnNorthButton(InputAction.CallbackContext context);
         void OnWestButton(InputAction.CallbackContext context);
         void OnTriggerR2(InputAction.CallbackContext context);
+        void OnDEBUG(InputAction.CallbackContext context);
     }
     public interface IMenuNavigationActions
     {

@@ -126,6 +126,18 @@ namespace ProjectAres.Managers
             PlayerConfigs[playerIndex].InputDevices = pi.devices.ToArray();
         }
 
+        public List<Damageable> GetPlayers()
+        {
+            List<Damageable> tempList = new List<Damageable>(_maxPlayers);
+            foreach (Damageable damageable in PlayerCharacters)
+            {
+                if (DummiesIdList.Contains(damageable.PlayerId)) continue;
+                tempList.Add(damageable);
+            }
+
+            return tempList;
+        }
+
         // Player Id = PlayerIndex
         public Character GetCharacterOfPlayer(int playerId)
         {
