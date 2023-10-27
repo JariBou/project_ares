@@ -161,7 +161,7 @@ namespace ProjectAres.PlayerBundle
             bool isInCombo = _character.GetCurrentComboAttack(_prevInputs, _comboCount, out AttackSo attack);
             // AttackSo attack = _character.GetCurrentComboAttack(_prevInputs, _comboCount);
             
-            Debug.Log($"IsCombo = {isInCombo}");
+            // Debug.Log($"IsCombo = {isInCombo}");
             
             if (_comboCount == 0 || !isInCombo)
             {

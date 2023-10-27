@@ -39,7 +39,7 @@ namespace ProjectAres.Managers
                         target.SetIFrames(action.AttackStats.InvincibilityFrames);
                         target.SetBlockedFramesCount(action.AttackStats.MoveBlockFrames);
                         target.ApplyKb(action.AttackStats.ForceDirection * action.AttackStats.KbValue);
-                        Debug.Log($"Attacked {target.name}");
+                        // Debug.Log($"Attacked {target.name}");
                         break;
                     case PlayerActionType.Block:
                         
