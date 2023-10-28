@@ -62,6 +62,8 @@ namespace ProjectAres.PlayerBundle
         public SpriteRenderer Renderer => _spriteRenderer;
 
         public GameObject Nameplate => _nameplate;
+        public bool IsFlipped => _isFlipped;
+
         #endregion
 
         private void Awake()

@@ -689,13 +689,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 8
   _jumpForce: 17
+  _baseNumberOfJumps: 2
   _rb: {fileID: 496892430240876583}
   _nameplate: {fileID: 2130661391962458734}
-  _groundCheckOffset: {x: 0, y: -1.1}
-  _groundCheckSize: {x: 1.03, y: 0.15}
-  _baseNumberOfJumps: 2
-  _maxLastAttackFrameAge: 60
   _playerCharacter: {fileID: 1308583947335670979}
+  _maxLastAttackFrameAge: 60
 --- !u!1 &7750148808520849544
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,7 +784,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a631b30ffc9e4334e9c4e45ed9e287a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 4779197386665564360}
 --- !u!1 &9157288590551559207
 GameObject:
   m_ObjectHideFlags: 0
@@ -984,6 +981,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 182680b1-0e1f-4bde-8b78-c2897c45f7cf
     m_ActionName: PlayerMap/TriggerR2[/XInputControllerWindows2/rightTrigger,/DualShock4GamepadHID2/rightTrigger,/XInputControllerWindows/rightTrigger,/DualShock4GamepadHID/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8f676e8c-751e-48a3-8095-208c3fa8c2e2
+    m_ActionName: PlayerMap/DEBUG[/Keyboard/f1]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerMap
@@ -1002,9 +1003,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hurtBoxesManager: {fileID: 5896777298392192888}
+  _hitBox: {fileID: 5105931873941592310}
   _text: {fileID: 3659962188519925840}
-  _character: {fileID: 11400000, guid: 171c43a843cc8484fa74f0e3397f3502, type: 2}
   _animator: {fileID: 4779197386665564360}
+  _playerManager: {fileID: 0}
+  _character: {fileID: 11400000, guid: 171c43a843cc8484fa74f0e3397f3502, type: 2}
   _playerInputHandler: {fileID: 5702650603813202751}
   _groundCheckOffset: {x: 0, y: -1.18}
   _groundCheckSize: {x: 1.1, y: 0.18}
