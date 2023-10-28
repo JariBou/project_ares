@@ -45,9 +45,10 @@ namespace GraphicsLabor.Scripts.Core
             _color = color;
         }
 
-        public void ChangeColor(Color color)
+        public Quad ChangeColor(Color color)
         {
             _color = color;
+            return this;
         }
     }
     
@@ -55,19 +56,24 @@ namespace GraphicsLabor.Scripts.Core
     public class Circle
     {
         [SerializeField] private Vector2 _center;
-        [SerializeField] private float _radius;
+        [SerializeField, Min(0.001f)] private float _radius;
         
         [SerializeField] private Color _color;
+        [SerializeField, Range(1, 100)] private int _precision;
+
+        public const int PointsPerPrecision = 5;
         
         public Vector2 Center => _center;
         public float Radius => _radius;
         public Color GetColor => _color;
+        public int Precision => _precision;
 
-        public Circle(Vector2 center, float radius, Color color)
+        public Circle(Vector2 center, float radius, Color color, int precision = 9)
         {
             _center = center;
             _radius = radius;
             _color = color;
+            _precision = precision;
         }
         
         public void ChangeColor(Color color)
@@ -92,10 +98,16 @@ namespace GraphicsLabor.Scripts.Core
             _color = color;
         }
         
-        public void ChangeColor(Color color)
+        public Polygon ChangeColor(Color color)
         {
             _color = color;
-        } 
+            return this;
+        }
+
+        public void ResetPoints(int length)
+        {
+            _points = new List<Vector2>(length);
+        }
     }
     
     [Serializable]
@@ -121,9 +133,10 @@ namespace GraphicsLabor.Scripts.Core
             _color = color;
         }
 
-        public void ChangeColor(Color color)
+        public Triangle ChangeColor(Color color)
         {
             _color = color;
+            return this;
         }
     }
 }

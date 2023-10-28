@@ -1,4 +1,3 @@
-using System;
 using ProjectAres.Core;
 using ProjectAres.Managers;
 using ProjectAres.ScriptableObjects.Scripts;

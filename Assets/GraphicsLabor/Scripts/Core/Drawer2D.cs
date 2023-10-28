@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
+#if USING_URP
 using UnityEngine.Rendering;
+#endif
 
 namespace GraphicsLabor.Scripts.Core
 {
@@ -19,6 +22,7 @@ namespace GraphicsLabor.Scripts.Core
         public static readonly Vector3 YMask = new(0, 1, 0);
         // public static readonly Vector3 ZMask = new(0, 0, 1); // Should only be used for 3D
 
+        private static readonly Color BaseBorderColor = new(0, 0, 0);
         public static event Action DrawCallback;
         
         private Material _renderMaterial;
@@ -32,19 +36,36 @@ namespace GraphicsLabor.Scripts.Core
         
         private void OnEnable()
         {
-            RenderPipelineManager.endCameraRendering += RenderPipelineManager_endCameraRendering;
-        }
-
-        private void OnDisable()
-        {
-            RenderPipelineManager.endCameraRendering -= RenderPipelineManager_endCameraRendering;
+            #if USING_URP
+                RenderPipelineManager.endCameraRendering += RenderPipelineManager_endCameraRendering;
+            #else
+                Camera.onPostRender += PostRender;
+            #endif
         }
         
-        private void RenderPipelineManager_endCameraRendering(ScriptableRenderContext context, Camera locCamera)
+        private void OnDisable()
+        {
+            #if USING_URP
+                RenderPipelineManager.endCameraRendering -= RenderPipelineManager_endCameraRendering;
+            #else
+                Camera.onPostRender -= PostRender;
+            #endif
+        }
+
+        #if USING_URP
+        private static void RenderPipelineManager_endCameraRendering(ScriptableRenderContext context, Camera locCamera)
         {
             OnDrawCallback();
         }
-
+        #else
+        // This wont work because PostRender is only called for game Objects on Camera.
+        // need to use event, will try it later
+        private static void PostRender(Camera cam)
+        {
+            OnDrawCallback();
+        }
+        #endif
+        
         private static void OnDrawCallback()
         {
             DrawCallback?.Invoke();
@@ -113,15 +134,15 @@ namespace GraphicsLabor.Scripts.Core
         /// </summary>
         /// <param name="points"></param>
         /// <param name="colors">Colors of each point, length should be equal or greater than length of points</param>
-        public static void DrawLines(List<Vector3> points, List<Color> colors)
+        public static void DrawLines(IEnumerable<Vector3> points, IEnumerable<Color> colors)
         {
-            if (points.Count % 2 != 0)
-            {
-                points.RemoveAt(points.Count-1);
-            }
+            // TODO: Are Arrays better than Lists?
+            Vector3[] pointsArray = points as Vector3[] ?? points.ToArray();
+            int numberOfLines = pointsArray.Length - pointsArray.Length % 2;
 
-            if (colors.Count < points.Count)
-                throw new ArgumentException($"Argument colors of size {colors.Count}, expected {points.Count}");
+            Color[] colorsArray = colors as Color[] ?? colors.ToArray();
+            if (colorsArray.Length < numberOfLines)
+                throw new ArgumentException($"Argument colors of size {colorsArray.Length}, expected {numberOfLines}");
             
             CreateLineMaterial();
             
@@ -130,10 +151,10 @@ namespace GraphicsLabor.Scripts.Core
             GL.Begin(GL.LINES);
             Instance._renderMaterial.SetPass(0);
             
-            for (int i = 0; i < points.Count; i++)
+            for (int i = 0; i < numberOfLines; i++)
             {
-                GL.Color(colors[i]);
-                GL.Vertex(points[i]);
+                GL.Color(colorsArray.ElementAt(i));
+                GL.Vertex(pointsArray[i]);
             }
             
             GL.End();
@@ -145,7 +166,25 @@ namespace GraphicsLabor.Scripts.Core
         /// </summary>
         /// <param name="points"></param>
         /// <param name="color"></param>
-        public static void DrawBrokenLine(List<Vector3> points, Color color)
+        public static void DrawBrokenLine(IEnumerable<Vector3> points, Color color)
+        {
+            CreateLineMaterial();
+            
+            GL.PushMatrix();
+            
+            GL.Begin(GL.LINE_STRIP);
+            Instance._renderMaterial.SetPass(0);
+            
+            GL.Color(color);
+            foreach (Vector3 point in points)
+            {
+                GL.Vertex(point);
+            }
+            GL.End();
+            GL.PopMatrix();
+        }
+        
+        public static void DrawBrokenLine(IEnumerable<Vector2> points, Color color)
         {
             CreateLineMaterial();
             
@@ -226,9 +265,78 @@ namespace GraphicsLabor.Scripts.Core
         }
         
         #endregion
-
+        
         #region Quads
         
+        public static void DrawQuad(Quad quad, DrawMode drawMode = DrawMode.Wired, Color borderColor = default)
+        {
+            CreateLineMaterial();
+            
+            int glDrawMode;
+            switch (drawMode)
+            {
+                case DrawMode.Wired:
+                    glDrawMode = GL.LINE_STRIP;
+                    break;
+                case DrawMode.Filled:
+                    glDrawMode = GL.QUADS;
+                    break;
+                case DrawMode.FilledWithBorders:
+                    glDrawMode = GL.QUADS;
+                    if (borderColor == default) borderColor = BaseBorderColor;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(drawMode), drawMode, null);
+            }
+            
+            GL.PushMatrix();
+            
+            GL.Begin(glDrawMode);
+            Instance._renderMaterial.SetPass(0);
+            
+            GL.Color(quad.GetColor);
+            GL.Vertex(quad.PointA);
+            GL.Vertex(quad.PointB);
+            GL.Vertex(quad.PointC);
+            GL.Vertex(quad.PointD);
+            
+            if (drawMode == DrawMode.Wired)
+            {
+                GL.Vertex(quad.PointA);
+            } 
+            
+            GL.End();
+            
+            if (drawMode == DrawMode.FilledWithBorders)
+            {
+                DrawQuad(quad.ChangeColor(borderColor));
+            }
+            
+            GL.PopMatrix();
+        }
+        
+        public static void DrawQuad(Vector2 center, Vector2 size, Color color, DrawMode drawMode = DrawMode.Wired, Color borderColor = default)
+        {
+            DrawQuad(new Quad(center, size, color), drawMode, borderColor);
+        }
+
+        public static void DrawQuad(Vector2 a, Vector2 b, Vector2 c, Vector2 d, Color color, DrawMode drawMode = DrawMode.Wired, Color borderColor = default)
+        {
+            DrawQuad(new Quad(a, b, c, d, color), drawMode, borderColor);
+        }
+        
+        // TODO: maybe Queue draw calls? and apply them after... should look into that for optimization
+        public static void DrawQuads(IEnumerable<Quad> quads, DrawMode drawMode = DrawMode.Wired, Color borderColor = default)
+        {
+            foreach (Quad quad in quads)
+            {
+                DrawQuad(quad, drawMode, borderColor);
+            }
+        }
+        
+        #region OLD
+
+        [Obsolete]
         public static void DrawFilledQuad(Quad quad)
         {
             CreateLineMaterial();
@@ -248,6 +356,7 @@ namespace GraphicsLabor.Scripts.Core
             GL.PopMatrix();
         }
         
+        [Obsolete]
         public static void DrawFilledQuad(Vector2 a, Vector2 b, Vector2 c, Vector2 d, Color color)
         {
             CreateLineMaterial();
@@ -267,6 +376,7 @@ namespace GraphicsLabor.Scripts.Core
             GL.PopMatrix();
         }
         
+        [Obsolete]
         public static void DrawFilledQuad(Vector2 center, Vector2 size, Color color)
         {
             CreateLineMaterial();
@@ -286,6 +396,7 @@ namespace GraphicsLabor.Scripts.Core
             GL.PopMatrix();
         }
         
+        [Obsolete]
         public static void DrawFilledQuads(IEnumerable<Quad> quads)
         {
             CreateLineMaterial();
@@ -308,6 +419,7 @@ namespace GraphicsLabor.Scripts.Core
             GL.PopMatrix();
         }
         
+        [Obsolete]
         public static void DrawWiredQuad(Quad quad)
         {
             CreateLineMaterial();
@@ -327,6 +439,8 @@ namespace GraphicsLabor.Scripts.Core
             GL.End();
             GL.PopMatrix();
         }
+        
+        [Obsolete]
         public static void DrawWiredQuad(Vector2 a, Vector2 b, Vector2 c, Vector2 d, Color color)
         {
             CreateLineMaterial();
@@ -347,6 +461,7 @@ namespace GraphicsLabor.Scripts.Core
             GL.PopMatrix();
         }
         
+        [Obsolete]
         public static void DrawWiredQuad(Vector2 center, Vector2 size, Color color)
         {
             CreateLineMaterial();
@@ -367,6 +482,7 @@ namespace GraphicsLabor.Scripts.Core
             GL.PopMatrix();
         }
         
+        [Obsolete]
         public static void DrawWiredQuads(IEnumerable<Quad> quads)
         {
             CreateLineMaterial();
@@ -389,17 +505,103 @@ namespace GraphicsLabor.Scripts.Core
             GL.End();
             GL.PopMatrix();
         }
+
+        #endregion
         
         #endregion
 
         // For filled circles can use triangles with center point
         #region Circles
+        
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="circle"></param>
+        /// <param name="drawMode"></param>
+        /// <param name="borderColor"></param>
+        /// <exception cref="ArgumentException"></exception>
+        public static void DrawCircle(Circle circle, DrawMode drawMode = DrawMode.Wired, Color borderColor = default)
+        {
+            if (circle.Precision <= 0)
+                throw new ArgumentException(
+                    $"Invalid value for parameter precision (value of {circle.Precision}, expected more than 0)");
+            
+            int numberOfPoints = Circle.PointsPerPrecision * circle.Precision;
+            
+            Vector3 firstPoint = Vector3.zero;
+            List<Vector3> circlePoints = new List<Vector3>(numberOfPoints+1);
+            
+            for (int i = 0; i < numberOfPoints; ++i)
+            {
+                // Draw triangles
+                float a = i / (float)numberOfPoints;
+                float angle = a * Mathf.PI * 2;
+                circlePoints.Add(new Vector3(Mathf.Cos(angle) * circle.Radius + circle.Center.x, Mathf.Sin(angle) * circle.Radius + circle.Center.y, 0));
+                //GL.Vertex3(Mathf.Cos(angle) * circle.Radius + circle.Center.x, Mathf.Sin(angle) * circle.Radius + circle.Center.y, 0);
+                if (i == 0)
+                    firstPoint = new Vector3(Mathf.Cos(angle) * circle.Radius + circle.Center.x, Mathf.Sin(angle) * circle.Radius + circle.Center.y,
+                        0);
+            }
+            circlePoints.Add(firstPoint);
+
+            switch (drawMode)
+            {
+                case DrawMode.Wired:
+                    DrawBrokenLine(circlePoints, circle.GetColor);
+                    break;
+                case DrawMode.InternalWired:
+                    for (int i = 0; i < circlePoints.Count-1; i++)
+                    {
+                        Triangle tempTriangle = new Triangle(circle.Center, circlePoints[i], circlePoints[i + 1],
+                            circle.GetColor);
+                        DrawTriangle(tempTriangle);
+                    }
+                    break;
+                case DrawMode.Filled:
+                    for (int i = 0; i < circlePoints.Count-1; i++)
+                    {
+                        Triangle tempTriangle = new Triangle(circle.Center, circlePoints[i], circlePoints[i + 1],
+                            circle.GetColor);
+                        DrawTriangle(tempTriangle, DrawMode.Filled);
+                    }
+                    break;
+                case DrawMode.FilledWithBorders:
+                    for (int i = 0; i < circlePoints.Count-1; i++)
+                    {
+                        Triangle tempTriangle = new Triangle(circle.Center, circlePoints[i], circlePoints[i + 1],
+                            circle.GetColor);
+                        DrawTriangle(tempTriangle, DrawMode.Filled);
+                    }
+                    DrawBrokenLine(circlePoints, borderColor);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(drawMode), drawMode, null);
+            } 
+        }
+
+        public static void DrawCircle(Vector2 center, float radius, Color color, int precision = 1,
+            DrawMode drawMode = DrawMode.Wired, Color borderColor = default)
+        {
+            DrawCircle(new Circle(center, radius, color, precision), drawMode, borderColor);
+        }
+
+        public static void DrawCircles(IEnumerable<Circle> circles, int precision = 1,
+            DrawMode drawMode = DrawMode.Wired, Color borderColor = default)
+        {
+            foreach (Circle circle in circles)
+            {
+                DrawCircle(circle, drawMode, borderColor);
+            }
+        }
+
+        #region OLD
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="circle"></param>
         /// <param name="precision">The number of points used to draw the sphere is 45*precision</param>
+        [Obsolete]
         public static void DrawWiredCircle(Circle circle, int precision = 1)
         {
             if (precision <= 0)
@@ -439,6 +641,7 @@ namespace GraphicsLabor.Scripts.Core
         /// <param name="radius"></param>
         /// <param name="color"></param>
         /// <param name="precision">The number of points used to draw the sphere is 45*precision</param>
+        [Obsolete]
         public static void DrawWiredCircle(Vector2 center, float radius, Color color, int precision = 1)
         {
             if (precision <= 0)
@@ -479,6 +682,7 @@ namespace GraphicsLabor.Scripts.Core
         /// </summary>
         /// <param name="circles"></param>
         /// <param name="precision">The number of points used to draw the sphere is 45*precision</param>
+        [Obsolete]
         public static void DrawWiredCircles(IEnumerable<Circle> circles, int precision = 1)
         {
             if (precision <= 0)
@@ -517,12 +721,81 @@ namespace GraphicsLabor.Scripts.Core
 
         #endregion
 
+        
+
+        #endregion
+
         #region Polygon
+        
+        /// <summary>
+        /// Filled and InternalWired options are unsafe to use and may cause problems
+        /// </summary>
+        /// <param name="polygon"></param>
+        /// <param name="drawMode"></param>
+        /// <param name="borderColor"></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void DrawPolygon(Polygon polygon, DrawMode drawMode = DrawMode.Wired, Color borderColor = default)
+        {
+            CreateLineMaterial();
+
+            switch (drawMode)
+            {
+                case DrawMode.Filled:
+                    DrawTriangles(PolygonTriangulator.TriangulatePolygon(polygon), DrawMode.Filled);
+                    break;
+                case DrawMode.InternalWired:
+                    DrawTriangles(PolygonTriangulator.TriangulatePolygon(polygon));
+                    break;
+                case DrawMode.Wired:
+                    List<Vector2> polygonPoints = new List<Vector2>(polygon.Points);
+                    if (polygon.Points[^1] != polygon.Points[0]) polygonPoints.Add(polygon.Points[0]);
+
+                    DrawBrokenLine(polygonPoints, polygon.GetColor);
+                    break;
+                case DrawMode.FilledWithBorders:
+                    DrawTriangles(PolygonTriangulator.TriangulatePolygon(polygon), DrawMode.Filled);
+                    DrawPolygon(polygon.ChangeColor(borderColor));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(drawMode), drawMode, null);
+            }
+        }
+
+        /// <summary>
+        /// Filled and InternalWired options are unsafe to use and may cause problems
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="color"></param>
+        /// <param name="drawMode"></param>
+        /// <param name="borderColor"></param>
+        public static void DrawPolygon(List<Vector2> points, Color color, DrawMode drawMode = DrawMode.Wired, Color borderColor = default)
+        {
+            DrawPolygon(new Polygon(points, color), drawMode, borderColor);
+        }
+
+        /// <summary>
+        /// Filled and InternalWired options are unsafe to use and may cause problems
+        /// </summary>
+        /// <param name="polygons"></param>
+        /// <param name="drawMode"></param>
+        /// <param name="borderColor"></param>
+        public static void DrawPolygons(IEnumerable<Polygon> polygons, DrawMode drawMode = DrawMode.Wired,
+            Color borderColor = default)
+        {
+            foreach (Polygon polygon in polygons)
+            {
+                DrawPolygon(polygon, drawMode, borderColor);
+            }
+        }
+
+
+        #region OLD
 
         /// <summary>
         /// Automatically closes the polygon if needed
         /// </summary>
         /// <param name="polygon"></param>
+        [Obsolete]
         public static void DrawWiredPolygon(Polygon polygon)
         {
             CreateLineMaterial();
@@ -550,6 +823,7 @@ namespace GraphicsLabor.Scripts.Core
         /// </summary>
         /// <param name="points"></param>
         /// <param name="color"></param>
+        [Obsolete]
         public static void DrawWiredPolygon(List<Vector2> points, Color color)
         {
             CreateLineMaterial();
@@ -575,6 +849,7 @@ namespace GraphicsLabor.Scripts.Core
         /// Automatically closes the polygon if needed
         /// </summary>
         /// <param name="polygons"></param>
+        [Obsolete]
         public static void DrawWiredPolygons(IEnumerable<Polygon> polygons)
         {
             CreateLineMaterial();
@@ -601,9 +876,73 @@ namespace GraphicsLabor.Scripts.Core
         }
 
         #endregion
+        
+        #endregion
 
         #region Triangles
+
+        public static void DrawTriangle(Triangle triangle, DrawMode drawMode = DrawMode.Wired, Color borderColor = default)
+        {
+            CreateLineMaterial();
+            
+            int glDrawMode;
+            switch (drawMode)
+            {
+                case DrawMode.Wired:
+                    glDrawMode = GL.LINE_STRIP;
+                    break;
+                case DrawMode.Filled:
+                    glDrawMode = GL.TRIANGLES;
+                    break;
+                case DrawMode.FilledWithBorders:
+                    glDrawMode = GL.TRIANGLES;
+                    if (borderColor == default) borderColor = BaseBorderColor;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(drawMode), drawMode, null);
+            }
+            
+            GL.PushMatrix();
+            
+            GL.Begin(glDrawMode);
+            Instance._renderMaterial.SetPass(0);
+            
+            GL.Color(triangle.GetColor);
+            GL.Vertex(triangle.PointA);
+            GL.Vertex(triangle.PointB);
+            GL.Vertex(triangle.PointC);
+            
+            if (drawMode == DrawMode.Wired)
+            {
+                GL.Vertex(triangle.PointA);
+            } 
+            
+            GL.End();
+            
+            if (drawMode == DrawMode.FilledWithBorders)
+            {
+                DrawTriangle(triangle.ChangeColor(borderColor));
+            }
+            
+            GL.PopMatrix();
+        }
         
+        public static void DrawTriangle(Vector2 a, Vector2 b, Vector2 c, Color color, DrawMode drawMode = DrawMode.Wired, Color borderColor = default)
+        {
+            DrawTriangle(new Triangle(a, b, c, color), drawMode, borderColor);
+        }
+        
+        public static void DrawTriangles(IEnumerable<Triangle> triangles, DrawMode drawMode = DrawMode.Wired, Color borderColor = default)
+        {
+            foreach (Triangle triangle in triangles)
+            {
+                DrawTriangle(triangle, drawMode, borderColor);
+            }
+        }
+        
+        #region OLD
+
+        [Obsolete]
         public static void DrawFilledTriangle(Triangle triangle)
         {
             CreateLineMaterial();
@@ -622,6 +961,7 @@ namespace GraphicsLabor.Scripts.Core
             GL.PopMatrix();
         }
         
+        [Obsolete]
         public static void DrawFilledTriangle(Vector2 a, Vector2 b, Vector2 c, Color color)
         {
             CreateLineMaterial();
@@ -640,6 +980,7 @@ namespace GraphicsLabor.Scripts.Core
             GL.PopMatrix();
         }
         
+        [Obsolete]
         public static void DrawFilledTriangles(IEnumerable<Triangle> triangles)
         {
             CreateLineMaterial();
@@ -661,6 +1002,7 @@ namespace GraphicsLabor.Scripts.Core
             GL.PopMatrix();
         }
         
+        [Obsolete]
         public static void DrawWiredTriangle(Triangle triangle)
         {
             CreateLineMaterial();
@@ -680,6 +1022,7 @@ namespace GraphicsLabor.Scripts.Core
             GL.PopMatrix();
         }
         
+        [Obsolete]
         public static void DrawWiredTriangle(Vector2 a, Vector2 b, Vector2 c, Color color)
         {
             CreateLineMaterial();
@@ -699,6 +1042,7 @@ namespace GraphicsLabor.Scripts.Core
             GL.PopMatrix();
         }
         
+        [Obsolete]
         public static void DrawWiredTriangles(IEnumerable<Triangle> triangles)
         {
             CreateLineMaterial();
@@ -721,6 +1065,8 @@ namespace GraphicsLabor.Scripts.Core
             GL.PopMatrix();
         }
 
+        #endregion
+        
         #endregion
     }
 }

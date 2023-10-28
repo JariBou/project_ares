@@ -1,14 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using GraphicsLabor.Scripts;
 using GraphicsLabor.Scripts.Core;
 // using GraphicsLabor.GraphicsLabor.Scripts;
-using NaughtyAttributes;
 using ProjectAres.Managers;
 using ProjectAres.PlayerBundle;
-using UnityEditor;
-using UnityEditorInternal.VersionControl;
 using UnityEngine;
 
 namespace ProjectAres
@@ -37,7 +30,7 @@ namespace ProjectAres
                     if (hurtBox.Collider is BoxCollider2D hurtBoxCollider)
                     {
                         Vector2 flipMultiplier = new((player.InputHandler.IsFlipped ? -1 : 1), 1);
-                        Drawer2D.DrawWiredQuad((Vector2)player.transform.position + hurtBoxCollider.offset * flipMultiplier
+                        Drawer2D.DrawQuad((Vector2)player.transform.position + hurtBoxCollider.offset * flipMultiplier
                             ,
                             hurtBoxCollider.size, Color.blue);
                     }
@@ -55,7 +48,7 @@ namespace ProjectAres
                 if (player.HitBoxScript.Collider is BoxCollider2D { enabled: true } hitBoxCollider)
                 {
                     Vector2 flipMultiplier = new((player.InputHandler.IsFlipped ? -1 : 1), 1);
-                    Drawer2D.DrawWiredQuad((Vector2)player.transform.position + hitBoxCollider.offset * flipMultiplier,
+                    Drawer2D.DrawQuad((Vector2)player.transform.position + hitBoxCollider.offset * flipMultiplier,
                         hitBoxCollider.size, Color.red);
                 }
             }
