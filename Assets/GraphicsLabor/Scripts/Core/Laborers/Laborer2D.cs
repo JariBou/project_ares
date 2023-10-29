@@ -1,271 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using GraphicsLabor.Scripts.Core.Shapes;
 using UnityEngine;
 
-#if USING_URP
-using UnityEngine.Rendering;
-#endif
-
-namespace GraphicsLabor.Scripts.Core
+namespace GraphicsLabor.Scripts.Core.Laborers
 {
-    public class Drawer2D : MonoBehaviour
+    public class Laborer2D : GraphicLaborer
     {
-        private static readonly int SrcBlend = Shader.PropertyToID("_SrcBlend");
-        private static readonly int DstBlend = Shader.PropertyToID("_DstBlend");
-        private static readonly int Cull = Shader.PropertyToID("_Cull");
-        private static readonly int ZWrite = Shader.PropertyToID("_ZWrite");
-
-        private static Drawer2D Instance { get; set; }
-
-        public static readonly Vector3 XMask = new(1, 0, 0);
-        public static readonly Vector3 YMask = new(0, 1, 0);
-        // public static readonly Vector3 ZMask = new(0, 0, 1); // Should only be used for 3D
-
-        private static readonly Color BaseBorderColor = new(0, 0, 0);
-        public static event Action DrawCallback;
-        
-        private Material _renderMaterial;
-
-        #region Unity Setup
-
-        private void Awake()
-        {
-            Instance ??= this;
-        }
-        
-        private void OnEnable()
-        {
-            #if USING_URP
-                RenderPipelineManager.endCameraRendering += RenderPipelineManager_endCameraRendering;
-            #else
-                Camera.onPostRender += PostRender;
-            #endif
-        }
-        
-        private void OnDisable()
-        {
-            #if USING_URP
-                RenderPipelineManager.endCameraRendering -= RenderPipelineManager_endCameraRendering;
-            #else
-                Camera.onPostRender -= PostRender;
-            #endif
-        }
-
-        #if USING_URP
-        private static void RenderPipelineManager_endCameraRendering(ScriptableRenderContext context, Camera locCamera)
-        {
-            OnDrawCallback();
-        }
-        #else
-        // This wont work because PostRender is only called for game Objects on Camera.
-        // need to use event, will try it later
-        private static void PostRender(Camera cam)
-        {
-            OnDrawCallback();
-        }
-        #endif
-        
-        private static void OnDrawCallback()
-        {
-            DrawCallback?.Invoke();
-        }
-
-        #endregion
-        
-        private static void CreateLineMaterial()
-        {
-            if (Instance._renderMaterial) return;
-            
-            // Unity has a built-in shader that is useful for drawing
-            // simple colored things.
-            Shader shader = Shader.Find("Hidden/Internal-Colored");
-            Instance._renderMaterial = new Material(shader);
-            Instance._renderMaterial.hideFlags = HideFlags.HideAndDontSave;
-            // Turn on alpha blending
-            Instance._renderMaterial.SetInt(SrcBlend, (int)BlendMode.SrcAlpha);
-            Instance._renderMaterial.SetInt(DstBlend, (int)BlendMode.OneMinusSrcAlpha);
-            // Turn backface culling off
-            Instance._renderMaterial.SetInt(Cull, (int)CullMode.Off);
-            // Turn off depth writes
-            Instance._renderMaterial.SetInt(ZWrite, 0);
-        }
-
-        public static Vector2 MaskVector2(Vector2 a, Vector2 mask)
-        {
-            return new Vector2(a.x * mask.x, a.y * mask.y);
-        }
-
-        // Should only be used for 3D
-        /*public static Vector3 MaskVector3(Vector3 a, Vector3 mask)
-        {
-            return new Vector3(a.x * mask.x, a.y * mask.y, a.z * mask.z);
-        }*/
-        
-        // Lines are already 2D and 3D
-        #region Lines
-        
-        /// <summary>
-        ///  Automatically ignores the list if length not even
-        /// </summary>
-        /// <param name="points"></param>
-        /// <param name="color"></param>
-        public static void DrawLines(IEnumerable<Vector3> points, Color color)
-        {
-            CreateLineMaterial();
-            
-            GL.PushMatrix();
-            
-            GL.Begin(GL.LINES);
-            Instance._renderMaterial.SetPass(0);
-            
-            GL.Color(color);
-            IEnumerable<Vector3> enumerable = points as Vector3[] ?? points.ToArray();
-            for (int i = 0; i < enumerable.Count()/2; i++)
-            {
-                GL.Vertex(enumerable.ElementAt(i));
-            }
-            GL.End();
-            GL.PopMatrix();
-        }
-        
-        /// <summary>
-        ///  Automatically trims the list if length not even
-        /// </summary>
-        /// <param name="points"></param>
-        /// <param name="colors">Colors of each point, length should be equal or greater than length of points</param>
-        public static void DrawLines(IEnumerable<Vector3> points, IEnumerable<Color> colors)
-        {
-            // TODO: Are Arrays better than Lists?
-            Vector3[] pointsArray = points as Vector3[] ?? points.ToArray();
-            int numberOfLines = pointsArray.Length - pointsArray.Length % 2;
-
-            Color[] colorsArray = colors as Color[] ?? colors.ToArray();
-            if (colorsArray.Length < numberOfLines)
-                throw new ArgumentException($"Argument colors of size {colorsArray.Length}, expected {numberOfLines}");
-            
-            CreateLineMaterial();
-            
-            GL.PushMatrix();
-            
-            GL.Begin(GL.LINES);
-            Instance._renderMaterial.SetPass(0);
-            
-            for (int i = 0; i < numberOfLines; i++)
-            {
-                GL.Color(colorsArray.ElementAt(i));
-                GL.Vertex(pointsArray[i]);
-            }
-            
-            GL.End();
-            GL.PopMatrix();
-        }
-        
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <param name="points"></param>
-        /// <param name="color"></param>
-        public static void DrawBrokenLine(IEnumerable<Vector3> points, Color color)
-        {
-            CreateLineMaterial();
-            
-            GL.PushMatrix();
-            
-            GL.Begin(GL.LINE_STRIP);
-            Instance._renderMaterial.SetPass(0);
-            
-            GL.Color(color);
-            foreach (Vector3 point in points)
-            {
-                GL.Vertex(point);
-            }
-            GL.End();
-            GL.PopMatrix();
-        }
-        
-        public static void DrawBrokenLine(IEnumerable<Vector2> points, Color color)
-        {
-            CreateLineMaterial();
-            
-            GL.PushMatrix();
-            
-            GL.Begin(GL.LINE_STRIP);
-            Instance._renderMaterial.SetPass(0);
-            
-            GL.Color(color);
-            foreach (Vector3 point in points)
-            {
-                GL.Vertex(point);
-            }
-            GL.End();
-            GL.PopMatrix();
-        }
-        
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <param name="points"></param>
-        /// <param name="colors">Colors of each point, length should be equal or greater than length of points</param>
-        public static void DrawBrokenLine(List<Vector3> points, List<Color> colors)
-        {
-            if (colors.Count < points.Count)
-                throw new ArgumentException($"Argument colors of size {colors.Count}, expected {points.Count}");
-            
-            CreateLineMaterial();
-            
-            GL.PushMatrix();
-            
-            GL.Begin(GL.LINE_STRIP);
-            Instance._renderMaterial.SetPass(0);
-            
-            for (int i = 0; i < points.Count; i++)
-            {
-                GL.Color(colors[i]);
-                GL.Vertex(points[i]);
-            }
-            
-            GL.End();
-            GL.PopMatrix();
-        }
-
-        public static void DrawLine(Vector3 a, Vector3 b, Color color)
-        {
-            CreateLineMaterial();
-            
-            GL.PushMatrix();
-            
-            GL.Begin(GL.LINES);
-            Instance._renderMaterial.SetPass(0);
-            
-            GL.Color(color);
-            GL.Vertex(a);
-            GL.Vertex(b);
-            
-            GL.End();
-            GL.PopMatrix();
-        }
-        
-        public static void DrawLine(Vector3 a, Vector3 b, Color colorA, Color colorB)
-        {
-            CreateLineMaterial();
-            
-            GL.PushMatrix();
-            
-            GL.Begin(GL.LINES);
-            Instance._renderMaterial.SetPass(0);
-            
-            GL.Color(colorA);
-            GL.Vertex(a);
-            GL.Color(colorB);
-            GL.Vertex(b);
-            
-            GL.End();
-            GL.PopMatrix();
-        }
-        
-        #endregion
-        
         #region Quads
         
         public static void DrawQuad(Quad quad, DrawMode drawMode = DrawMode.Wired, Color borderColor = default)
@@ -309,7 +50,7 @@ namespace GraphicsLabor.Scripts.Core
             
             if (drawMode == DrawMode.FilledWithBorders)
             {
-                DrawQuad(quad.ChangeColor(borderColor));
+                DrawQuad(quad.CopyWithColor(borderColor));
             }
             
             GL.PopMatrix();
@@ -754,7 +495,7 @@ namespace GraphicsLabor.Scripts.Core
                     break;
                 case DrawMode.FilledWithBorders:
                     DrawTriangles(PolygonTriangulator.TriangulatePolygon(polygon), DrawMode.Filled);
-                    DrawPolygon(polygon.ChangeColor(borderColor));
+                    DrawPolygon(polygon.CopyWithColor(borderColor));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(drawMode), drawMode, null);
@@ -921,7 +662,7 @@ namespace GraphicsLabor.Scripts.Core
             
             if (drawMode == DrawMode.FilledWithBorders)
             {
-                DrawTriangle(triangle.ChangeColor(borderColor));
+                DrawTriangle(triangle.CopyWithColor(borderColor));
             }
             
             GL.PopMatrix();

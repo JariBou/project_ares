@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using GraphicsLabor.Scripts.Core;
+using GraphicsLabor.Scripts.Core.Laborers;
+using GraphicsLabor.Scripts.Core.Shapes;
 using UnityEngine;
 
 namespace ProjectAres.GraphicsLabor.Tests
@@ -11,6 +13,12 @@ namespace ProjectAres.GraphicsLabor.Tests
         public Quad _quad;
         public Color _quadBorderColor;
         public DrawMode _quadDrawMode;
+        
+        [Space, Header("Cube")] 
+        public bool _drawCube;
+        public Cube _cube;
+        public Color _cubeBorderColor;
+        public DrawMode _cubeDrawMode;
         
         [Space, Header("Circle")]
         public bool _drawCircle;
@@ -34,32 +42,36 @@ namespace ProjectAres.GraphicsLabor.Tests
         
         void OnEnable()
         {
-            Drawer2D.DrawCallback += OnDraw;
+            GraphicLaborer.DrawCallback += OnDraw;
         }
 
         void OnDisable()
         {
-            Drawer2D.DrawCallback -= OnDraw;
+            GraphicLaborer.DrawCallback -= OnDraw;
         }
 
         private void OnDraw()
         {
             if (_drawQuad)
             {
-                Drawer2D.DrawQuad(_quad, _quadDrawMode, _quadBorderColor);
+                Laborer2D.DrawQuad(_quad, _quadDrawMode, _quadBorderColor);
             }
             if (_drawCircle)
             {
-                Drawer2D.DrawCircle(_circle, _circleDrawMode, _circleBorderColor);
+                Laborer2D.DrawCircle(_circle, _circleDrawMode, _circleBorderColor);
             }
             if (_drawTriangle)
             {
-                Drawer2D.DrawTriangle(_triangle, _triangleDrawMode, _triangleBorderColor);
+                Laborer2D.DrawTriangle(_triangle, _triangleDrawMode, _triangleBorderColor);
             }
             if (_drawPolygon)
             {
                 GatherPolygonPoints();
-                Drawer2D.DrawPolygon(_polygon, _polygonDrawMode, _polygonBorderColor);
+                Laborer2D.DrawPolygon(_polygon, _polygonDrawMode, _polygonBorderColor);
+            }
+            if (_drawCube)
+            {
+                Laborer3D.DrawCube(_cube, _cubeDrawMode, _cubeBorderColor); 
             }
         }
 

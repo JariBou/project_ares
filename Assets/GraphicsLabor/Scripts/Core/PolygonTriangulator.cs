@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GraphicsLabor.Scripts.Core.Shapes;
 using UnityEngine;
 
 namespace GraphicsLabor.Scripts.Core

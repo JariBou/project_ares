@@ -1,15 +1,24 @@
 {
-	"name": "GraphicsLabor.Core",
-	"versionDefines": [
-		{
-			"name": "com.unity.render-pipelines.universal",
-			"expression": "0.0",
-			"define": "USING_URP"
-		},
-		{
-			"name": "com.unity.render-pipelines.high-definition",
-			"expression": "0.0",
-			"define": "USING_HDRP"
-		}
-	]
+    "name": "GraphicsLabor.Core",
+    "rootNamespace": "",
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "0.0",
+            "define": "USING_URP"
+        },
+        {
+            "name": "com.unity.render-pipelines.high-definition",
+            "expression": "0.0",
+            "define": "USING_HDRP"
+        }
+    ],
+    "noEngineReferences": false
 }

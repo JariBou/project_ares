@@ -1,4 +1,5 @@
 using GraphicsLabor.Scripts.Core;
+using GraphicsLabor.Scripts.Core.Laborers;
 // using GraphicsLabor.GraphicsLabor.Scripts;
 using ProjectAres.Managers;
 using ProjectAres.PlayerBundle;
@@ -30,7 +31,7 @@ namespace ProjectAres
                     if (hurtBox.Collider is BoxCollider2D hurtBoxCollider)
                     {
                         Vector2 flipMultiplier = new((player.InputHandler.IsFlipped ? -1 : 1), 1);
-                        Drawer2D.DrawQuad((Vector2)player.transform.position + hurtBoxCollider.offset * flipMultiplier
+                        Laborer2D.DrawQuad((Vector2)player.transform.position + hurtBoxCollider.offset * flipMultiplier
                             ,
                             hurtBoxCollider.size, Color.blue);
                     }
@@ -48,7 +49,7 @@ namespace ProjectAres
                 if (player.HitBoxScript.Collider is BoxCollider2D { enabled: true } hitBoxCollider)
                 {
                     Vector2 flipMultiplier = new((player.InputHandler.IsFlipped ? -1 : 1), 1);
-                    Drawer2D.DrawQuad((Vector2)player.transform.position + hitBoxCollider.offset * flipMultiplier,
+                    Laborer2D.DrawQuad((Vector2)player.transform.position + hitBoxCollider.offset * flipMultiplier,
                         hitBoxCollider.size, Color.red);
                 }
             }
@@ -56,14 +57,14 @@ namespace ProjectAres
 
         private void OnEnable()
         {
-            Drawer2D.DrawCallback += DrawPlayersHurtBoxes;
-            Drawer2D.DrawCallback += DrawPlayersHitBoxes;
+            Laborer2D.DrawCallback += DrawPlayersHurtBoxes;
+            Laborer2D.DrawCallback += DrawPlayersHitBoxes;
         }
         
         private void OnDisable()
         {
-            Drawer2D.DrawCallback -= DrawPlayersHurtBoxes;
-            Drawer2D.DrawCallback -= DrawPlayersHitBoxes;
+            Laborer2D.DrawCallback -= DrawPlayersHurtBoxes;
+            Laborer2D.DrawCallback -= DrawPlayersHitBoxes;
         }
 
         public void OnPlayerGizmoDropdownChange(int index)
