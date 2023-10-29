@@ -3,7 +3,8 @@
     "rootNamespace": "ProjectAres",
     "references": [
         "GUID:776d03a35f1b52c4a9aed9f56d7b4229",
-        "GUID:1b93f1dcc2092084aaf62f2a2c47ec6d"
+        "GUID:1b93f1dcc2092084aaf62f2a2c47ec6d",
+        "GUID:47b45e1e04b798a40a48e5e0f1585b17"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,3 +1,4 @@
+using System;
 using NaughtyAttributes;
 using ProjectAres.Core;
 using ProjectAres.Managers;
@@ -38,6 +39,7 @@ namespace ProjectAres.PlayerBundle
             PlayerId = playerId;
             _character = PlayerManager.Instance.GetCharacterOfPlayer(playerId);
             PlayerHealth = _character._maxHealth;
+            _character.Initialize();
             return this;
         }
         
@@ -70,6 +72,8 @@ namespace ProjectAres.PlayerBundle
             // force.y *= SpeedCompensationFunction(-_rb.velocity.y);
             // Debug.Log($"Force After Compensation: {force}");
 
+            force *= _character._kockbackMultiplier;
+            
             _rb.velocity = force;
             // _rb.AddForce(force, ForceMode2D.Impulse);
         }

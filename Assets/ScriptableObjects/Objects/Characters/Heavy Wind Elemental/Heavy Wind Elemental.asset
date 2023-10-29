@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790fc9653f7461c4c959002ff8295a25, type: 3}
+  m_Name: Heavy Wind Elemental
+  m_EditorClassIdentifier: 
+  _name: Wind Elemental
+  _characterType: 2
+  _maxHealth: 126
+  _weight: 15
+  _kockbackMultiplier: 0.31912255
+  _speed: 15
+  _jumpForce: 21
+  _groundCheckOffset: {x: 0, y: -1.18}
+  _groundCheckSize: {x: 1.1, y: 0.18}
+  _attackCombos:
+  - {fileID: 11400000, guid: 8670a3d2801b0eb43be1f41c8c1eee33, type: 2}
+  - {fileID: 11400000, guid: decb841051f671e44a46ce28b9220199, type: 2}
+  - {fileID: 11400000, guid: 9ff1e8acd223f0f4881e61bcc499372c, type: 2}
+  - {fileID: 11400000, guid: 2f0159db7a4b8924ba88a77a8c91f215, type: 2}
+  _characterPrefab: {fileID: 9157288590551559207, guid: df0d6cb20205e3340a586fc48c08896e, type: 3}
+  _characterIcon: {fileID: 21300000, guid: 7c79c79d0c199c547aae10e00a4b170c, type: 3}
+  _isFacingRight: 1

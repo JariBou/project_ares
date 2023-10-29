@@ -84,6 +84,8 @@ namespace ProjectAres.Managers
             string debugString = "";
             foreach (InputDevice inputDevice in pi.devices)
             {
+                // TODO: ask for bug where multiple controllers are detected
+                // also will be usefull for color
                 if (inputDevice is UnityEngine.InputSystem.XInput.XInputController) // I cannot stress how much I HATE this
                 {
                     Destroy(pi.gameObject);

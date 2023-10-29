@@ -16,7 +16,9 @@ namespace ProjectAres.ScriptableObjects.Scripts
         public string _name = "New Blank Character";
         public CharacterType _characterType = CharacterType.None;
         public int _maxHealth = 100;
+        [Tooltip("Knockback taken is calculated as: 4^(-2+(_character._weight-1)/10)"), Range(1, 21)]
         public int _weight; // Weight is going to be used to calculate Knockback
+        [GraphicsLabor.Scripts.Editor.ReadOnly] public float _kockbackMultiplier = 1f;
         public int _speed;
         public int _jumpForce; // Theoretically shouldn't change, only weight should change, nvm only changing weight isn't enough
         // should make some math to find an easy way to setup, maybe with some curves
@@ -32,6 +34,7 @@ namespace ProjectAres.ScriptableObjects.Scripts
         public Sprite _characterIcon;
         public bool _isFacingRight;
 
+
         public void ApplyPreset(Character preset)
         {
             _name = preset._name;
@@ -39,6 +42,12 @@ namespace ProjectAres.ScriptableObjects.Scripts
             _speed = preset._speed;
             _jumpForce = preset._jumpForce;
             _characterType = preset._characterType;
+        }
+        
+        // Function called to ensure all variables are initialized
+        public void Initialize()
+        {
+            RecalculateKnockbackMultiplier();
         }
 
         /// <summary>
@@ -130,6 +139,16 @@ namespace ProjectAres.ScriptableObjects.Scripts
             }
 
             return true;
+        }
+
+        private void OnValidate()
+        {
+            RecalculateKnockbackMultiplier();
+        }
+
+        private void RecalculateKnockbackMultiplier()
+        {
+            _kockbackMultiplier = (float)Math.Pow(4, -1 + (_weight-1)/10f);
         }
 
     }
